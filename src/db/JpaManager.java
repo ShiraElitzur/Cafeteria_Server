@@ -14,7 +14,9 @@ import sun.swing.PrintingStatus;
 import data.Category;
 import data.Customer;
 import data.Drink;
+import data.Extra;
 import data.Item;
+import data.Meal;
 
 
 public class JpaManager {
@@ -44,10 +46,22 @@ public class JpaManager {
 		return categories;	
 	}
 	
-	public List<Drink> getDrinksList() {
+	public List<Drink> getDrinks() {
 		Query query = em.createQuery("select d from Drink d");
 		Vector<Drink> drinks = (Vector<Drink>)query.getResultList();
 		return drinks;	
+	}
+	
+	public List<Extra> getExtras() {
+		Query query = em.createQuery("select e from Extra e");
+		Vector<Extra> extras = (Vector<Extra>)query.getResultList();
+		return extras;	
+	}
+	
+	public List<Item> getItems() {
+		Query query = em.createQuery("select i from Item i");
+		Vector<Item> items = (Vector<Item>)query.getResultList();
+		return items;	
 	}
 	
 	public Customer isUserExist( String email,String password ) {	
@@ -76,27 +90,35 @@ public class JpaManager {
 		}
 	}
 	
-	private void insertCategory( String title ) {
+	public void insertCategory( Category category ) {
 		em.getTransaction().begin();
-		
-		Category category = new Category(title);
-		
+				
 		em.persist(category);
 		em.getTransaction().commit();
 	}
 	
-//	private void insertItem( String title, double price, boolean isStandAlone, Category category ) {
-//		em.getTransaction().begin();
-//		
-//		Item item = new Item();
-//		item.setTitle(title);
-//		item.setPrice(price);
-//		item.setStandAlone(isStandAlone);
-//		//item.setCategory(category);
-//		
-//		em.persist(item);
-//		em.getTransaction().commit();
-//	}
+	public void updateItem(Item item){
+		Item it = em.find(Item.class, item.getId());
+		 
+		  em.getTransaction().begin();
+		  it.setPrice(item.getPrice());
+		  it.setTitle(item.getTitle());
+		  em.getTransaction().commit();
+	}
+	
+
+	public void updateMeal(Meal meal) {
+		Meal m = em.find(Meal.class, meal.getId());
+		 
+		  em.getTransaction().begin();
+		  m.setPrice(meal.getPrice());
+		  m.setTitle(meal.getTitle());
+		  m.setExtraAmount(meal.getExtraAmount());
+		  m.setExtras(meal.getExtras());
+		  m.setMain(meal.getMain());
+		  em.getTransaction().commit();		
+		  
+	}
 	
 	private Category getCategory() {
 		Query query = em.createQuery("select c from Category c where c.title = 'Hot Drinks'");
@@ -118,4 +140,7 @@ public class JpaManager {
 	public static void main ( String [] args ) {
 		JpaManager jpa = new JpaManager();
 	}
+
+
+
 }

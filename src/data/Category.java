@@ -3,6 +3,7 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,13 +48,13 @@ public class Category {
 	/**
 	 * The items of this category
 	 */
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	private List<Item> items;
 	
 	/**
 	 * The meals of this category
 	 */
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	private List<Meal> meals;
 	
 	/**

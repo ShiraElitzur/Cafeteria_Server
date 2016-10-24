@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
@@ -33,8 +34,7 @@ public class DataManager {
 		Gson json = new Gson();
 		List<Category> categories = new ArrayList<>();
 		categories = jpa.getCategories();
-		return json.toJson(categories.toArray());
-		
+		return json.toJson(categories.toArray());	
 	}
 	
 	@GET
@@ -43,7 +43,7 @@ public class DataManager {
 	public String getDrinks() {
 		Gson json = new Gson();
 		List<Drink> drinks = new ArrayList<>();
-		drinks = jpa.getDrinksList();
+		drinks = jpa.getDrinks();
 		System.out.println(drinks.get(0).getTitle());
 		return json.toJson(drinks.toArray());
 	}
@@ -55,5 +55,19 @@ public class DataManager {
 		return "hello";
 	}
 	
-	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getOne")
+	public Response  getOne() {
+		Category c = new Category();
+		Gson gson = new Gson();
+		c.setId(1);
+		c.setTitle("Food");
+		c.setDescription("good  food");
+		c.setItems(new ArrayList<Item>());
+		c.setMeals(new ArrayList<Meal>());
+		c.setIcon(null);
+		
+	    return Response.ok(gson.toJson(c)).header("Access-Control-Allow-Origin", "*").build();	}
+
 }
