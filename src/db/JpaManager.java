@@ -97,6 +97,49 @@ public class JpaManager {
 		em.getTransaction().commit();
 	}
 	
+	public void insertDrink( Drink drink ) {
+		em.getTransaction().begin();
+				
+		em.persist(drink);
+		em.getTransaction().commit();
+	}
+	
+	public void deleteDrink( Drink toDelete ) {
+		 Drink drink = em.find(Drink.class, toDelete.getId());
+		 
+		  em.getTransaction().begin();
+		  em.remove(drink);
+		  em.getTransaction().commit();
+	}
+	
+	public void editDrink(Drink drink) {
+		Drink update = em.find(Drink.class, drink.getId());
+		 
+		  em.getTransaction().begin();
+		  update.setPrice(drink.getPrice());
+		  update.setTitle(drink.getTitle());
+		  em.getTransaction().commit();
+		
+	}
+	
+	public void deleteExtra(Extra toDelete) {
+		Extra extra = em.find(Extra.class, toDelete.getId());
+		 
+		  em.getTransaction().begin();
+		  em.remove(extra);
+		  em.getTransaction().commit();		
+	}
+
+	public void editExtra(Extra extra) {
+		Extra update = em.find(Extra.class, extra.getId());
+		 
+		  em.getTransaction().begin();
+		  update.setPrice(extra.getPrice());
+		  update.setTitle(extra.getTitle());
+		  em.getTransaction().commit();		
+	}
+	
+	
 	public void updateItem(Item item){
 		Item it = em.find(Item.class, item.getId());
 		 
@@ -140,6 +183,8 @@ public class JpaManager {
 	public static void main ( String [] args ) {
 		JpaManager jpa = new JpaManager();
 	}
+
+
 
 
 

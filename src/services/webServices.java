@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -95,7 +96,7 @@ public Boolean updateMeal( Meal meal ) {
 	System.out.println("In test " + meal.getTitle() + " " + meal.getPrice() + " " + meal.getId());
 	jpa.updateMeal(meal);
     return true;
-	}
+}
 
 
 @POST
@@ -106,7 +107,7 @@ public Boolean addCategory( Category category ) {
 	System.out.println("in add" + category.getItems().toString());
 	jpa.insertCategory(category);
     return true;
-	}
+}
 
 @POST
 @Path("/validateUser")
@@ -119,6 +120,64 @@ public String validateUser(@FormParam("email") String email,@FormParam("password
 	String jsonString = gson.toJson(customer);
 	System.out.println(jsonString);
 	return jsonString;
+	}
+
+@POST
+@Path("/addDrink")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String addDrink(Drink drink) {
+	System.out.println("in adddrink method " + drink.getTitle() + " " + drink.getPrice());
+	jpa.insertDrink(drink);
+	return "{\"result\": \"Good\"}";
+
+}
+
+@POST
+@Path("/deleteDrink")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String deleteDrink(Drink drink) {
+	System.out.println("in delete drink method " + drink.getId() + drink.getTitle() + " " + drink.getPrice());
+	jpa.deleteDrink(drink);
+	return "{\"result\": \"Good\"}";
+
+}
+
+
+@POST
+@Path("/editDrink")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String editDrink(Drink drink) {
+	System.out.println("in edit drink method id is " + drink.toString());
+	jpa.editDrink(drink);
+	return "{\"result\": \"Good\"}";
+	}
+
+
+@POST
+@Path("/deleteExtra")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String deleteExtra(Extra extra) {
+	System.out.println("in delete drink method " + extra.getId() + extra.getTitle() + " " + extra.getPrice());
+	//jpa.deleteExtra(extra);
+	// need some logic to remove all of this extra instance 
+	// before deleting
+	return "{\"result\": \"Good\"}";
+
+}
+
+
+@POST
+@Path("/editExtra")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String editExtra(Extra extra) {
+	System.out.println("in edit drink method id is " + extra.toString());
+	jpa.editExtra(extra);
+	return "{\"result\": \"Good\"}";
 	}
 }
 

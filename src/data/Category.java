@@ -48,13 +48,13 @@ public class Category {
 	/**
 	 * The items of this category
 	 */
-	@OneToMany(cascade=CascadeType.PERSIST)
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Item> items;
 	
 	/**
 	 * The meals of this category
 	 */
-	@OneToMany(cascade=CascadeType.PERSIST)
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Meal> meals;
 	
 	/**

@@ -88,4 +88,11 @@ public class Drink {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		return "Drink [id=" + id + ", title=" + title + ", price=" + price + "]";
+	}
+	
+	
+
 }

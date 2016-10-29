@@ -3,8 +3,10 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,7 +41,7 @@ public class Meal {
 	 * The main item of the meal (optional)
 	 * For example : Chicken
 	 */
-	@ManyToOne // Meal can have only one Main but One Main can be connected to many meals
+	@ManyToOne(cascade=CascadeType.ALL) // Meal can have only one Main but One Main can be connected to many meals
 	@JoinColumn (name = "Main_Id", nullable=true)
 	private Main main;
 	
@@ -54,7 +56,7 @@ public class Meal {
 	 * For example : Fries, Salad, Rice, Potatoes... from this 
 	 * list the customer can choose *extraAmount*
 	 */
-	@ManyToMany // One Meal have many items, One Item can be connected to many meals
+	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL) // One Meal have many items, One Item can be connected to many meals
 	@JoinTable( name = "meals_items", inverseJoinColumns = @JoinColumn( name = "Extra_Id" ))
 	private List<Extra> extras;
 	

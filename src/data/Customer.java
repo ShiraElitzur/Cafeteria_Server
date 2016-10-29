@@ -2,6 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -60,7 +61,7 @@ public class Customer {
 	/**
 	 * The orders of this customer
 	 */
-	@OneToMany( mappedBy = "customer" ) // Customer have
+	@OneToMany( mappedBy = "customer",cascade=CascadeType.ALL ) // Customer have
 	private ArrayList<Order> orders;
 
 	
