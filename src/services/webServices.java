@@ -236,7 +236,6 @@ public String addCategory(Category category) {
 	System.out.println("in add category method " + category.getTitle());
 	jpa.insertCategory(category);
 	return "{\"result\": \"Good\"}";
-
 }
 
 
