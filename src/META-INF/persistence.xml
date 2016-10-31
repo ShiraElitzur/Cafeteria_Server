@@ -11,6 +11,7 @@
 		<class>data.Drink</class>
 		<class>data.OrderedMeal</class>
 		<class>data.Extra</class>
+		<class>data.Icon</class>
 		
 		<properties>
 			<property name="javax.persistence.schema-generation.create-database-schemas" value="true"/>

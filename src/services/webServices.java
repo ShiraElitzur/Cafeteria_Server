@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,9 @@ import data.Category;
 import data.Customer;
 import data.Drink;
 import data.Extra;
+import data.Icon;
 import data.Item;
+import data.Main;
 import data.Meal;
 import db.JpaManager;
 
@@ -62,6 +65,7 @@ public String getDrinks() {
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/getExtras")
 public String getExtras() {
+	System.out.println("In get extras");
 	Gson json = new Gson();
 	List<Extra> extras = new ArrayList<>();
 	extras = jpa.getExtras();
@@ -76,6 +80,27 @@ public String getItems() {
 	List<Item> items = new ArrayList<>();
 	items = jpa.getItems();
     return json.toJson(items.toArray());
+}
+
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+@Path("/getMains")
+public String getMains() {
+	System.out.println("In get mains");
+	Gson json = new Gson();
+	List<Main> mains = new ArrayList<>();
+	mains = jpa.getMains();
+    return json.toJson(mains.toArray());
+}
+
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+@Path("/getIcons")
+public String getIcons() {
+	Gson json = new Gson();
+	List<Icon> icons = new ArrayList();
+	icons = jpa.getIcons();
+    return json.toJson(icons.toArray());
 }
 
 @POST
@@ -98,16 +123,6 @@ public Boolean updateMeal( Meal meal ) {
     return true;
 }
 
-
-@POST
-@Produces(MediaType.TEXT_PLAIN)
-@Consumes(MediaType.APPLICATION_JSON)
-@Path("/addCategory")
-public Boolean addCategory( Category category ) {
-	System.out.println("in add" + category.getItems().toString());
-	jpa.insertCategory(category);
-    return true;
-}
 
 @POST
 @Path("/validateUser")
@@ -178,6 +193,52 @@ public String editExtra(Extra extra) {
 	System.out.println("in edit drink method id is " + extra.toString());
 	jpa.editExtra(extra);
 	return "{\"result\": \"Good\"}";
+}
+
+@POST
+@Path("/addExtra")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String addExtra(Extra extra) {
+	System.out.println("in add extra method " + extra.getTitle() + " " + extra.getPrice());
+	Extra insertedExtra = jpa.insertExtra(extra);
+	Gson gson = new Gson();
+	String jsonString = gson.toJson(insertedExtra);
+	System.out.println(jsonString);
+	return jsonString;
+
 	}
+
+//@POST
+//@Path("/addCategory")
+//@Produces(MediaType.APPLICATION_JSON)
+//public String addCategory(@FormParam("id") int id,@FormParam("title")String title,
+//		@FormParam("description")String description,@FormParam("items")String items,
+//		@FormParam("meals")String meals,@FormParam("icon")String icon ) {
+//	System.out.println("in add add category method \n id: " + id + "\n title: " + title + "\n desc: " + description
+//			+ "\n items: " + items + "\n meals: " + meals + "\n icon: " + icon);
+//	Extra e = new Extra();
+//	e.setPrice(10.0);
+//	e.setTitle("ten");
+//	e.setId(1);
+//	Gson gson = new Gson();
+//	String jsonString = gson.toJson(e);
+//	System.out.println(jsonString);
+//	return jsonString;
+//
+//}
+
+@POST
+@Path("/addCategory")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String addCategory(Category category) {
+	System.out.println("in add category method " + category.getTitle());
+	jpa.insertCategory(category);
+	return "{\"result\": \"Good\"}";
+
+}
+
+
 }
 

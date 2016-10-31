@@ -1,4 +1,5 @@
 package db;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +16,9 @@ import data.Category;
 import data.Customer;
 import data.Drink;
 import data.Extra;
+import data.Icon;
 import data.Item;
+import data.Main;
 import data.Meal;
 
 
@@ -46,6 +49,12 @@ public class JpaManager {
 		return categories;	
 	}
 	
+	public List<Icon> getIcons() {
+		Query query = em.createQuery("select i from Icon i");
+		Vector<Icon> icons = (Vector<Icon>)query.getResultList();
+		return icons;
+	}
+	
 	public List<Drink> getDrinks() {
 		Query query = em.createQuery("select d from Drink d");
 		Vector<Drink> drinks = (Vector<Drink>)query.getResultList();
@@ -62,6 +71,12 @@ public class JpaManager {
 		Query query = em.createQuery("select i from Item i");
 		Vector<Item> items = (Vector<Item>)query.getResultList();
 		return items;	
+	}
+	
+	public List<Main> getMains() {
+		Query query = em.createQuery("select m from Main m");
+		Vector<Main> mains = (Vector<Main>)query.getResultList();
+		return mains;
 	}
 	
 	public Customer isUserExist( String email,String password ) {	
@@ -102,6 +117,15 @@ public class JpaManager {
 				
 		em.persist(drink);
 		em.getTransaction().commit();
+	}
+	
+
+	public Extra insertExtra(Extra extra) {
+		em.getTransaction().begin();
+		
+		em.persist(extra);
+		em.getTransaction().commit();	
+		return extra;
 	}
 	
 	public void deleteDrink( Drink toDelete ) {
@@ -164,7 +188,7 @@ public class JpaManager {
 	}
 	
 	private Category getCategory() {
-		Query query = em.createQuery("select c from Category c where c.title = 'Hot Drinks'");
+		Query query = em.createQuery("select c from Category c where c.title = 'סלטים'");
 		Category category = (Category)query.getSingleResult();
 		return category;
 	}
@@ -179,10 +203,36 @@ public class JpaManager {
 	}
 	
 
+	public void insertMeal( Meal meal ) {
+		em.getTransaction().begin();
+				
+		em.persist(meal);
+		em.getTransaction().commit();
+	}
 	
 	public static void main ( String [] args ) {
 		JpaManager jpa = new JpaManager();
+		
+//		Category test = jpa.getCategory();
+		Meal meal = new Meal();
+		meal.setExtraAmount(2);
+		Main main = new Main();
+		main.setTitle("main");
+		meal.setMain(main);
+		List<Extra> extras = new ArrayList<>();
+		Extra extra = new Extra();
+		extra.setPrice(14.0);
+		extra.setTitle("extra");
+		extras.add(extra);
+		meal.setExtras(extras);
+		meal.setPrice(25.0);
+		meal.setTitle("meal");
+		jpa.insertMeal(meal);
+		
 	}
+
+
+
 
 
 
