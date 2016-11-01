@@ -45,7 +45,6 @@ public class JpaManager {
 	public List<Category> getCategories() {
 		Query query = em.createQuery("select c from Category c");
 		Vector<Category> categories = (Vector<Category>)query.getResultList();
-		System.out.println(categories.get(0).getTitle());
 		return categories;	
 	}
 	
@@ -153,6 +152,15 @@ public class JpaManager {
 		  em.remove(extra);
 		  em.getTransaction().commit();		
 	}
+	
+
+	public void deleteCategory(Category toDelete) {
+		Category category = em.find(Category.class, toDelete.getId());
+		 
+		  em.getTransaction().begin();
+		  em.remove(category);
+		  em.getTransaction().commit();			
+	}
 
 	public void editExtra(Extra extra) {
 		Extra update = em.find(Extra.class, extra.getId());
@@ -213,23 +221,8 @@ public class JpaManager {
 	public static void main ( String [] args ) {
 		JpaManager jpa = new JpaManager();
 		
-//		Category test = jpa.getCategory();
-		Meal meal = new Meal();
-		meal.setExtraAmount(2);
-		Main main = new Main();
-		main.setTitle("main");
-		meal.setMain(main);
-		List<Extra> extras = new ArrayList<>();
-		Extra extra = new Extra();
-		extra.setPrice(14.0);
-		extra.setTitle("extra");
-		extras.add(extra);
-		meal.setExtras(extras);
-		meal.setPrice(25.0);
-		meal.setTitle("meal");
-		jpa.insertMeal(meal);
-		
 	}
+
 
 
 

@@ -46,6 +46,9 @@ public String getAllCategories() {
 	Gson json = new Gson();
 	List<Category> categories = new ArrayList<>();
 	categories = jpa.getCategories();
+	if (categories == null){
+		return "{\"result\": \"empty\"}";
+	}
     return json.toJson(categories.toArray());
 	
 }
@@ -159,6 +162,17 @@ public String deleteDrink(Drink drink) {
 
 }
 
+@POST
+@Path("/deleteCategory")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String deleteCategory(Category category) {
+	System.out.println("in delete category method " + category.getId() + category.getTitle());
+	jpa.deleteCategory(category);
+	return "{\"result\": \"Good\"}";
+
+}
+
 
 @POST
 @Path("/editDrink")
@@ -176,8 +190,8 @@ public String editDrink(Drink drink) {
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public String deleteExtra(Extra extra) {
-	System.out.println("in delete drink method " + extra.getId() + extra.getTitle() + " " + extra.getPrice());
-	//jpa.deleteExtra(extra);
+	System.out.println("in delete drink extra " + extra.getId() + extra.getTitle() + " " + extra.getPrice());
+	jpa.deleteExtra(extra);
 	// need some logic to remove all of this extra instance 
 	// before deleting
 	return "{\"result\": \"Good\"}";
