@@ -64,6 +64,11 @@ public class Customer {
 	@OneToMany( mappedBy = "customer",cascade=CascadeType.ALL ) // Customer have
 	private ArrayList<Order> orders;
 
+	/**
+	 * A token for sending push notifications from the server
+	 */
+	@Column( name = "PushToken", length=50)
+	private String pushToken;
 	
 	/**
 	 * Returns the id of the customer
@@ -175,6 +180,15 @@ public class Customer {
 	 */
 	public void setOrders(ArrayList<Order> orders) {
 		this.orders = orders;
+	}
+	
+	
+	public String getPushToken() {
+		return pushToken;
+	}
+
+	public void setPushToken(String pushToken) {
+		this.pushToken = pushToken;
 	}
 	
 }

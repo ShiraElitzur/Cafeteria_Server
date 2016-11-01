@@ -195,6 +195,23 @@ public class JpaManager {
 		  
 	}
 	
+	
+	public void insertPushTokenToUserRecord( int user, String pushToken ) {
+		Customer c = em.find(Customer.class, user);
+		em.getTransaction().begin();
+		c.setPushToken(pushToken);
+		em.getTransaction().commit();	
+	}
+	
+	public String getUserPushToken( int userId ) {
+		System.out.println("get token for : "+userId);
+		Customer c = em.find(Customer.class, userId );
+		if ( c != null ) {
+			return c.getPushToken();
+		}
+		return null;
+	}
+	
 	private Category getCategory() {
 		Query query = em.createQuery("select c from Category c where c.title = 'סלטים'");
 		Category category = (Category)query.getSingleResult();
