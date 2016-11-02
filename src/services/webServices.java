@@ -1,9 +1,16 @@
 package services;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +24,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import data.Category;
 import data.Customer;
@@ -223,34 +234,71 @@ public String addExtra(Extra extra) {
 
 	}
 
-//@POST
-//@Path("/addCategory")
-//@Produces(MediaType.APPLICATION_JSON)
-//public String addCategory(@FormParam("id") int id,@FormParam("title")String title,
-//		@FormParam("description")String description,@FormParam("items")String items,
-//		@FormParam("meals")String meals,@FormParam("icon")String icon ) {
-//	System.out.println("in add add category method \n id: " + id + "\n title: " + title + "\n desc: " + description
-//			+ "\n items: " + items + "\n meals: " + meals + "\n icon: " + icon);
-//	Extra e = new Extra();
-//	e.setPrice(10.0);
-//	e.setTitle("ten");
-//	e.setId(1);
-//	Gson gson = new Gson();
-//	String jsonString = gson.toJson(e);
-//	System.out.println(jsonString);
-//	return jsonString;
-//
-//}
-
 @POST
 @Path("/addCategory")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
-public String addCategory(Category category) {
-	System.out.println("in add category method " + category.getTitle());
+public String addCategory(@FormParam("id") int id,@FormParam("title")String title,
+		@FormParam("description")String description,@FormParam("items")String items,
+		@FormParam("meals")String meals,@FormParam("icon")String icon ) {
+	Gson gson = new Gson();
+	byte[] iconB = decode(icon);
+	System.out.println("in add add category method \n id: " + id + "\n title: " + title + "\n desc: " + description
+			+ "\n items: " + items + "\n meals: " + meals + "\n icon: " + iconB);
+	Category category = new Category();
+	category.setDescription(description);
+	category.setIcon(iconB);
+	Type itemType = new TypeToken<ArrayList<Item>>(){}.getType();
+	List<Item> itemsList = gson.fromJson(items, itemType);
+	category.setItems(itemsList);
+	Type mealType = new TypeToken<ArrayList<Meal>>(){}.getType();
+	List<Meal> mealsList = gson.fromJson(meals, mealType);
+	category.setMeals(mealsList);
+	category.setTitle(title);
+	
 	jpa.insertCategory(category);
 	return "{\"result\": \"Good\"}";
+
 }
+
+private byte[] decode(String imageUrl){
+	URL url = null;
+	try {
+		url = new URL(imageUrl);
+	} catch (MalformedURLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	InputStream in;
+	ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+	try {
+		in = new BufferedInputStream(url.openStream());
+
+	byte[] buf = new byte[1024];
+	int n = 0;
+	while (-1!=(n=in.read(buf)))
+	{
+	   out.write(buf, 0, n);
+	}
+	out.close();
+	in.close();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	byte[] response = out.toByteArray();
+	return response;
+}
+
+//@POST
+//@Path("/addCategory")
+//@Produces(MediaType.APPLICATION_JSON)
+//@Consumes(MediaType.APPLICATION_JSON)
+//public String addCategory(Category category) {
+//	System.out.println("in add category method " + category.getTitle() + category.getIcon());
+//	jpa.insertCategory(category);
+//	return "{\"result\": \"Good\"}";
+//}
 
 
 }
