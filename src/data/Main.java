@@ -33,7 +33,7 @@ public class Main {
 	 * The title of this main item.
 	 * 1-3 words that describes the main item
 	 */
-	@Column( name = "Title", nullable=false, length=30)
+	@Column( name = "Title", nullable=false, length=30, unique=true)
 	private String title;
 	
 	

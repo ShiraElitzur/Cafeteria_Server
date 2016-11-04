@@ -16,7 +16,6 @@ import data.Category;
 import data.Customer;
 import data.Drink;
 import data.Extra;
-import data.Icon;
 import data.Item;
 import data.Main;
 import data.Meal;
@@ -46,12 +45,6 @@ public class JpaManager {
 		Query query = em.createQuery("select c from Category c");
 		Vector<Category> categories = (Vector<Category>)query.getResultList();
 		return categories;	
-	}
-	
-	public List<Icon> getIcons() {
-		Query query = em.createQuery("select i from Icon i");
-		Vector<Icon> icons = (Vector<Icon>)query.getResultList();
-		return icons;
 	}
 	
 	public List<Drink> getDrinks() {
@@ -107,15 +100,38 @@ public class JpaManager {
 	public void insertCategory( Category category ) {
 		em.getTransaction().begin();
 				
-		em.persist(category);
+		em.merge(category);
 		em.getTransaction().commit();
 	}
 	
-	public void insertDrink( Drink drink ) {
+	public void updateCategory(Category category) {
+		Category c = em.find(Category.class, category.getId());
+
+		em.getTransaction().begin();
+		  c.setMeals(category.getMeals());
+	      c.setTitle(category.getTitle());
+		  c.setDescription(category.getDescription());
+		  c.setIcon(category.getIcon());
+		  c.setItems(category.getItems());
+		  c.setMeals(category.getMeals());
+		  em.merge(c);
+		  em.getTransaction().commit();		
+	}
+	
+	public Drink insertDrink( Drink drink ) {
 		em.getTransaction().begin();
 				
 		em.persist(drink);
 		em.getTransaction().commit();
+		return drink;
+	}
+	
+	public Main insertMain( Main main ) {
+		em.getTransaction().begin();
+				
+		em.persist(main);
+		em.getTransaction().commit();
+		return main;
 	}
 	
 
@@ -144,13 +160,22 @@ public class JpaManager {
 		  em.getTransaction().commit();
 		
 	}
-	
+
 	public void deleteExtra(Extra toDelete) {
 		Extra extra = em.find(Extra.class, toDelete.getId());
-		 
-		  em.getTransaction().begin();
-		  em.remove(extra);
-		  em.getTransaction().commit();		
+		em.getTransaction().begin();
+
+		Query query = em.createQuery("select m from Meal m");
+		Vector<Meal> meals = (Vector<Meal>) query.getResultList();
+		for (Meal meal : meals) {
+			for (int i=0; i< meal.getExtras().size(); i++){
+				if (extra.getId() == meal.getExtras().get(i).getId()){
+					meal.getExtras().remove(i);
+				}
+			}
+		}
+		em.remove(extra);
+		em.getTransaction().commit();
 	}
 	
 
@@ -239,6 +264,8 @@ public class JpaManager {
 		JpaManager jpa = new JpaManager();
 		
 	}
+
+
 
 
 

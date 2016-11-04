@@ -41,7 +41,7 @@ public class Meal {
 	 * The main item of the meal (optional)
 	 * For example : Chicken
 	 */
-	@ManyToOne(cascade=CascadeType.ALL) // Meal can have only one Main but One Main can be connected to many meals
+	@ManyToOne(cascade=CascadeType.PERSIST) // Meal can have only one Main but One Main can be connected to many meals
 	@JoinColumn (name = "Main_Id", nullable=true)
 	private Main main;
 	
@@ -56,8 +56,8 @@ public class Meal {
 	 * For example : Fries, Salad, Rice, Potatoes... from this 
 	 * list the customer can choose *extraAmount*
 	 */
-	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL) // One Meal have many items, One Item can be connected to many meals
-	@JoinTable( name = "meals_items", inverseJoinColumns = @JoinColumn( name = "Extra_Id" ))
+	@ManyToMany(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)// One Meal have many items, One Item can be connected to many meals
+	@JoinTable( name = "meals_extras", inverseJoinColumns = @JoinColumn( name = "Extra_Id" ))
 	private List<Extra> extras;
 	
 	/**

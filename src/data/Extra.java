@@ -23,7 +23,7 @@ public class Extra {
 	 * The title of this extra.
 	 * 1-3 words that describes the extra
 	 */
-	@Column( name = "Title", nullable=false, length=30)
+	@Column( name = "Title", nullable=false, length=30, unique=true)
 	private String title;
 	
 	

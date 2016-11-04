@@ -38,7 +38,6 @@ import data.Category;
 import data.Customer;
 import data.Drink;
 import data.Extra;
-import data.Icon;
 import data.Item;
 import data.Main;
 import data.Meal;
@@ -107,15 +106,6 @@ public String getMains() {
     return json.toJson(mains.toArray());
 }
 
-@GET
-@Produces(MediaType.APPLICATION_JSON)
-@Path("/getIcons")
-public String getIcons() {
-	Gson json = new Gson();
-	List<Icon> icons = new ArrayList();
-	icons = jpa.getIcons();
-    return json.toJson(icons.toArray());
-}
 
 @POST
 @Produces(MediaType.TEXT_PLAIN)
@@ -157,8 +147,11 @@ public String validateUser(@FormParam("email") String email,@FormParam("password
 @Consumes(MediaType.APPLICATION_JSON)
 public String addDrink(Drink drink) {
 	System.out.println("in adddrink method " + drink.getTitle() + " " + drink.getPrice());
-	jpa.insertDrink(drink);
-	return "{\"result\": \"Good\"}";
+	Drink insertedDrink = jpa.insertDrink(drink);
+	Gson gson = new Gson();
+	String jsonString = gson.toJson(insertedDrink);
+	System.out.println(jsonString);
+	return jsonString;
 
 }
 
@@ -203,8 +196,6 @@ public String editDrink(Drink drink) {
 public String deleteExtra(Extra extra) {
 	System.out.println("in delete drink extra " + extra.getId() + extra.getTitle() + " " + extra.getPrice());
 	jpa.deleteExtra(extra);
-	// need some logic to remove all of this extra instance 
-	// before deleting
 	return "{\"result\": \"Good\"}";
 
 }
@@ -235,6 +226,20 @@ public String addExtra(Extra extra) {
 	}
 
 @POST
+@Path("/addMain")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String addMain(Main main) {
+	System.out.println("in add extra method " + main.getTitle());
+	Main insertedMain = jpa.insertMain(main);
+	Gson gson = new Gson();
+	String jsonString = gson.toJson(insertedMain);
+	System.out.println(jsonString);
+	return jsonString;
+
+	}
+
+@POST
 @Path("/addCategory")
 @Produces(MediaType.APPLICATION_JSON)
 public String addCategory(@FormParam("id") int id,@FormParam("title")String title,
@@ -245,6 +250,7 @@ public String addCategory(@FormParam("id") int id,@FormParam("title")String titl
 	System.out.println("in add add category method \n id: " + id + "\n title: " + title + "\n desc: " + description
 			+ "\n items: " + items + "\n meals: " + meals + "\n icon: " + iconB);
 	Category category = new Category();
+	category.setId(id);
 	category.setDescription(description);
 	category.setIcon(iconB);
 	Type itemType = new TypeToken<ArrayList<Item>>(){}.getType();
@@ -256,6 +262,34 @@ public String addCategory(@FormParam("id") int id,@FormParam("title")String titl
 	category.setTitle(title);
 	
 	jpa.insertCategory(category);
+	return "{\"result\": \"Good\"}";
+
+}
+
+@POST
+@Path("/updateCategory")
+@Produces(MediaType.APPLICATION_JSON)
+public String updateCategory(@FormParam("id") int id,@FormParam("title")String title,
+		@FormParam("description")String description,@FormParam("items")String items,
+		@FormParam("meals")String meals,@FormParam("icon")String icon ) {
+	Gson gson = new Gson();
+	System.out.println("in update category method \n id: " + id + "\n title: " + title + "\n desc: " + description
+			+ "\n items: " + items + "\n meals: " + meals + "\n icon: " + icon);
+	
+	byte[] iconB = decode(icon);
+	Category category = new Category();
+	category.setId(id);
+	category.setDescription(description);
+	category.setIcon(iconB);
+	Type itemType = new TypeToken<ArrayList<Item>>(){}.getType();
+	List<Item> itemsList = gson.fromJson(items, itemType);
+	category.setItems(itemsList);
+	Type mealType = new TypeToken<ArrayList<Meal>>(){}.getType();
+	List<Meal> mealsList = gson.fromJson(meals, mealType);
+	category.setMeals(mealsList);
+	category.setTitle(title);
+	
+	jpa.updateCategory(category);
 	return "{\"result\": \"Good\"}";
 
 }
@@ -289,16 +323,6 @@ private byte[] decode(String imageUrl){
 	byte[] response = out.toByteArray();
 	return response;
 }
-
-//@POST
-//@Path("/addCategory")
-//@Produces(MediaType.APPLICATION_JSON)
-//@Consumes(MediaType.APPLICATION_JSON)
-//public String addCategory(Category category) {
-//	System.out.println("in add category method " + category.getTitle() + category.getIcon());
-//	jpa.insertCategory(category);
-//	return "{\"result\": \"Good\"}";
-//}
 
 
 }
