@@ -108,7 +108,6 @@ public class JpaManager {
 		Category c = em.find(Category.class, category.getId());
 
 		em.getTransaction().begin();
-		  c.setMeals(category.getMeals());
 	      c.setTitle(category.getTitle());
 		  c.setDescription(category.getDescription());
 		  c.setIcon(category.getIcon());
@@ -178,6 +177,39 @@ public class JpaManager {
 		em.getTransaction().commit();
 	}
 	
+	public void deleteMain(Main toDelete) {
+		em.getTransaction().begin();
+		
+		Main main = em.find(Main.class, toDelete.getId());
+		List<Meal> todel = new ArrayList<>();
+		Meal currMeal;
+		System.out.println("d");
+		Query query = em.createQuery("select c from Category c");
+		Vector<Category> categories = (Vector<Category>) query.getResultList();
+		for (Category category: categories) {
+			System.out.println("meals size: " + category.getMeals().size());
+			for (Meal meal: category.getMeals()){
+				currMeal = meal;
+				System.out.println(meal.getMain().getId() + " = " + main.getId());
+				if (meal.getMain().getId() == main.getId()){
+					todel.add(meal);
+				}
+			}
+			System.out.println("to del size: " + todel.size());
+			if (todel.size() > 0){
+				category.getMeals().removeAll(todel);
+				em.merge(category);
+			}
+			for (int i=0;i<todel.size();i++){
+				em.remove(todel.get(i));
+			}
+			todel.clear();
+		}
+
+		em.remove(main);
+		em.getTransaction().commit();
+	}
+	
 
 	public void deleteCategory(Category toDelete) {
 		Category category = em.find(Category.class, toDelete.getId());
@@ -186,6 +218,17 @@ public class JpaManager {
 		  em.remove(category);
 		  em.getTransaction().commit();			
 	}
+	
+	public void deleteMeals(List<Meal> meals) {
+		for (Meal m: meals){
+			Meal meal = em.find(Meal.class, m.getId());
+			
+			  em.getTransaction().begin();
+			  em.remove(meal);
+			  em.getTransaction().commit();
+		}
+		
+	}
 
 	public void editExtra(Extra extra) {
 		Extra update = em.find(Extra.class, extra.getId());
@@ -193,6 +236,14 @@ public class JpaManager {
 		  em.getTransaction().begin();
 		  update.setPrice(extra.getPrice());
 		  update.setTitle(extra.getTitle());
+		  em.getTransaction().commit();		
+	}
+	
+	public void editMain(Main main) {
+		Main update = em.find(Main.class, main.getId());
+		 
+		  em.getTransaction().begin();
+		  update.setTitle(main.getTitle());
 		  em.getTransaction().commit();		
 	}
 	
@@ -264,6 +315,8 @@ public class JpaManager {
 		JpaManager jpa = new JpaManager();
 		
 	}
+
+
 
 
 

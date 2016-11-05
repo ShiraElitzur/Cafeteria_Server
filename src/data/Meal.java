@@ -41,7 +41,7 @@ public class Meal {
 	 * The main item of the meal (optional)
 	 * For example : Chicken
 	 */
-	@ManyToOne(cascade=CascadeType.PERSIST) // Meal can have only one Main but One Main can be connected to many meals
+	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER) // Meal can have only one Main but One Main can be connected to many meals
 	@JoinColumn (name = "Main_Id", nullable=true)
 	private Main main;
 	

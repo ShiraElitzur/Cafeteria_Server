@@ -74,6 +74,7 @@ public String getDrinks() {
 	
 }
 
+
 @GET
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/getExtras")
@@ -200,6 +201,38 @@ public String deleteExtra(Extra extra) {
 
 }
 
+@POST
+@Path("/deleteMain")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String deleteMain(Main main) {
+	System.out.println("in delete main  " + main.getId() + main.getTitle());
+	jpa.deleteMain(main);
+	return "{\"result\": \"Good\"}";
+
+}
+
+@POST
+@Path("/deleteMeals")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String deleteMeals(List<Meal> meals) {
+	System.out.println("in delete meals size  " + meals.size());
+	jpa.deleteMeals(meals);
+	return "{\"result\": \"Good\"}";
+
+}
+
+@POST
+@Path("/editMain")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public String editMain(Main main) {
+	System.out.println("in edit main method id is " + main.toString());
+	jpa.editMain(main);
+	return "{\"result\": \"Good\"}";
+}
+
 
 @POST
 @Path("/editExtra")
@@ -230,7 +263,7 @@ public String addExtra(Extra extra) {
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public String addMain(Main main) {
-	System.out.println("in add extra method " + main.getTitle());
+	System.out.println("in add main method " + main.getTitle());
 	Main insertedMain = jpa.insertMain(main);
 	Gson gson = new Gson();
 	String jsonString = gson.toJson(insertedMain);
