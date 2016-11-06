@@ -38,21 +38,21 @@ public class OrderedMeal {
 	/**
 	 * The meal in the menu that this ordered meal is an actual instance of
 	 */
-	@ManyToOne(cascade=CascadeType.ALL) // OrderedMeal has only one Meal, Meal can have many OrderedMeal(s). Unidirectional ( No access from Meal to its OrderedMeal(s) )
+	@ManyToOne // OrderedMeal has only one Meal, Meal can have many OrderedMeal(s). Unidirectional ( No access from Meal to its OrderedMeal(s) )
 	@JoinColumn( name = "Meal_Id")
 	private Meal parentMeal;
 	
 	/**
 	 * List of the extras that the customer chose
 	 */
-	@ManyToMany(cascade=CascadeType.ALL) // OrderedMeal have many items, Item can be connected to many meals. Unidirectional ( No access from Item to its OrderedMeal(s) )
+	@ManyToMany // OrderedMeal have many items, Item can be connected to many meals. Unidirectional ( No access from Item to its OrderedMeal(s) )
 	@JoinTable( inverseJoinColumns = @JoinColumn( name = "Chosen_Extra_Id"))
 	private List<Extra> chosenExtras;
 	
 	/** 
 	 * The drink that the customer chose (optional)
 	 */
-	@ManyToOne(cascade=CascadeType.ALL) // OrderedMeal has only one Drink, Drink can be connected to many OrderedMeal(s). Unidirectional ( No access from Drink to its OrderedMeal(s) )
+	@ManyToOne// OrderedMeal has only one Drink, Drink can be connected to many OrderedMeal(s). Unidirectional ( No access from Drink to its OrderedMeal(s) )
 	@JoinColumn( name = "Drink_Id" )
 	private Drink chosenDrink;
 	
@@ -73,7 +73,7 @@ public class OrderedMeal {
 	/**
 	 * The parent-order of this ordered meal
 	 */
-	@ManyToOne(cascade=CascadeType.ALL) // OrderedMeal has only one Order, Order can have many OrderedMeal(s). Bidirectional ( Order has list of OrderedMeal )
+	@ManyToOne // OrderedMeal has only one Order, Order can have many OrderedMeal(s). Bidirectional ( Order has list of OrderedMeal )
 	@JoinColumn( name = "Order_Id" )
 	private Order order;
 

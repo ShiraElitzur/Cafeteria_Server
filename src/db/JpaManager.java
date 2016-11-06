@@ -85,6 +85,19 @@ public class JpaManager {
 		return c;
 	}
 	
+	public Customer getUserPassword( String email ) {	
+		Query query = em.createQuery("select c from Customer c where c.email = :email");
+		query.setParameter("email", email);
+		
+		Customer c = null;
+		try{
+		c = (Customer)query.getSingleResult();
+		} catch ( NoResultException e ) {
+			return null;
+		}
+		return c;
+	}
+	
 	public boolean insertUser( Customer customer ) {
 		em.getTransaction().begin();		
 		em.persist(customer);
@@ -105,14 +118,28 @@ public class JpaManager {
 	}
 	
 	public void updateCategory(Category category) {
+
 		Category c = em.find(Category.class, category.getId());
 
-		em.getTransaction().begin();
 	      c.setTitle(category.getTitle());
 		  c.setDescription(category.getDescription());
 		  c.setIcon(category.getIcon());
+		  for (Item item: c.getItems()){
+			  Item itemUpdate = em.find(Item.class, item.getId());
+			  itemUpdate.setPrice(item.getPrice());
+			  itemUpdate.setTitle(item.getTitle());
+		  }
 		  c.setItems(category.getItems());
+		  for (Meal meal: c.getMeals()){
+			  Meal mealUpdate = em.find(Meal.class, meal.getId());
+			  mealUpdate.setExtraAmount(meal.getExtraAmount());
+			  mealUpdate.setExtras(meal.getExtras());
+			  mealUpdate.setMain(meal.getMain());
+			  mealUpdate.setPrice(meal.getPrice());
+			  mealUpdate.setTitle(meal.getTitle());
+		  }
 		  c.setMeals(category.getMeals());
+		  em.getTransaction().begin();
 		  em.merge(c);
 		  em.getTransaction().commit();		
 	}

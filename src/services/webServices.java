@@ -143,6 +143,19 @@ public String validateUser(@FormParam("email") String email,@FormParam("password
 	}
 
 @POST
+@Path("/getUserPassword")
+@Produces(MediaType.APPLICATION_JSON)
+public String getUserPassword(@FormParam("email") String email) {
+	System.out.println("in checkUser method " + email);
+	Customer customer = jpa.getUserPassword(email);		
+	Gson gson = new Gson();
+	
+	String jsonString = gson.toJson(customer);
+	System.out.println(jsonString);
+	return jsonString;
+	}
+
+@POST
 @Path("/addDrink")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
