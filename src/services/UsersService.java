@@ -45,6 +45,9 @@ public class UsersService {
 		
 		Customer c = jpa.isUserExist(email,password);
 		Gson json = new Gson();
+		if( c == null ){
+			return null;
+		}
 		return json.toJson(c);
 	}
 	

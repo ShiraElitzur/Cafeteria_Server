@@ -37,9 +37,11 @@ public class DataManager {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getCategories")
 	public String getCategories() {
+		System.out.println("inside getCategories");
 		Gson json = new Gson();
 		List<Category> categories = new ArrayList<>();
 		categories = jpa.getCategories();
+		System.out.println(categories.get(0).getTitle());
 		return json.toJson(categories.toArray());	
 	}
 	

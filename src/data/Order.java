@@ -3,6 +3,7 @@ package data;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.eclipse.persistence.jpa.config.Cascade;
 
 
 /**
@@ -44,13 +47,13 @@ public class Order {
 	/**
 	 * The meals that this order contains
 	 */
-	@OneToMany // One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
+	@OneToMany(cascade = CascadeType.PERSIST)// One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
 	private ArrayList<OrderedMeal> meals;
 	
 	/**
 	 * The items that this order contains
 	 */
-	@ManyToMany // One Order can have many Items, Item can be connected to many Orders. Unidirectional
+	@ManyToMany(cascade = CascadeType.PERSIST)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
 	private ArrayList<Item> items;
 	
 	/**
