@@ -19,15 +19,30 @@ import data.Extra;
 import data.Item;
 import data.Main;
 import data.Meal;
+import data.Order;
 
 
 public class JpaManager {
 
+	/**
+	 * Entity Manger Factory
+	 */
 	private EntityManagerFactory emf;
+	
+	/**
+	 * Entity Manager
+	 */
 	private EntityManager em;
 	
+	/**
+	 * Singleton instance of this class
+	 */
 	private static JpaManager jpa;
 	
+	/**
+	 * Returns the instance of jpaManger
+	 * @return
+	 */
 	public static JpaManager getInstance() {
 		if(jpa == null){
 			return new JpaManager();
@@ -36,41 +51,75 @@ public class JpaManager {
 		}
 	}
 	
+	/**
+	 * Constructor of this class.
+	 * Create the entity manger.
+	 */
 	private JpaManager() {
 		emf = Persistence.createEntityManagerFactory("CafeteriaServer");
 		em = emf.createEntityManager();
 	}
 	
+	/**
+	 * Returns list of categories
+	 * @return list of categories
+	 */
 	public List<Category> getCategories() {
 		Query query = em.createQuery("select c from Category c");
 		Vector<Category> categories = (Vector<Category>)query.getResultList();
 		return categories;	
 	}
 	
+	/**
+	 * Returns list of drinks
+	 * @return list of drinks
+	 */
 	public List<Drink> getDrinks() {
 		Query query = em.createQuery("select d from Drink d");
 		Vector<Drink> drinks = (Vector<Drink>)query.getResultList();
 		return drinks;	
 	}
 	
+	
+	/**
+	 * Returns list of extras
+	 * @return list of extras
+	 */
 	public List<Extra> getExtras() {
 		Query query = em.createQuery("select e from Extra e");
 		Vector<Extra> extras = (Vector<Extra>)query.getResultList();
 		return extras;	
 	}
 	
+	
+	/**
+	 * Returns list of items
+	 * @return list of items
+	 */
 	public List<Item> getItems() {
 		Query query = em.createQuery("select i from Item i");
 		Vector<Item> items = (Vector<Item>)query.getResultList();
 		return items;	
 	}
 	
+	
+	/**
+	 * Returns list of mains
+	 * @return list of mains
+	 */
 	public List<Main> getMains() {
 		Query query = em.createQuery("select m from Main m");
 		Vector<Main> mains = (Vector<Main>)query.getResultList();
 		return mains;
 	}
 	
+	/**
+	 * This method checks if the customer exist according to the email and the password.
+	 * if so, returns the customer, else returns null
+	 * @param email
+	 * @param password
+	 * @return customer if exist otherwise null
+	 */
 	public Customer isUserExist( String email,String password ) {	
 		Query query = em.createQuery("select c from Customer c where c.email = :email and c.password = :password");
 		query.setParameter("email", email);
@@ -85,6 +134,11 @@ public class JpaManager {
 		return c;
 	}
 	
+	/**
+	 * Returns the password of the customer according to the given email
+	 * @param email
+	 * @return the customer if exist, otherwise null
+	 */
 	public Customer getUserPassword( String email ) {	
 		Query query = em.createQuery("select c from Customer c where c.email = :email");
 		query.setParameter("email", email);
@@ -98,6 +152,11 @@ public class JpaManager {
 		return c;
 	}
 	
+	/**
+	 * Returns a boolean that indicates if user inserted successfully
+	 * @param customer
+	 * @return a boolean that indicates if user inserted successfully
+	 */
 	public boolean insertUser( Customer customer ) {
 		em.getTransaction().begin();		
 		em.persist(customer);
@@ -110,6 +169,26 @@ public class JpaManager {
 		}
 	}
 	
+	/**
+	 * This method inserts the given order
+	 * @param order
+	 */
+	public boolean insertOrder( Order order ) {
+		em.getTransaction().begin();		
+		em.persist(order);
+		em.getTransaction().commit();
+		
+		if(em.contains(order)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * This method inserts the given category
+	 * @param category
+	 */
 	public void insertCategory( Category category ) {
 		em.getTransaction().begin();
 				
@@ -117,6 +196,10 @@ public class JpaManager {
 		em.getTransaction().commit();
 	}
 	
+	/**
+	 * This method updates the given category
+	 * @param category
+	 */
 	public void updateCategory(Category category) {
 
 		Category c = em.find(Category.class, category.getId());
@@ -144,6 +227,11 @@ public class JpaManager {
 		  em.getTransaction().commit();		
 	}
 	
+	/**
+	 * This method inserts the given drink
+	 * @param drink
+	 * @return the inserted drink
+	 */
 	public Drink insertDrink( Drink drink ) {
 		em.getTransaction().begin();
 				
@@ -152,6 +240,11 @@ public class JpaManager {
 		return drink;
 	}
 	
+	/**
+	 * This method inserts the given main
+	 * @param main
+	 * @return the inserted main
+	 */
 	public Main insertMain( Main main ) {
 		em.getTransaction().begin();
 				
@@ -160,7 +253,11 @@ public class JpaManager {
 		return main;
 	}
 	
-
+	/**
+	 * This method inserts the given extra
+	 * @param extra
+	 * @return the inserted extra
+	 */
 	public Extra insertExtra(Extra extra) {
 		em.getTransaction().begin();
 		
@@ -169,6 +266,10 @@ public class JpaManager {
 		return extra;
 	}
 	
+	/**
+	 * Delete the given drink
+	 * @param toDelete
+	 */
 	public void deleteDrink( Drink toDelete ) {
 		 Drink drink = em.find(Drink.class, toDelete.getId());
 		 
@@ -177,6 +278,10 @@ public class JpaManager {
 		  em.getTransaction().commit();
 	}
 	
+	/**
+	 * Edit the given drink
+	 * @param drink
+	 */
 	public void editDrink(Drink drink) {
 		Drink update = em.find(Drink.class, drink.getId());
 		 
@@ -187,6 +292,10 @@ public class JpaManager {
 		
 	}
 
+	/**
+	 * Deletes the given extra
+	 * @param toDelete
+	 */
 	public void deleteExtra(Extra toDelete) {
 		Extra extra = em.find(Extra.class, toDelete.getId());
 		em.getTransaction().begin();
@@ -204,6 +313,10 @@ public class JpaManager {
 		em.getTransaction().commit();
 	}
 	
+	/**
+	 * Deletes the given main
+	 * @param toDelete
+	 */
 	public void deleteMain(Main toDelete) {
 		em.getTransaction().begin();
 		
@@ -237,7 +350,10 @@ public class JpaManager {
 		em.getTransaction().commit();
 	}
 	
-
+	/**
+	 * Deletes the given category
+	 * @param toDelete
+	 */
 	public void deleteCategory(Category toDelete) {
 		Category category = em.find(Category.class, toDelete.getId());
 		 
@@ -246,6 +362,10 @@ public class JpaManager {
 		  em.getTransaction().commit();			
 	}
 	
+	/**
+	 * Deletes the given meals
+	 * @param meals
+	 */
 	public void deleteMeals(List<Meal> meals) {
 		for (Meal m: meals){
 			Meal meal = em.find(Meal.class, m.getId());
@@ -254,9 +374,12 @@ public class JpaManager {
 			  em.remove(meal);
 			  em.getTransaction().commit();
 		}
-		
 	}
 
+	/**
+	 * Edits the given extra 
+	 * @param extra
+	 */
 	public void editExtra(Extra extra) {
 		Extra update = em.find(Extra.class, extra.getId());
 		 
@@ -266,6 +389,10 @@ public class JpaManager {
 		  em.getTransaction().commit();		
 	}
 	
+	/**
+	 * Edits the given main
+	 * @param main
+	 */
 	public void editMain(Main main) {
 		Main update = em.find(Main.class, main.getId());
 		 
@@ -274,7 +401,10 @@ public class JpaManager {
 		  em.getTransaction().commit();		
 	}
 	
-	
+	/**
+	 * Update the given item
+	 * @param item
+	 */
 	public void updateItem(Item item){
 		Item it = em.find(Item.class, item.getId());
 		 
@@ -285,6 +415,10 @@ public class JpaManager {
 	}
 	
 
+	/**
+	 * Updates the given meal
+	 * @param meal
+	 */
 	public void updateMeal(Meal meal) {
 		Meal m = em.find(Meal.class, meal.getId());
 		 
@@ -298,14 +432,70 @@ public class JpaManager {
 		  
 	}
 	
-	
-	public void insertPushTokenToUserRecord( int user, String pushToken ) {
-		Customer c = em.find(Customer.class, user);
+
+	/**
+	 * Inserts the given meal
+	 * @param meal
+	 */
+	public void insertMeal( Meal meal ) {
 		em.getTransaction().begin();
-		c.setPushToken(pushToken);
+				
+		em.persist(meal);
+		em.getTransaction().commit();
+	}
+	
+	/**
+	 * Inserts the given token to the user with given id
+	 * @param user
+	 * @param pushToken
+	 */
+	public void insertPushTokenToUserRecord( int user, String pushToken ) {
+		deletePushTokenFromUserRecord(pushToken);
+		Customer c = em.find(Customer.class, user);
+		  em.getTransaction().begin();
+		  c.setPushToken(pushToken);
+		  em.getTransaction().commit();	
+	}
+	
+	/**
+	 * Deletes the given token from the user with the given id
+	 * @param pushToken
+	 */
+	public void deletePushTokenFromUserRecord( String pushToken ) {
+		System.out.println("inside delete token");
+		Query query = em.createQuery("select c from Customer c where c.pushToken = :push");
+		query.setParameter("push", pushToken);
+		Customer customer;
+		try{
+			customer = (Customer)query.getSingleResult();
+			System.out.println(customer.getFirstName());
+		} catch ( NoResultException e ) {
+			return;
+		}
+		em.getTransaction().begin();
+		customer.setPushToken(null);
 		em.getTransaction().commit();	
 	}
 	
+	/**
+	 * Returns the order with the given id
+	 * @param orderId
+	 * @return the order
+	 */
+	public Order getOrderById( int orderId ) {
+		Order order = em.find(Order.class, orderId );
+		if ( order != null ) {
+			return order;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Returns the token of the user with the given id
+	 * @param userId
+	 * @return the token
+	 */
 	public String getUserPushToken( int userId ) {
 		System.out.println("get token for : "+userId);
 		Customer c = em.find(Customer.class, userId );
@@ -313,29 +503,6 @@ public class JpaManager {
 			return c.getPushToken();
 		}
 		return null;
-	}
-	
-	private Category getCategory() {
-		Query query = em.createQuery("select c from Category c where c.title = 'סלטים'");
-		Category category = (Category)query.getSingleResult();
-		return category;
-	}
-	
-	private void printItemsInCat( Category c ) {
-		Query query = em.createQuery("select i from Item i where i.category = :c");
-		query.setParameter("c",c);
-		List<Item> items = query.getResultList();
-		for( Item item : items ) {
-			System.out.println(item.getTitle());
-		}
-	}
-	
-
-	public void insertMeal( Meal meal ) {
-		em.getTransaction().begin();
-				
-		em.persist(meal);
-		em.getTransaction().commit();
 	}
 	
 	public static void main ( String [] args ) {

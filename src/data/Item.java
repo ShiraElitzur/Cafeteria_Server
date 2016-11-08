@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -34,24 +32,12 @@ public class Item {
 	@Column( name = "Title", nullable=false, length=30)
 	private String title;
 	
-//	/**
-//	 * An indication if this item is for sale as is or only as part of a meal
-//	 */
-//	@Column( name = "Is_Stand_Alone", nullable=false)
-//	private boolean isStandAlone;
 	
 	/**
-	 * The price of this item (only for stand alone item)
+	 * The price of this item 
 	 */
-	@Column( name = "Price", nullable=true)
+	@Column( name = "Price", nullable=false)
 	private double price;
-	
-//	/**
-//	 * The category of this item (food category like drinks, salads...)
-//	 */
-//	@ManyToOne // One Category can have many items. Item can have only one Category
-//	@JoinColumn( name = "Category_Id")
-//	private Category category;
 	
 	
 	/**
@@ -86,22 +72,6 @@ public class Item {
 		this.title = title;
 	}
 
-//	/**
-//	 * Retruns true if this item is for sale as is or false if it is only part of a meal
-//	 * @return true if this item is for sale as is
-//	 */
-//	public boolean isStandAlone() {
-//		return isStandAlone;
-//	}
-//
-//	/**
-//	 * Sets if this item is for sale as is or only as part of a meal
-//	 * @param isStandAlone
-//	 */
-//	public void setStandAlone(boolean isStandAlone) {
-//		this.isStandAlone = isStandAlone;
-//	}
-
 	/**
 	 * Returns the price of this item
 	 * @return
@@ -118,20 +88,5 @@ public class Item {
 		this.price = price;
 	}
 
-//	/**
-//	 * Returns the category of this item
-//	 * @return the category of this item
-//	 */
-//	public Category getCategory() {
-//		return category;
-//	}
-//
-//	/**
-//	 * Sets category object for this item
-//	 * @param category
-//	 */
-//	public void setCategory(Category category) {
-//		this.category = category;
-//	}
 
 }

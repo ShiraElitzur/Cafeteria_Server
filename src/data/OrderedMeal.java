@@ -70,12 +70,12 @@ public class OrderedMeal {
 	
 	private String title;
 	
-	/**
-	 * The parent-order of this ordered meal
-	 */
-	@ManyToOne // OrderedMeal has only one Order, Order can have many OrderedMeal(s). Bidirectional ( Order has list of OrderedMeal )
-	@JoinColumn( name = "Order_Id" )
-	private Order order;
+//	/**
+//	 * The parent-order of this ordered meal
+//	 */
+//	@ManyToOne // OrderedMeal has only one Order, Order can have many OrderedMeal(s). Bidirectional ( Order has list of OrderedMeal )
+//	@JoinColumn( name = "Order_Id" )
+//	private Order order;
 
 
 	/**
@@ -160,21 +160,21 @@ public class OrderedMeal {
 		this.comment = comment;
 	}
 	
-	/**
-	 * Returns the order object of this ordered meal
-	 * @return the order object of the meal
-	 */
-	public Order getOrder() {
-		return order;
-	}
-
-	/**
-	 * Sets order object to this meal
-	 * @param order
-	 */
-	public void setOrder(Order order) {
-		this.order = order;
-	}
+//	/**
+//	 * Returns the order object of this ordered meal
+//	 * @return the order object of the meal
+//	 */
+//	public Order getOrder() {
+//		return order;
+//	}
+//
+//	/**
+//	 * Sets order object to this meal
+//	 * @param order
+//	 */
+//	public void setOrder(Order order) {
+//		this.order = order;
+//	}
 
 	/**
 	 * Returns the total price of this ordered meal
@@ -192,10 +192,18 @@ public class OrderedMeal {
 		this.totalPrice = totalPrice;
 	}
 
+	/**
+	 * Returns the total price of this ordered meal
+	 * @return the total price of the meal
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Sets total price to this meal
+	 * @param totalPrice
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}

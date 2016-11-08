@@ -1,10 +1,8 @@
 package data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,8 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-//import org.eclipse.persistence.annotations.Customizer;
-//import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  * 
@@ -48,7 +44,7 @@ public class Order {
 	/**
 	 * The meals that this order contains
 	 */
-	@OneToMany( mappedBy = "order") // One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
+	@OneToMany // One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
 	private ArrayList<OrderedMeal> meals;
 	
 	/**
@@ -69,12 +65,7 @@ public class Order {
 	 */
 	@Column( name = "Payment", nullable=false)
 	private double payment;
-	
-	/**
-	 * An indicator if the customer already paid for this order
-	 */
-	@Column( name = "Is_Paid", nullable=false)
-	private boolean isPaid;
+
 	
 	/**
 	 * An indicator if the order was delivered
@@ -190,15 +181,6 @@ public class Order {
         double extrasPrice = 0;
         
         for( OrderedMeal meal : getMeals() ) {
-//          if (meal.getChosenDrink()!= null) {
-//          drinkPrice = meal.getChosenDrink().getPrice();
-//      }
-//      // if the amount of extras chosen is bigger then the amount allowed,
-//      // add the price of last meal - to be changed according to the expensive/cheap extra
-//      if (meal.getChosenExtras().size() > meal.getParentMeal().getExtraAmount()){
-//          extrasPrice = meal.getChosenExtras().get(meal.getChosenExtras().size()-1).getPrice();
-//      }
-//      payment += (meal.getParentMeal().getPrice()) + drinkPrice + extrasPrice;
         	payment += meal.getTotalPrice();
         }
 
@@ -217,21 +199,6 @@ public class Order {
 		this.payment = payment;
 	}
 
-	/**
-	 * Returns true if the order was already paid or false if not
-	 * @return true if the order was already paid
-	 */
-	public boolean isPaid() {
-		return isPaid;
-	}
-
-	/**
-	 * Sets true if the order was already paid or false if not
-	 * @param isPaid
-	 */
-	public void setPaid(boolean isPaid) {
-		this.isPaid = isPaid;
-	}
 
 	/**
 	 * Returns true if the order was already delivered or false if not

@@ -46,11 +46,6 @@ public class Customer {
 	@Column( name = "Email", nullable=false, length=40)
 	private String email;
 	
-	/**
-	 * The phone number of the customer
-	 */
-	@Column( name = "Phone", nullable=true, length=30)
-	private String phoneNumber;
 	
 	/**
 	 * The password of this customer
@@ -69,6 +64,7 @@ public class Customer {
 	 */
 	@Column( name = "PushToken", length=50)
 	private String pushToken;
+	
 	
 	/**
 	 * Returns the id of the customer
@@ -134,21 +130,6 @@ public class Customer {
 		this.email = email;
 	}
 
-	/**
-	 * Returns the phone number of the customer
-	 * @return the phone number of the customer
-	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	/**
-	 * Sets phone number for the customer
-	 * @param phoneNumber
-	 */
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
 
 	/**
 	 * Returns the password of this customer
@@ -182,11 +163,18 @@ public class Customer {
 		this.orders = orders;
 	}
 	
-	
+	/**
+	 * Returns pushToken of this customer
+	 * @return pushToken of this customer
+	 */
 	public String getPushToken() {
 		return pushToken;
 	}
-
+	
+	/**
+	 * Sets pushToken to this customer
+	 * @param pushToken
+	 */
 	public void setPushToken(String pushToken) {
 		this.pushToken = pushToken;
 	}

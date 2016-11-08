@@ -27,9 +27,17 @@ import db.JpaManager;
 @Path("/users")
 public class UsersService {
 
-	
+	/**
+	 * The instance of jpaManger
+	 */
 	private JpaManager jpa = JpaManager.getInstance();
 	
+	/**
+	 * This service checks if the user with the given details exists in the db
+	 * @param email
+	 * @param password
+	 * @return json string that represents the customer or null if doesn't exist
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/isUserExist")
@@ -40,6 +48,11 @@ public class UsersService {
 		return json.toJson(c);
 	}
 	
+	/**
+	 * This service inserts a new user to the db
+	 * @param input an input stream between the server and the client
+	 * @return 'ok' if user inserted successfully otherwise 'notOk'
+	 */
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.TEXT_PLAIN)

@@ -13,16 +13,28 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import data.Order;
 import db.JpaManager;
 
 @Path("/push")
 public class PushServices {
 	
+	/**
+	 * The instance of jpaManger
+	 */
 	private JpaManager jpa = JpaManager.getInstance();
 
+	/**
+	 * Notify the customer that the order is ready
+	 * @param orderId
+	 */
 	@GET
 	@Path("/OrderReadyNotify")
-	public void sendOrderReadyNotification( @QueryParam("userId") int userId ) {
+	public void sendOrderReadyNotification( @QueryParam("orderId") int orderId ) {
+		System.out.println("send notification for order id: "+orderId);
+		Order order =  jpa.getOrderById(orderId);
+		System.out.println("send notification to user: "+order.getCustomer());
+		int userId = order.getCustomer().getId();
 		String token = jpa.getUserPushToken(userId);
 		try {
 		   String jsonResponse;
@@ -34,11 +46,12 @@ public class PushServices {
 		   con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 		   con.setRequestProperty("Authorization", "Basic NGEwMGZmMjItY2NkNy0xMWUzLTk5ZDUtMDAwYzI5NDBlNjJj");
 		   con.setRequestMethod("POST");
+		   String msg = "הזמנה מס' " + order.getId() + "\nההזמנה המוכנה מחכה לך בקפיטריה :)";
 		   String strJsonBody = "{"
 		                      +   "\"app_id\": \"272de338-7ae2-498a-b1fc-a56f3f603dd2\","
 		                      +   "\"include_player_ids\": [\""+token+"\"],"
-		                      +   "\"data\": {\"foo\": \"bar\"},"
-		                      +   "\"contents\": {\"en\": \"ההזמנה המוכנה מחכה לך בקפיטריה :)\"}"
+		                      +   "\"data\": {\"order\": \""+order.getId()+"\"},"
+		                      +   "\"contents\": {\"en\": \""+msg+"\"}"
 		                      + "}";
 
 		   byte[] sendBytes = strJsonBody.getBytes("UTF-8");
@@ -69,6 +82,11 @@ public class PushServices {
 		}
 	}
 	
+	/**
+	 * Inserts the token to the user with the given id
+	 * @param userId
+	 * @param pushId
+	 */
 	@GET
 	@Path("/attachPushIdToUser")
 	public void attachPushIdToUser(@QueryParam("userId") int userId ,@QueryParam("pushId")String pushId) {
@@ -76,10 +94,16 @@ public class PushServices {
 		jpa.insertPushTokenToUserRecord(userId, pushId);
 	}
 
+	/**
+	 * Returns the token to the user with given id
+	 * @param user
+	 * @return the token
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/getToken")
 	public String getToken(@QueryParam("user") int user ) {
+		System.out.println("for user id : "+jpa.getUserPushToken(user));
 		return jpa.getUserPushToken(user);
 	}
 }

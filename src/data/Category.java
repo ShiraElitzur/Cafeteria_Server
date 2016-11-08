@@ -1,6 +1,5 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -36,15 +35,12 @@ public class Category {
 	@Column( name = "Title", nullable=false, length=30)
 	private String title;
 	
+	/**
+	 * The description of this category
+	 */
+	@Column( name = "description", nullable=false, length=250)
     private String description;
-    
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getDescription() {
-        return description;
-    }
-	
+   	
 	/**
 	 * The items of this category
 	 */
@@ -141,12 +137,36 @@ public class Category {
 		this.meals = meals;
 	}
 	
+	/**
+	 * Returns the icon of this category
+	 * @return the icon of this category
+	 */
 	public byte[] getIcon() {
 		return icon;
 	}
 	
+	/**
+	 * Sets the icon to this category
+	 * @param icon
+	 */
 	public void setIcon(byte[] icon) {
 		this.icon = icon;
 	}
+	
+	/**
+	 * Sets the description to this category
+	 * @param description
+	 */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+	/**
+	 * Returns the description of this category
+	 * @return the description of this category
+	 */
+    public String getDescription() {
+        return description;
+    }
 
 }
