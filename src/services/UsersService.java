@@ -87,4 +87,37 @@ public class UsersService {
 //		jsonObject.addProperty("result", );
 //		return jsonObject;
 	}
+	
+	/**
+	 * This service updates a new user to the db
+	 * @param input an input stream between the server and the client
+	 * @return 'ok' if user updated successfully otherwise 'notOk'
+	 */
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/updateUser")
+	public String updateUser( InputStream input ) {
+		// to get the json from the client i receive in this method the input stream and build the json string
+		StringBuilder jsonUser = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				jsonUser.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new Gson();
+		Customer c = gson.fromJson(jsonUser.toString(), Customer.class);
+		System.out.println(c.getFirstName());
+		boolean result = jpa.updateUser(c);
+		if(result) {
+			return "OK";
+		} else {
+			return "notOk";
+		}
+	}
 }

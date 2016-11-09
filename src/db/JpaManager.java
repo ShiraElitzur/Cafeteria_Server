@@ -170,6 +170,24 @@ public class JpaManager {
 	}
 	
 	/**
+	 * Returns a boolean that indicates if user updated successfully
+	 * @param customer
+	 * @return a boolean that indicates if user updated successfully
+	 */
+	public boolean updateUser( Customer customer ) {
+		Customer c = em.find(Customer.class, customer.getId());
+		 
+		  em.getTransaction().begin();
+		  c.setEmail(customer.getEmail());
+		  c.setFirstName(customer.getFirstName());
+		  c.setLastName(customer.getLastName());
+		  c.setPassword(customer.getPassword());
+		  em.getTransaction().commit();
+		  
+		  return true;
+	}
+	
+	/**
 	 * This method inserts the given order
 	 * @param order
 	 */
