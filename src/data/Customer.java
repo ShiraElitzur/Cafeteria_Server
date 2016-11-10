@@ -65,6 +65,11 @@ public class Customer {
 	@Column( name = "PushToken", length=50)
 	private String pushToken;
 	
+	/**
+	 * The image of this customer
+	 */
+	private byte[] image;
+	
 	
 	/**
 	 * Returns the id of the customer
@@ -177,6 +182,22 @@ public class Customer {
 	 */
 	public void setPushToken(String pushToken) {
 		this.pushToken = pushToken;
+	}
+	
+	/**
+	 * Returns the image of this customer
+	 * @return the image of this customer
+	 */
+	public byte[] getImage() {
+		return image;
+	}
+	
+	/**
+	 * Sets the image of this customer
+	 * @param image
+	 */
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	
 }
