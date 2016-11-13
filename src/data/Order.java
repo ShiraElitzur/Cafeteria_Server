@@ -40,20 +40,20 @@ public class Order {
 	/**
 	 * The customer who made this order
 	 */
-	@ManyToOne // Order has one Customer, Customer has many orders. Bidirectional ( Customer has list of orders )
+	@ManyToOne(cascade=CascadeType.ALL) // Order has one Customer, Customer has many orders. Bidirectional ( Customer has list of orders )
 	@JoinColumn( name = "Customer_Id")
 	private Customer customer;
 	
 	/**
 	 * The meals that this order contains
 	 */
-	@OneToMany(cascade = CascadeType.PERSIST)// One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
+	@OneToMany(cascade = CascadeType.ALL)// One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
 	private ArrayList<OrderedMeal> meals;
 	
 	/**
 	 * The items that this order contains
 	 */
-	@OneToMany(cascade = CascadeType.PERSIST)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
+	@OneToMany(cascade = CascadeType.ALL)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
 	private ArrayList<OrderedItem> items;
 	
 	/**
