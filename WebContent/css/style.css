@@ -1,0 +1,50 @@
+.my-form {
+    width: 70%;
+    margin: 0 auto;
+    padding: 16px;
+    padding-bottom: 30px;
+}
+
+.my-headline {
+    color: blueviolet;
+    font-family: "Great Vibes", cursive;
+    font-weight: normal;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    text-shadow: 0 1px 1px #fff;
+}
+
+.singleInput {
+    padding: 6px 12px;
+}
+
+.custom-div {
+    width: 70%;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.table  {
+    margin-top:  30px;
+}
+
+.table td {
+   text-align: center;
+}
+
+.table th {
+   text-align: center;
+}
+
+.table-center{
+    width:60%;
+    margin: 0 auto;
+}
+
+form .error {
+    color: #ff0000;
+}
+
+.space{
+    margin:10px;
+}
