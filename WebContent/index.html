@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Cafeteria Login</title>
+    <base href="CafeteriaServer/" />
+    
+
+	<!-- for FF, Chrome, Opera -->
+	<link rel="icon" type="image/png" href="cafeteria.ico">
+
+	<!-- for IE -->
+	<link rel="icon" type="image/x-icon" href="cafeteria.ico" >
+	<link rel="shortcut icon" type="image/x-icon" href="cafeteria.ico"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="css/login.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <script>
+        var name = 'cafeteria-user-email' + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                window.location = "./home.html";
+            }
+        }
+
+    </script>
+    <h1 class="main"> Time2EaT </h1>
+    <h1 class="secondary"> Login </h1>
+
+    <div class="login-page">
+        <div class="form">
+            <form class="forgot-form">
+                <input id="forgot-email" type="email" placeholder="email address" />
+                <button id="forgotPasswordBtn" type='button'>Get Password</button>
+                <p class="message"> <a href="#">Sign In</a></p>
+            </form>
+            <form class="login-form">
+                <input id="email" type="email" placeholder="email" />
+                <input id="password" type="password" placeholder="password" />
+                <button id="loginBtn" type='button'>Login</button>
+                <p class="message"> <a href="#">Forgot your password?</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://use.fontawesome.com/8265b4ceb7.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/cookie.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/login.js"></script>
+
+</body>
+
+</html>
