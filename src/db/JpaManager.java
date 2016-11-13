@@ -182,7 +182,7 @@ public class JpaManager {
 		  c.setFirstName(customer.getFirstName());
 		  c.setLastName(customer.getLastName());
 		  c.setPassword(customer.getPassword());
-		  c.setImage(customer.getImage());
+		  c.setImagePath(customer.getImagePath());
 		  em.getTransaction().commit();
 		  
 		  return true;

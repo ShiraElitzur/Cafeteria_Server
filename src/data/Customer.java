@@ -66,9 +66,9 @@ public class Customer {
 	private String pushToken;
 	
 	/**
-	 * The image of this customer
+	 * A path to the image of this customer
 	 */
-	private byte[] image;
+	private String imagePath;
 	
 	
 	/**
@@ -185,19 +185,19 @@ public class Customer {
 	}
 	
 	/**
-	 * Returns the image of this customer
+	 * Returns the path of the image of this customer
 	 * @return the image of this customer
 	 */
-	public byte[] getImage() {
-		return image;
+	public String getImagePath() {
+		return imagePath;
 	}
 	
 	/**
-	 * Sets the image of this customer
+	 * Sets the path of the image of this customer
 	 * @param image
 	 */
-	public void setImage(byte[] image) {
-		this.image = image;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 	
 }

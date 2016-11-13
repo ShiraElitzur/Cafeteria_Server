@@ -53,8 +53,8 @@ public class Order {
 	/**
 	 * The items that this order contains
 	 */
-	@ManyToMany(cascade = CascadeType.PERSIST)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
-	private ArrayList<Item> items;
+	@OneToMany(cascade = CascadeType.PERSIST)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
+	private ArrayList<OrderedItem> items;
 	
 	/**
 	 * The date and time when this order created
@@ -146,7 +146,7 @@ public class Order {
 	 * Returns the items that this order contains
 	 * @return the items that this order contains
 	 */
-	public ArrayList<Item> getItems() {
+	public ArrayList<OrderedItem> getItems() {
 		return items;
 	}
 
@@ -154,7 +154,7 @@ public class Order {
 	 * Sets list of items for this order
 	 * @param items
 	 */
-	public void setItems(ArrayList<Item> items) {
+	public void setItems(ArrayList<OrderedItem> items) {
 		this.items = items;
 	}
 
@@ -187,8 +187,8 @@ public class Order {
         	payment += meal.getTotalPrice();
         }
 
-        for( Item item : getItems() ) {
-            payment += item.getPrice();
+        for( OrderedItem item : getItems() ) {
+            payment += item.getParentItem().getPrice();
         }
 
         return payment;
