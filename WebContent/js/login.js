@@ -8,6 +8,8 @@ $(document).ready(function () {
             opacity: "toggle"
         }, "slow");
     });
+    
+    $('#passwordResult').hide();
 
     $('#loginBtn').click(function () {
         var email = $('#email').val();
@@ -49,11 +51,14 @@ $(document).ready(function () {
             if (data === null || data == undefined) {
                 alert("Wrong email!");
             } else {
-                alert("Your password is: " + data.password);
-                $('form').animate({
-                    height: "toggle",
-                    opacity: "toggle"
-                }, "slow");
+                $('#passwordResult').append("Your password is: " + data.password)
+                $('#passwordResult').show();
+
+//                alert("Your password is: " + data.password);
+//                $('form').animate({
+//                    height: "toggle",
+//                    opacity: "toggle"
+//                }, "slow");
             }
         });
     });
