@@ -53,11 +53,11 @@ public class Customer {
 	@Column( name = "Password", nullable=false, length=20)
 	private String password;
 	
-	/**
-	 * The orders of this customer
-	 */
-	@OneToMany( mappedBy = "customer",cascade=CascadeType.ALL ) // Customer have
-	private ArrayList<Order> orders;
+//	/**
+//	 * The orders of this customer
+//	 */
+//	@OneToMany( mappedBy = "customer",cascade=CascadeType.ALL ) // Customer have
+//	private ArrayList<Order> orders;
 
 	/**
 	 * A token for sending push notifications from the server
@@ -152,21 +152,21 @@ public class Customer {
 		this.password = password;
 	}
 
-	/**
-	 * Returns the orders of this customer
-	 * @return the orders of this customer
-	 */
-	public ArrayList<Order> getOrders() {
-		return orders;
-	}
-
-	/**
-	 * Sets list of order to this customer
-	 * @param orders
-	 */
-	public void setOrders(ArrayList<Order> orders) {
-		this.orders = orders;
-	}
+//	/**
+//	 * Returns the orders of this customer
+//	 * @return the orders of this customer
+//	 */
+//	public ArrayList<Order> getOrders() {
+//		return orders;
+//	}
+//
+//	/**
+//	 * Sets list of order to this customer
+//	 * @param orders
+//	 */
+//	public void setOrders(ArrayList<Order> orders) {
+//		this.orders = orders;
+//	}
 	
 	/**
 	 * Returns pushToken of this customer
