@@ -66,11 +66,11 @@ function areYouSure(callback) {
 
 function logout() {
     //        localStorage.removeItem('customer');
-    var emailCookieName = 'cafeteria-user-email';
-    var passwordCookieName = 'cafeteria-user-password';
-    document.cookie = emailCookieName + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    var emailCookieName = 'cafeteria-admin-email';
+    var passwordCookieName = 'cafeteria-admin-password';
 
-    document.cookie = passwordCookieName + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = emailCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    document.cookie = passwordCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
 
 
     window.location = "./index.html";
