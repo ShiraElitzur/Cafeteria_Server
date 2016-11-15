@@ -39,7 +39,7 @@ public class Item implements Inventory{
 	@Column( name = "Price", nullable=false)
 	private double price;
 	
-	@Column(name = "In_Stock", nullable=false, columnDefinition = "boolean default true")
+	@Column(name = "In_Stock", nullable=false)
 	private boolean inStock;
 	
 	/**

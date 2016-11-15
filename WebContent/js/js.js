@@ -2,6 +2,7 @@
 
 //when working locally:
 var server = "http://localhost:8080/CafeteriaServer"; 
+
 //when working on the remote server:
 //var server ="";
 

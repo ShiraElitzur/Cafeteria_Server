@@ -68,6 +68,14 @@ public class Meal {
 	 */
 	@Column(name = "Price", nullable=false)
 	private double price;
+	
+	/**
+	 * The serving form of the meal
+	 * For example : Pitta
+	 */
+	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+	@JoinColumn (name = "Serving_Id", nullable=false)
+	private ServingForm serving;
 
 	/**
 	 * Returns the id of this meal

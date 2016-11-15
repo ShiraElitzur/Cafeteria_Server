@@ -36,7 +36,7 @@ public class Main implements Inventory {
 	@Column( name = "Title", nullable=false, length=30, unique=true)
 	private String title;
 	
-	@Column( name = "In_Stock", nullable=false, columnDefinition = "boolean default true")
+	@Column( name = "In_Stock", nullable=false)
 	private boolean inStock;
 	
 	/**

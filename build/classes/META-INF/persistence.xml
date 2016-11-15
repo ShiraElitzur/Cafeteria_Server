@@ -12,6 +12,7 @@
 		<class>data.OrderedMeal</class>
 		<class>data.OrderedItem</class>
 		<class>data.Extra</class>
+		<class>data.ServingForm</class>
 		
 		<properties>
 			<property name="javax.persistence.schema-generation.create-database-schemas" value="true"/>
@@ -20,6 +21,7 @@
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
 <!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:derby://134.168.43.50:1527/cafeteria_db;create=true"/> -->
 			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/cafeteria_db;create=true"/>
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
 		
 		</properties>
 		

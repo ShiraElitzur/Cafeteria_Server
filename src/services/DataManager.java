@@ -17,11 +17,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import data.Category;
+import data.Customer;
 import data.Drink;
 import data.Extra;
 import data.Item;
 import data.Main;
 import data.Order;
+import data.ServingForm;
 import db.JpaManager;
 
 @Path("/data")
@@ -141,6 +143,114 @@ public class DataManager {
 		}
 		System.out.println("extras size: " + extras.size());
 		return json.toJson(extras.toArray());
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getServings")
+	public String getServings() {
+		Gson json = new Gson();
+		List<ServingForm> servings = new ArrayList<>();
+		servings = jpa.getServings();
+
+		if (servings == null) {
+			System.out.println("servings is empty");
+			return "null";
+		}
+		System.out.println("servings size: " + servings.size());
+		return json.toJson(servings.toArray());
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/updateItem")
+	public String updateItem( InputStream input ) {
+		// to get the json from the client i receive in this method the input stream and build the json string
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new Gson();
+		Item item = gson.fromJson(json.toString(), Item.class);
+		jpa.updateItem(item);
+		System.out.println("Finished update item");
+		return "ok";
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/updateMain")
+	public String updateMain( InputStream input ) {
+		// to get the json from the client i receive in this method the input stream and build the json string
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		Gson gson = new Gson();
+		Main main = gson.fromJson(json.toString(), Main.class);
+		jpa.updateMain(main);
+		return "OK";
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/updateExtra")
+	public String updateExtra( InputStream input ) {
+		// to get the json from the client i receive in this method the input stream and build the json string
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new Gson();
+		Extra extra = gson.fromJson(json.toString(), Extra.class);
+		jpa.updateExtra(extra);
+		return "OK";
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/updateServing")
+	public String updateServing( InputStream input ) {
+		// to get the json from the client i receive in this method the input stream and build the json string
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new Gson();
+		ServingForm servingForm = gson.fromJson(json.toString(), ServingForm.class);
+		jpa.updateServingForm(servingForm);
+		return "OK";
 	}
 
 }

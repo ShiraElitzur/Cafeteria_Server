@@ -32,7 +32,7 @@ public class Extra implements Inventory{
 	@Column(name = "Price", nullable=false)
 	private Double price;
 	
-	@Column(name = "In_Stock", nullable=false, columnDefinition = "boolean default true")
+	@Column(name = "In_Stock", nullable=false)
 	private boolean inStock;
 	
 	/**

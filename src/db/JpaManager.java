@@ -20,6 +20,7 @@ import data.Item;
 import data.Main;
 import data.Meal;
 import data.Order;
+import data.ServingForm;
 
 
 public class JpaManager {
@@ -112,6 +113,17 @@ public class JpaManager {
 		Vector<Main> mains = (Vector<Main>)query.getResultList();
 		return mains;
 	}
+	
+	/**
+	 * Returns list of serving
+	 * @return list of serving
+	 */
+	public List<ServingForm> getServings() {
+		Query query = em.createQuery("select s from ServingForm s");
+		Vector<ServingForm> servings = (Vector<ServingForm>)query.getResultList();
+		return servings;
+	}
+
 	
 	/**
 	 * This method checks if the customer exist according to the email and the password.
@@ -441,7 +453,48 @@ public class JpaManager {
 		  em.getTransaction().begin();
 		  it.setPrice(item.getPrice());
 		  it.setTitle(item.getTitle());
+		  it.setInStock(item.isInStock());
 		  em.getTransaction().commit();
+	}
+	
+	/**
+	 * Update the given extra
+	 * @param extra
+	 */
+	public void updateExtra(Extra extra) {
+		Extra ex = em.find(Extra.class, extra.getId());
+		 
+		  em.getTransaction().begin();
+		  ex.setPrice(extra.getPrice());
+		  ex.setTitle(extra.getTitle());
+		  ex.setInStock(extra.isInStock());
+		  em.getTransaction().commit();
+	}
+	
+	/**
+	 * Update the given main
+	 * @param main
+	 */
+	public void updateMain(Main main) {
+		Main ma = em.find(Main.class, main.getId());
+		 
+		  em.getTransaction().begin();
+		  ma.setTitle(main.getTitle());
+		  ma.setInStock(main.isInStock());
+		  em.getTransaction().commit();
+	}
+
+	/**
+	 * Update the given servingForm
+	 * @param servingForm
+	 */
+	public void updateServingForm(ServingForm servingForm) {
+		ServingForm sf = em.find(ServingForm.class, servingForm.getId());
+		 
+		  em.getTransaction().begin();
+		  sf.setTitle(servingForm.getTitle());
+		  sf.setInStock(servingForm.isInStock());
+		  em.getTransaction().commit();		
 	}
 	
 
@@ -550,6 +603,8 @@ public class JpaManager {
 		JpaManager jpa = new JpaManager();
 		
 	}
+
+
 
 
 
