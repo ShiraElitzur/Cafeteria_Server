@@ -219,31 +219,42 @@ public class JpaManager {
 	 * This method updates the given category
 	 * @param category
 	 */
-	public void updateCategory(Category category) {
+
+	public Boolean updateCategory(Category category) {
 
 		Category c = em.find(Category.class, category.getId());
 
 	      c.setTitle(category.getTitle());
 		  c.setDescription(category.getDescription());
 		  c.setIcon(category.getIcon());
-//		  for (Item item: c.getItems()){
-//			  Item itemUpdate = em.find(Item.class, item.getId());
-//			  itemUpdate.setPrice(item.getPrice());
-//			  itemUpdate.setTitle(item.getTitle());
-//		  }
+		  for (Item item: category.getItems()){
+			  Item itemUpdate = em.find(Item.class, item.getId());
+			  if (itemUpdate != null){
+				  itemUpdate.setPrice(item.getPrice());
+				  itemUpdate.setTitle(item.getTitle());
+			  } else{
+				  insertItem(item);
+			  }
+		  }
 		  c.setItems(category.getItems());
-//		  for (Meal meal: c.getMeals()){
-//			  Meal mealUpdate = em.find(Meal.class, meal.getId());
-//			  mealUpdate.setExtraAmount(meal.getExtraAmount());
-//			  mealUpdate.setExtras(meal.getExtras());
-//			  mealUpdate.setMain(meal.getMain());
-//			  mealUpdate.setPrice(meal.getPrice());
-//			  mealUpdate.setTitle(meal.getTitle());
-//		  }
+		  for (Meal meal: category.getMeals()){
+			  Meal mealUpdate = em.find(Meal.class, meal.getId());
+			  if (mealUpdate != null){
+			  mealUpdate.setExtraAmount(meal.getExtraAmount());
+			  mealUpdate.setExtras(meal.getExtras());
+			  mealUpdate.setMain(meal.getMain());
+			  mealUpdate.setPrice(meal.getPrice());
+			  mealUpdate.setTitle(meal.getTitle());
+			  } else{
+				  insertMeal(meal);
+			  }
+		  }
 		  c.setMeals(category.getMeals());
 		  em.getTransaction().begin();
 		  em.merge(c);
-		  em.getTransaction().commit();		
+		  em.getTransaction().commit();	
+		  
+		  return true;
 	}
 	
 	/**
@@ -460,6 +471,17 @@ public class JpaManager {
 		em.getTransaction().begin();
 				
 		em.persist(meal);
+		em.getTransaction().commit();
+	}
+	
+	/**
+	 * Inserts the given item
+	 * @param item
+	 */
+	public void insertItem( Item item ) {
+		em.getTransaction().begin();
+				
+		em.persist(item);
 		em.getTransaction().commit();
 	}
 	
