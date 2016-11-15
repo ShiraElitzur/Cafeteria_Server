@@ -1,7 +1,7 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,13 +48,13 @@ public class Order {
 	 * The meals that this order contains
 	 */
 	@OneToMany(cascade = CascadeType.ALL)// One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
-	private ArrayList<OrderedMeal> meals;
+	private List<OrderedMeal> meals;
 	
 	/**
 	 * The items that this order contains
 	 */
 	@OneToMany(cascade = CascadeType.ALL)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
-	private ArrayList<OrderedItem> items;
+	private List<OrderedItem> items;
 	
 	/**
 	 * The date and time when this order created
@@ -130,7 +130,7 @@ public class Order {
 	 * Returns the meals that this order contains
 	 * @return the meals that this order contains
 	 */
-	public ArrayList<OrderedMeal> getMeals() {
+	public List<OrderedMeal> getMeals() {
 		return meals;
 	}
 
@@ -138,7 +138,7 @@ public class Order {
 	 * Sets list of meals for this order
 	 * @param meals
 	 */
-	public void setMeals(ArrayList<OrderedMeal> meals) {
+	public void setMeals(List<OrderedMeal> meals) {
 		this.meals = meals;
 	}
 
@@ -146,7 +146,7 @@ public class Order {
 	 * Returns the items that this order contains
 	 * @return the items that this order contains
 	 */
-	public ArrayList<OrderedItem> getItems() {
+	public List<OrderedItem> getItems() {
 		return items;
 	}
 
@@ -154,7 +154,7 @@ public class Order {
 	 * Sets list of items for this order
 	 * @param items
 	 */
-	public void setItems(ArrayList<OrderedItem> items) {
+	public void setItems(List<OrderedItem> items) {
 		this.items = items;
 	}
 
@@ -180,8 +180,6 @@ public class Order {
 	 */
     public double getPayment() {
         payment = 0;
-        double drinkPrice = 0;
-        double extrasPrice = 0;
         
         for( OrderedMeal meal : getMeals() ) {
         	payment += meal.getTotalPrice();

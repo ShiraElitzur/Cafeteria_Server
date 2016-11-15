@@ -1,5 +1,9 @@
-//var server="/CafeteriaServer";
-//var server="http://cafeteriaserver.eu-gb.mybluemix.net";
+//var server="http://time2eat.eu-gb.mybluemix.net";
+
+//when working locally:
+var server = "http://localhost:8080/CafeteriaServer"; 
+//when working on the remote server:
+//var server ="";
 
 $(document).ready(function () {
 

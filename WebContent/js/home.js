@@ -1,7 +1,4 @@
 //window.customer = JSON.parse(localStorage.customer);
-//var server="/CafeteriaServer";
-//var server="http://cafeteriaserver.eu-gb.mybluemix.net";
-
 var categories = [];
 $(document).ready(function () {
     sessionStorage.removeItem("meal");
@@ -12,13 +9,12 @@ $(document).ready(function () {
         window.location = "category-details.html";
     });
 
-
 });
 
 
 function initTable(data) {
     categories = [];
-    var theUrl = "/rest/web/getAllCategories";
+    var theUrl = server + "/rest/web/getAllCategories";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -69,7 +65,7 @@ function confirmDelete(category, index) {
 }
 
 function deleteCategory(category, index) {
-    var urlAddress = "/rest/web/deleteCategory";
+    var urlAddress = server+ "/rest/web/deleteCategory";
 
     var decoded = arrayBufferToBase64(category.icon);
     category.icon = decoded;

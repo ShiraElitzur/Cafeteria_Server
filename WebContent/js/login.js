@@ -1,6 +1,3 @@
-//var server="/CafeteriaServer";
-//var server="http://cafeteriaserver.eu-gb.mybluemix.net";
-
 $(document).ready(function () {
     $('.message a').click(function () {
         $('form').animate({
@@ -14,7 +11,7 @@ $(document).ready(function () {
     $('#loginBtn').click(function () {
         var email = $('#email').val();
         var password = $('#password').val();
-        var urlAddress = "/rest/web/adminLogin";
+        var urlAddress = server + "/rest/web/adminLogin";
 
         $.post(urlAddress, {
             email: email,
@@ -42,7 +39,7 @@ $(document).ready(function () {
 
     $('#forgotPasswordBtn').click(function () {
         var email = $('#forgot-email').val();
-        var urlAddress ="/rest/web/getAdminPassword";
+        var urlAddress =server + "/rest/web/getAdminPassword";
 
         $.post(urlAddress, {
             email: email

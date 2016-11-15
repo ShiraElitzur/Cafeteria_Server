@@ -1,6 +1,3 @@
-//var server="/CafeteriaServer";
-//var server="http://cafeteriaserver.eu-gb.mybluemix.net";
-
 var extras = [];
 var index;
 var extra;
@@ -98,7 +95,7 @@ $(document).ready(function () {
 
 function initExtras(data) {
     extras = [];
-    var theUrl ="/rest/web/getExtras";
+    var theUrl = server + "/rest/web/getExtras";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -150,7 +147,7 @@ function initExtras(data) {
 }
 
 function addExtra(title, price) {
-    var urlAddress ="/rest/web/addExtra";
+    var urlAddress = server + "/rest/web/addExtra";
     var extra = {
         id: 0,
         title: title,
@@ -202,7 +199,7 @@ function confirmDelete(extra) {
 }
 
 function deleteExtra(extra) {
-    var urlAddress ="/rest/web/deleteExtra";
+    var urlAddress = server + "/rest/web/deleteExtra";
 
     var extra = {
         id: extra.id,
@@ -234,7 +231,7 @@ function updateExtra(id, title, price) {
         title: title,
         price: price
     };
-    var urlAddress = "/rest/web/editExtra";
+    var urlAddress = server + "/rest/web/editExtra";
 
     $.ajax({
         type: "POST",

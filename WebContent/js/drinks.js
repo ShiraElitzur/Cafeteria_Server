@@ -1,6 +1,3 @@
-//var server="/CafeteriaServer";
-//var server="http://cafeteriaserver.eu-gb.mybluemix.net";
-
 var drinks = [];
 var index;
 var drink;
@@ -30,7 +27,7 @@ $(document).ready(function () {
 
 function initTable(data) {
     drinks = [];
-    var theUrl ="/rest/web/getDrinks";
+    var theUrl = server + "/rest/web/getDrinks";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -48,8 +45,6 @@ function initTable(data) {
                     "price": element.price
                 });
             })
-
-
 
             $(document).on("click", "#drinksTable #deleteDrink", function (e) {
                 index = $(this).closest('tr').index();
@@ -78,7 +73,7 @@ function initTable(data) {
 }
 
 function addDrink(title, price) {
-    var urlAddress ="/rest/web/addDrink";
+    var urlAddress = server + "/rest/web/addDrink";
     var drink = {
         id: 0,
         title: title,
@@ -112,7 +107,7 @@ function addDrink(title, price) {
 }
 
 function deleteDrink(drink) {
-    var urlAddress = "/rest/web/deleteDrink";
+    var urlAddress = server + "/rest/web/deleteDrink";
 
     var drink = {
         id: drink.id,
@@ -163,7 +158,7 @@ function updateDrink(id, title, price) {
         title: title,
         price: price
     };
-    var urlAddress ="/rest/web/editDrink";
+    var urlAddress = server + "/rest/web/editDrink";
 
     $.ajax({
         type: "POST",

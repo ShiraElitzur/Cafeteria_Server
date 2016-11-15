@@ -1,6 +1,3 @@
-//var server="/CafeteriaServer";   
-var server="http://time2eat.eu-gb.mybluemix.net";
-
 var icons = [];
     var items = [];
     var mealsToDel = [];
@@ -336,7 +333,7 @@ server + "/icons/tea_black.png"
     }
 
     function saveCategoryinDB() {
-        var urlAddress = "/rest/web/addCategory";
+        var urlAddress =  server + "/rest/web/addCategory";
 
         var categoryTitle = $("#categoryTitle").val();
         var categoryDesc = $("#categoryDescription").val();
@@ -364,7 +361,7 @@ server + "/icons/tea_black.png"
     }
 
     function updateCategoryinDB() {
-        var urlAddress = "/rest/web/updateCategory";
+        var urlAddress = server + "/rest/web/updateCategory";
 
         var categoryTitle = $("#categoryTitle").val();
         var categoryDesc = $("#categoryDescription").val();
@@ -414,7 +411,7 @@ server + "/icons/tea_black.png"
     }
 
     function deleteMeals(mealsToDel) {
-        var urlAddress = "/rest/web/deleteMeals";
+        var urlAddress = server + "/rest/web/deleteMeals";
 
         $.ajax({
             type: "POST",

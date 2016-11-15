@@ -1,6 +1,3 @@
-//var server="/CafeteriaServer";
-//var server="http://cafeteriaserver.eu-gb.mybluemix.net";
-
 var mains = [];
 var index;
 var main;
@@ -26,7 +23,7 @@ $(document).ready(function () {
 
 function initTable(data) {
     mains = [];
-    var theUrl = "/rest/web/getMains";
+    var theUrl = server + "/rest/web/getMains";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -43,8 +40,6 @@ function initTable(data) {
                     "title": element.title
                 });
             })
-
-
 
             $(document).on("click", "#mainsTable #deleteMain", function (e) {
                 index = $(this).closest('tr').index();
@@ -72,7 +67,7 @@ function initTable(data) {
 }
 
 function addMain(title) {
-    var urlAddress = "/rest/web/addMain";
+    var urlAddress = server + "/rest/web/addMain";
     var main = {
         id: 0,
         title: title
@@ -105,7 +100,7 @@ function addMain(title) {
 }
 
 function deleteMain(main) {
-    var urlAddress = "/rest/web/deleteMain";
+    var urlAddress = server + "/rest/web/deleteMain";
 
     var main = {
         id: main.id,
@@ -154,7 +149,7 @@ function updateMain(id, title) {
         id: id,
         title: title
     };
-    var urlAddress = "/rest/web/editMain";
+    var urlAddress = server + "/rest/web/editMain";
 
     $.ajax({
         type: "POST",
