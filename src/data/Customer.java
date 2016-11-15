@@ -1,7 +1,5 @@
 package data;
 
-import java.util.ArrayList;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,7 +55,7 @@ public class Customer {
 //	 * The orders of this customer
 //	 */
 //	@OneToMany( mappedBy = "customer",cascade=CascadeType.ALL ) // Customer have
-//	private ArrayList<Order> orders;
+//	private List<Order> orders;
 
 	/**
 	 * A token for sending push notifications from the server
@@ -156,7 +154,7 @@ public class Customer {
 //	 * Returns the orders of this customer
 //	 * @return the orders of this customer
 //	 */
-//	public ArrayList<Order> getOrders() {
+//	public List<Order> getOrders() {
 //		return orders;
 //	}
 //
@@ -164,7 +162,7 @@ public class Customer {
 //	 * Sets list of order to this customer
 //	 * @param orders
 //	 */
-//	public void setOrders(ArrayList<Order> orders) {
+//	public void setOrders(List<Order> orders) {
 //		this.orders = orders;
 //	}
 	
