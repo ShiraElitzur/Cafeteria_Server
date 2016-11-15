@@ -8,22 +8,23 @@ var icons = [];
     var categoryEdit;
     var localIcons = [
 server + "/icons/meat.png",
-server + "/icons/salad.png",
-server + "/icons/snacks.png",
-server + "/icons/cafe_black.png",
-server + "/icons/cafe_white.png",
-server + "/icons/pizza_black.png",
-server + "/icons/pizza_white.png",
-server + "/icons/bakery.png",
-server + "/icons/cookies_black.png",
-server + "/icons/cookies_white.png",
-server + "/icons/dairy.png",
 server + "/icons/hamburger_black.png",
 server + "/icons/hamburger_white.png",
-server + "/icons/hotDrink.png",
+server + "/icons/salad.png",
 server + "/icons/coldDrink.png",
+server + "/icons/bakery.png",
+server + "/icons/cafe_black.png",
+server + "/icons/cafe_white.png",
 server + "/icons/tea_white.png",
-server + "/icons/tea_black.png"
+server + "/icons/tea_black.png",
+server + "/icons/hotDrink.png",
+server + "/icons/dairy.png",
+server + "/icons/pizza_black.png",
+server + "/icons/pizza_white.png",
+server + "/icons/snacks.png",
+server + "/icons/cookies_black.png",
+server + "/icons/cookies_white.png"
+
 ];
     $(document).ready(function () {
 
