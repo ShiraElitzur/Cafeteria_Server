@@ -1,4 +1,4 @@
-var server="/CafeteriaServer";
+//var server="/CafeteriaServer";
 //var server="http://cafeteriaserver.eu-gb.mybluemix.net";
 
 $(document).ready(function () {

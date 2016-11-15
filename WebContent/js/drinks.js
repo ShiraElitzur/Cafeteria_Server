@@ -1,4 +1,4 @@
-var server="/CafeteriaServer";
+//var server="/CafeteriaServer";
 //var server="http://cafeteriaserver.eu-gb.mybluemix.net";
 
 var drinks = [];
@@ -30,7 +30,7 @@ $(document).ready(function () {
 
 function initTable(data) {
     drinks = [];
-    var theUrl = server+"/rest/web/getDrinks";
+    var theUrl ="/rest/web/getDrinks";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -78,7 +78,7 @@ function initTable(data) {
 }
 
 function addDrink(title, price) {
-    var urlAddress = server+"/rest/web/addDrink";
+    var urlAddress ="/rest/web/addDrink";
     var drink = {
         id: 0,
         title: title,
@@ -112,7 +112,7 @@ function addDrink(title, price) {
 }
 
 function deleteDrink(drink) {
-    var urlAddress = server+"/rest/web/deleteDrink";
+    var urlAddress = "/rest/web/deleteDrink";
 
     var drink = {
         id: drink.id,
@@ -163,7 +163,7 @@ function updateDrink(id, title, price) {
         title: title,
         price: price
     };
-    var urlAddress = server+"/rest/web/editDrink";
+    var urlAddress ="/rest/web/editDrink";
 
     $.ajax({
         type: "POST",

@@ -1,5 +1,5 @@
-var server="/CafeteriaServer";   
-//var server="http://cafeteriaserver.eu-gb.mybluemix.net";
+//var server="/CafeteriaServer";   
+var server="http://time2eat.eu-gb.mybluemix.net";
 
 var icons = [];
     var items = [];
@@ -10,14 +10,23 @@ var icons = [];
     var firstMeal = true;
     var categoryEdit;
     var localIcons = [
-"https://s16.postimg.org/urynzolp1/hot_Drink.png",
-"https://s12.postimg.org/a8gpmsa3x/cold_Drink.png",
-"https://s17.postimg.org/o2sbc63db/meat.png",
-"https://s12.postimg.org/hm4bghu2l/salad.png",
-"https://s15.postimg.org/qwzer7nqz/snacks.png",
-"https://s15.postimg.org/rqd5vzuwb/cafe_black.png",
-"https://s13.postimg.org/ob8agi99z/cafe_white.png",
-"https://s18.postimg.org/xjimiz9ix/pizza_black.png"
+server + "/icons/meat.png",
+server + "/icons/salad.png",
+server + "/icons/snacks.png",
+server + "/icons/cafe_black.png",
+server + "/icons/cafe_white.png",
+server + "/icons/pizza_black.png",
+server + "/icons/pizza_white.png",
+server + "/icons/bakery.png",
+server + "/icons/cookies_black.png",
+server + "/icons/cookies_white.png",
+server + "/icons/dairy.png",
+server + "/icons/hamburger_black.png",
+server + "/icons/hamburger_white.png",
+server + "/icons/hotDrink.png",
+server + "/icons/coldDrink.png",
+server + "/icons/tea_white.png",
+server + "/icons/tea_black.png"
 ];
     $(document).ready(function () {
 
@@ -327,7 +336,7 @@ var icons = [];
     }
 
     function saveCategoryinDB() {
-        var urlAddress = server+"/rest/web/addCategory";
+        var urlAddress = "/rest/web/addCategory";
 
         var categoryTitle = $("#categoryTitle").val();
         var categoryDesc = $("#categoryDescription").val();
@@ -355,7 +364,7 @@ var icons = [];
     }
 
     function updateCategoryinDB() {
-        var urlAddress = server+"/rest/web/updateCategory";
+        var urlAddress = "/rest/web/updateCategory";
 
         var categoryTitle = $("#categoryTitle").val();
         var categoryDesc = $("#categoryDescription").val();
@@ -405,7 +414,7 @@ var icons = [];
     }
 
     function deleteMeals(mealsToDel) {
-        var urlAddress = server+"/rest/web/deleteMeals";
+        var urlAddress = "/rest/web/deleteMeals";
 
         $.ajax({
             type: "POST",

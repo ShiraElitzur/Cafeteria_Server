@@ -18,6 +18,9 @@ import com.google.gson.GsonBuilder;
 
 import data.Category;
 import data.Drink;
+import data.Extra;
+import data.Item;
+import data.Main;
 import data.Order;
 import db.JpaManager;
 
@@ -91,6 +94,53 @@ public class DataManager {
 		} else {
 			return "notOk";
 		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getItems")
+	public String getItems() {
+		Gson json = new Gson();
+		List<Item> items = new ArrayList<>();
+		items = jpa.getItems();
+		if (items == null) {
+			System.out.println("items is empty");
+			return "null";
+		}
+		System.out.println("items size: " + items.size());
+		return json.toJson(items.toArray());
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getMains")
+	public String getMains() {
+		Gson json = new Gson();
+		List<Main> mains = new ArrayList<>();
+		mains = jpa.getMains();
+
+		if (mains == null) {
+			System.out.println("mains is empty");
+			return "null";
+		}
+		System.out.println("mains size: " + mains.size());
+		return json.toJson(mains.toArray());
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getExtras")
+	public String getExtras() {
+		Gson json = new Gson();
+		List<Extra> extras = new ArrayList<>();
+		extras = jpa.getExtras();
+
+		if (extras == null) {
+			System.out.println("extras is empty");
+			return "null";
+		}
+		System.out.println("extras size: " + extras.size());
+		return json.toJson(extras.toArray());
 	}
 
 }

@@ -1,5 +1,5 @@
 //window.customer = JSON.parse(localStorage.customer);
-var server="/CafeteriaServer";
+//var server="/CafeteriaServer";
 //var server="http://cafeteriaserver.eu-gb.mybluemix.net";
 
 var categories = [];
@@ -18,7 +18,7 @@ $(document).ready(function () {
 
 function initTable(data) {
     categories = [];
-    var theUrl = server+"/rest/web/getAllCategories";
+    var theUrl = "/rest/web/getAllCategories";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -69,7 +69,7 @@ function confirmDelete(category, index) {
 }
 
 function deleteCategory(category, index) {
-    var urlAddress = server+"/rest/web/deleteCategory";
+    var urlAddress = "/rest/web/deleteCategory";
 
     var decoded = arrayBufferToBase64(category.icon);
     category.icon = decoded;

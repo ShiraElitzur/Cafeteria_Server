@@ -226,20 +226,20 @@ public class JpaManager {
 	      c.setTitle(category.getTitle());
 		  c.setDescription(category.getDescription());
 		  c.setIcon(category.getIcon());
-		  for (Item item: c.getItems()){
-			  Item itemUpdate = em.find(Item.class, item.getId());
-			  itemUpdate.setPrice(item.getPrice());
-			  itemUpdate.setTitle(item.getTitle());
-		  }
+//		  for (Item item: c.getItems()){
+//			  Item itemUpdate = em.find(Item.class, item.getId());
+//			  itemUpdate.setPrice(item.getPrice());
+//			  itemUpdate.setTitle(item.getTitle());
+//		  }
 		  c.setItems(category.getItems());
-		  for (Meal meal: c.getMeals()){
-			  Meal mealUpdate = em.find(Meal.class, meal.getId());
-			  mealUpdate.setExtraAmount(meal.getExtraAmount());
-			  mealUpdate.setExtras(meal.getExtras());
-			  mealUpdate.setMain(meal.getMain());
-			  mealUpdate.setPrice(meal.getPrice());
-			  mealUpdate.setTitle(meal.getTitle());
-		  }
+//		  for (Meal meal: c.getMeals()){
+//			  Meal mealUpdate = em.find(Meal.class, meal.getId());
+//			  mealUpdate.setExtraAmount(meal.getExtraAmount());
+//			  mealUpdate.setExtras(meal.getExtras());
+//			  mealUpdate.setMain(meal.getMain());
+//			  mealUpdate.setPrice(meal.getPrice());
+//			  mealUpdate.setTitle(meal.getTitle());
+//		  }
 		  c.setMeals(category.getMeals());
 		  em.getTransaction().begin();
 		  em.merge(c);

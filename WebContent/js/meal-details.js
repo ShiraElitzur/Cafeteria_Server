@@ -1,4 +1,4 @@
-var server="/CafeteriaServer";
+//var server="/CafeteriaServer";
 //var server="http://cafeteriaserver.eu-gb.mybluemix.net";
 
 var dualllistbox;
@@ -185,7 +185,7 @@ function initExtras() {
         editMeal = JSON.parse(sessionStorage.getItem("editMeal"));
         editExtras = editMeal.extras;
     }
-    var theUrl = server + "/rest/web/getExtras";
+    var theUrl = "/rest/web/getExtras";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -228,7 +228,7 @@ function initExtras() {
 }
 
 function initMains() {
-    var theUrl = server+"/rest/web/getMains";
+    var theUrl = "/rest/web/getMains";
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -259,7 +259,7 @@ function initMains() {
 }
 
 function addExtra(title, price) {
-    var urlAddress = "http://localhost:8080/CafeteriaServer/rest/web/addExtra";
+    var urlAddress = "/rest/web/addExtra";
     var extra = {
         id: 0,
         title: title,
@@ -306,7 +306,7 @@ function findExtra(extraId) {
 
 function addNewMainToDB(mainTitle, callback) {
     var main;
-    var urlAddress = "http://localhost:8080/CafeteriaServer/rest/web/addMain";
+    var urlAddress = "/rest/web/addMain";
     var extra = {
         id: 0,
         title: mainTitle
