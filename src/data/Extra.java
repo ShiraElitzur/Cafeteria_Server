@@ -33,7 +33,7 @@ public class Extra implements Inventory{
 	private Double price;
 	
 	@Column(name = "In_Stock", nullable=false)
-	private boolean inStock;
+	private boolean inStock = true;
 	
 	/**
 	 * Returns the id of this extra

@@ -40,7 +40,7 @@ public class Item implements Inventory{
 	private double price;
 	
 	@Column(name = "In_Stock", nullable=false)
-	private boolean inStock;
+	private boolean inStock = true;
 	
 	/**
 	 * Returns the id of this item

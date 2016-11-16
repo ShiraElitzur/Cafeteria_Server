@@ -41,6 +41,7 @@ import data.Extra;
 import data.Item;
 import data.Main;
 import data.Meal;
+import data.ServingForm;
 import db.JpaManager;
 
 @Path("/web")
@@ -267,6 +268,20 @@ public class WebServices {
 		Main insertedMain = jpa.insertMain(main);
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(insertedMain);
+		System.out.println(jsonString);
+		return jsonString;
+
+	}
+	
+	@POST
+	@Path("/addServing")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String addServing(ServingForm servingForm) {
+		System.out.println("in add servingForm method " + servingForm.getTitle());
+		ServingForm insertedServing = jpa.insertServingForm(servingForm);
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(insertedServing);
 		System.out.println(jsonString);
 		return jsonString;
 

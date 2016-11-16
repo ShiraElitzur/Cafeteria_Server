@@ -239,6 +239,9 @@ public class JpaManager {
 	      c.setTitle(category.getTitle());
 		  c.setDescription(category.getDescription());
 		  c.setIcon(category.getIcon());
+		  System.out.println("size of items of new: " + category.getItems());
+		  System.out.println("size of items: " + c.getItems());
+
 		  for (Item item: category.getItems()){
 			  Item itemUpdate = em.find(Item.class, item.getId());
 			  if (itemUpdate != null){
@@ -293,6 +296,19 @@ public class JpaManager {
 		em.persist(main);
 		em.getTransaction().commit();
 		return main;
+	}
+	
+	/**
+	 * This method inserts the given serving form
+	 * @param serving form
+	 * @return the inserted serving form
+	 */
+	public ServingForm insertServingForm(ServingForm servingForm) {
+		em.getTransaction().begin();
+		
+		em.persist(servingForm);
+		em.getTransaction().commit();
+		return servingForm;
 	}
 	
 	/**
@@ -603,6 +619,8 @@ public class JpaManager {
 		JpaManager jpa = new JpaManager();
 		
 	}
+
+
 
 
 

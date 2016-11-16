@@ -1,3 +1,4 @@
+var iconAddress = "http://time2eat.eu-gb.mybluemix.net";
 var icons = [];
     var items = [];
     var mealsToDel = [];
@@ -7,23 +8,23 @@ var icons = [];
     var firstMeal = true;
     var categoryEdit;
     var localIcons = [
-server + "/icons/meat.png",
-server + "/icons/hamburger_black.png",
-server + "/icons/hamburger_white.png",
-server + "/icons/salad.png",
-server + "/icons/coldDrink.png",
-server + "/icons/bakery.png",
-server + "/icons/cafe_black.png",
-server + "/icons/cafe_white.png",
-server + "/icons/tea_white.png",
-server + "/icons/tea_black.png",
-server + "/icons/hotDrink.png",
-server + "/icons/dairy.png",
-server + "/icons/pizza_black.png",
-server + "/icons/pizza_white.png",
-server + "/icons/snacks.png",
-server + "/icons/cookies_black.png",
-server + "/icons/cookies_white.png"
+    	iconAddress + "/icons/meat.png",
+    	iconAddress + "/icons/hamburger_black.png",
+    	iconAddress + "/icons/hamburger_white.png",
+    	iconAddress + "/icons/salad.png",
+    	iconAddress + "/icons/coldDrink.png",
+    	iconAddress + "/icons/bakery.png",
+    	iconAddress + "/icons/cafe_black.png",
+iconAddress + "/icons/cafe_white.png",
+iconAddress + "/icons/tea_white.png",
+iconAddress + "/icons/tea_black.png",
+iconAddress + "/icons/hotDrink.png",
+iconAddress + "/icons/dairy.png",
+iconAddress + "/icons/pizza_black.png",
+iconAddress + "/icons/pizza_white.png",
+iconAddress + "/icons/snacks.png",
+iconAddress + "/icons/cookies_black.png",
+iconAddress + "/icons/cookies_white.png"
 
 ];
     $(document).ready(function () {
@@ -126,6 +127,8 @@ server + "/icons/cookies_white.png"
             sessionStorage.setItem("meals", JSON.stringify(meals));
 
             $("#saveCategory").text("Update");
+            $('#pageTitle').text("Edit Category");
+
             var temp =
                 arrayBufferToBase64(categoryEdit.icon);
             var imgSrc = "data:image/png;base64," + temp;
@@ -139,6 +142,7 @@ server + "/icons/cookies_white.png"
         // and then moved to meal details
         if (sessionStorage.getItem("inEdit") !== null) {
             $("#saveCategory").text("Update");
+            $('#pageTitle').text("Edit Category");
 
         }
 

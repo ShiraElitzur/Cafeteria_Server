@@ -1,23 +1,31 @@
 var dualllistbox;
-var selectpicker;
+var servings = [];
 var mains = [];
 var extras = [];
 var selectedIndex;
+var selectedServingIndex;
 var newMain = true;
+var newServing = true;
 var inEdit = false;
 var editMeal;
 $(document).ready(function () {
     $("#existing-main").hide();
     $("#new-main").hide();
+    
+    $("#existing-serving").hide();
+    $("#new-serving").hide();
 
     $("#back").click(function () {
         sessionStorage.removeItem("editMeal");
         sessionStorage.removeItem("editMealIndex");
         window.location.href = "./category-details.html";
     });
-
-    $('.selectpicker').selectpicker();
+    
+    $('#selectpickerMains').selectpicker();
     initMains();
+    
+    $('#selectpickerServings').selectpicker();
+    initServings();
 
     dualllistbox = $('select[name="duallistbox"]').bootstrapDualListbox({
         nonSelectedListLabel: 'Non-selected',
@@ -48,6 +56,16 @@ $(document).ready(function () {
         $("#new-main").show();
         $("#existing-main").hide();
     });
+    
+    $("#addExistingServing").click(function () {
+        $("#new-serving").hide();
+        $("#existing-serving").show();
+    });
+    
+    $("#addNewserving").click(function () {
+        $("#new-serving").show();
+        $("#existing-serving").hide();
+    });
 
     $("#mealDetailsForm").submit(function () {
         if ($('#new-main').is(":hidden") && $('#existing-main').is(":hidden")) {
@@ -62,6 +80,22 @@ $(document).ready(function () {
         } else {
             if (selectedIndex === undefined) {
                 alert("main is empty");
+                return false;
+            }
+        }
+        
+        if ($('#new-serving').is(":hidden") && $('#existing-serving').is(":hidden")) {
+            alert("Fill serving form !");
+            return false;
+        }
+        if ($('#new-serving').is(":visible")) {
+            if ($('#servingTitle').val().length < 1) {
+                alert("serving is empty");
+                return false;
+            }
+        } else {
+            if (selectedServingIndex === undefined) {
+                alert("serving is empty");
                 return false;
             }
         }
@@ -97,7 +131,8 @@ $(document).ready(function () {
             title: mealTitle,
             extras: selectedExtras,
             extraAmount: extraAmount,
-            price: mealPrice
+            price: mealPrice,
+            serving: "to be filled"
         };
 
         if ($('#new-main').is(":visible")) {
@@ -116,14 +151,34 @@ $(document).ready(function () {
                         sessionStorage.setItem("meal", JSON.stringify(meal));
                     }
 
-                    window.location = "./category-details.html";
 
                 });
 
         } else if ($('#existing-main').is(":visible")) {
-            alert(selectedIndex - 1);
             meal.main = mains[selectedIndex - 1];
             newMain = false;
+        }
+        
+        if ($('#new-serving').is(":visible")) {
+            addNewServingToDB($('#servingTitle').val(),
+                function (result) {
+                    meal.serving = result;
+                    if ($("#saveMeal").text() == "Update") {
+                        var meals = JSON.parse(sessionStorage.getItem("meals"));
+                        var index = sessionStorage.getItem("editMealIndex");
+                        meals[index] = meal;
+                        sessionStorage.setItem("meals", JSON.stringify(meals));
+                        sessionStorage.removeItem("editMeal");
+                        sessionStorage.removeItem("editMealIndex");
+                    } else {
+                        sessionStorage.setItem("meal", JSON.stringify(meal));
+                    }
+
+                });
+
+        } else if ($('#existing-serving').is(":visible")) {
+            meal.serving = servings[selectedServingIndex - 1];
+            newServing = false;
         }
 
         //        alert("meal title: " + meal.title + "\n" +
@@ -148,7 +203,26 @@ $(document).ready(function () {
             } else {
                 sessionStorage.setItem("meal", JSON.stringify(meal));
             }
-            window.location.href = "./category-details.html";
+
+        }
+        
+        if (newServing === true) {
+//            window.location.href = "./category-details.html";
+
+        } else {
+            if ($("#saveMeal").text() == "Update") {
+                var meals = JSON.parse(sessionStorage.getItem("meals"));
+                var index = sessionStorage.getItem("editMealIndex");
+                meals[index] = meal;
+                sessionStorage.setItem("meals", JSON.stringify(meals));
+                sessionStorage.removeItem("editMeal");
+                sessionStorage.removeItem("editMealIndex");
+                window.location.href = "./category-details.html";
+            } else {
+                sessionStorage.setItem("meal", JSON.stringify(meal));
+            }
+//            window.location.href = "./category-details.html";
+
         }
 
         return false;
@@ -156,8 +230,12 @@ $(document).ready(function () {
 
     });
 
-    $('.selectpicker').on('changed.bs.select', function (event, clickedIndex, newValue, oldValue) {
+    $('#selectpickerMains').on('changed.bs.select', function (event, clickedIndex, newValue, oldValue) {
         selectedIndex = clickedIndex;
+    });
+    
+    $('#selectpickerServings').on('changed.bs.select', function (event, clickedIndex, newValue, oldValue) {
+        selectedServingIndex = clickedIndex;
     });
 
     if (sessionStorage.getItem("editMeal") !== null) {
@@ -168,10 +246,11 @@ $(document).ready(function () {
         $('#mealPrice').val(editMeal.price);
         var main = editMeal.main;
         $("#existing-main").show();
+        $("#existing-serving").show();
 
         $('#extraAmount').val(editMeal.extraAmount);
         $('#saveMeal').text("Update");
-
+        $('#pageTitle').text("Edit Meal");
     }
 
 });
@@ -215,7 +294,8 @@ function initExtras() {
                 }
 
             })
-            $('.selectpicker').selectpicker('refresh');
+            $('#selectpickerMains').selectpicker('refresh');
+            $('#selectpickerServings').selectpicker('refresh');
 
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -234,7 +314,7 @@ function initMains() {
         success: function (data, textStatus) {
             //           alert('request successful');
             $.each(data, function (index, element) {
-                $('.selectpicker').append('<option>' + element.title + '</option>');
+                $('#selectpickerMains').append('<option>' + element.title + '</option>');
 
                 mains.push({
                     id: element.id,
@@ -242,7 +322,7 @@ function initMains() {
                 });
             })
             if ($("#saveMeal").text() == "Update") {
-                $('.selectpicker').selectpicker('val', editMeal.main.title);
+                $('#selectpickerMains').selectpicker('val', editMeal.main.title);
                 selectedIndex = 1;
             }
 
@@ -251,6 +331,40 @@ function initMains() {
         error: function (xhr, textStatus, errorThrown) {
             alert('request failed');
         }
+    });
+
+}
+
+function initServings() {
+    var theUrl = server + "/rest/data/getServings";
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: theUrl,
+        timeout: 5000,
+        success: function (data, textStatus) {
+            //           alert('request successful');
+            $.each(data, function (index, element) {
+                $('#selectpickerServings').append('<option>' + element.title + '</option>');
+
+                servings.push({
+                    id: element.id,
+                    title: element.title
+                });
+            })
+            if ($("#saveMeal").text() == "Update") {
+                $('#selectpickerServings').selectpicker('val', editMeal.serving.title);
+                selectedServingIndex = 1;
+            }
+            
+
+
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            alert('request failed');
+        }
+        
+        
     });
 
 }
@@ -302,9 +416,8 @@ function findExtra(extraId) {
 }
 
 function addNewMainToDB(mainTitle, callback) {
-    var main;
     var urlAddress = server + "/rest/web/addMain";
-    var extra = {
+    var main = {
         id: 0,
         title: mainTitle
     };
@@ -312,7 +425,7 @@ function addNewMainToDB(mainTitle, callback) {
     $.ajax({
         type: "POST",
         url: urlAddress,
-        data: JSON.stringify(extra),
+        data: JSON.stringify(main),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -327,3 +440,30 @@ function addNewMainToDB(mainTitle, callback) {
         }
     });
 }
+
+function addNewServingToDB(servingTitle, callback) {
+    var urlAddress = server + "/rest/web/addServing";
+    var serving = {
+        id: 0,
+        title: servingTitle
+    };
+
+    $.ajax({
+        type: "POST",
+        url: urlAddress,
+        data: JSON.stringify(serving),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            main = {
+                id: data.id,
+                title: data.title
+            };
+            callback(main);
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+}
+

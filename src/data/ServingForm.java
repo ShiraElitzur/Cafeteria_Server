@@ -26,7 +26,7 @@ public class ServingForm implements Inventory{
 	private String title;
 	
 	@Column( name = "In_Stock", nullable=false)
-	private boolean inStock;
+	private boolean inStock = true;
 	
 	/**
 	 * Returns the id of this drink
