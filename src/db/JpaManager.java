@@ -206,7 +206,7 @@ public class JpaManager {
 	 */
 	public boolean insertOrder( Order order ) {
 		em.getTransaction().begin();		
-		em.persist(order);
+		em.merge(order);
 		em.getTransaction().commit();
 		
 		if(em.contains(order)) {
