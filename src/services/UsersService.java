@@ -45,9 +45,6 @@ public class UsersService {
 		
 		Customer c = jpa.isUserExist(email,password);
 		Gson json = new Gson();
-		if( c == null ){
-			return null;
-		}
 		return json.toJson(c);
 	}
 	
@@ -86,6 +83,33 @@ public class UsersService {
 //		JsonObject jsonObject = new JsonObject();
 //		jsonObject.addProperty("result", );
 //		return jsonObject;
+	}
+	
+	/**
+	 * This service inserts a new user to the db
+	 * @param input an input stream between the server and the client
+	 * @return 'ok' if user inserted successfully otherwise 'notOk'
+	 */
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/insertFacebookUser")
+	public String insertFacebookUser( InputStream input ) {
+		StringBuilder jsonUser = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				jsonUser.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		Gson gson = new Gson();
+		Customer c = gson.fromJson(jsonUser.toString(), Customer.class);
+		System.out.println(c.getFirstName());
+		Customer result = jpa.insertFacebookUser(c);
+		return gson.toJson(result);
 	}
 	
 	/**

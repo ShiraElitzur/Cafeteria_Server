@@ -182,6 +182,19 @@ public class JpaManager {
 	}
 	
 	/**
+	 * Returns the user that inserted
+	 * @param customer
+	 * @return the user that inserted
+	 */
+	public Customer insertFacebookUser( Customer customer ) {
+		em.getTransaction().begin();		
+		em.persist(customer);
+		em.getTransaction().commit();
+		
+		return customer;
+	}
+	
+	/**
 	 * Returns a boolean that indicates if user updated successfully
 	 * @param customer
 	 * @return a boolean that indicates if user updated successfully
