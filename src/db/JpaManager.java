@@ -273,6 +273,8 @@ public class JpaManager {
 			  mealUpdate.setMain(meal.getMain());
 			  mealUpdate.setPrice(meal.getPrice());
 			  mealUpdate.setTitle(meal.getTitle());
+			  mealUpdate.setServing(meal.getServing());
+			  mealUpdate.setIncludesDrink(meal.isIncludesDrink());
 			  } else{
 				  insertMeal(meal);
 			  }
@@ -629,8 +631,7 @@ public class JpaManager {
 	}
 	
 	public static void main ( String [] args ) {
-		JpaManager jpa = new JpaManager();
-		
+		JpaManager jpa = JpaManager.getInstance();
 	}
 
 

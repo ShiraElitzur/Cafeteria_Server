@@ -76,6 +76,12 @@ public class Meal {
 	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	@JoinColumn (name = "Serving_Id", nullable=false)
 	private ServingForm serving;
+	
+	/**
+	 * Is this meal included drink in the price
+	 */
+	@Column (name = "Includes_Drink", nullable=false)
+	private boolean includesDrink;
 
 	/**
 	 * Returns the id of this meal
@@ -173,5 +179,39 @@ public class Meal {
 	public void setExtraAmount(int extraAmount) {
 		this.extraAmount = extraAmount;
 	}
+	
+	/**
+	 * Returns the serving form of this meal
+	 * @return the serving form
+	 */
+	public ServingForm getServing() {
+		return serving;
+	}
+	
+	/**
+	 * Sets the serving in this meal
+	 * @param serving
+	 */
+	public void setServing(ServingForm serving) {
+		this.serving = serving;
+	}
+	
+	/**
+	 * Returns whether this meal includes a drink in the price
+	 * @return a boolean represent if this meal includes a drink in the price
+	 */
+	public boolean isIncludesDrink() {
+		return includesDrink;
+	}
+	
+	/**
+	 * Sets if this meal includes drink in the price
+	 * @param drinkIncluded
+	 */
+	public void setIncludesDrink(boolean includesDrink) {
+		this.includesDrink = includesDrink;
+	}
+	
+	
 
 }

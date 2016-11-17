@@ -132,7 +132,8 @@ $(document).ready(function () {
             extras: selectedExtras,
             extraAmount: extraAmount,
             price: mealPrice,
-            serving: "to be filled"
+            serving: "to be filled",
+            includesDrink: $('#includesDrink').prop('checked')
         };
 
         if ($('#new-main').is(":visible")) {
@@ -251,6 +252,11 @@ $(document).ready(function () {
         $('#extraAmount').val(editMeal.extraAmount);
         $('#saveMeal').text("Update");
         $('#pageTitle').text("Edit Meal");
+        if (editMeal.includesDrink === true){
+        $('#includesDrink').prop('checked', true);
+        } else{
+            $('#includesDrink').prop('checked', false);
+        }
     }
 
 });
