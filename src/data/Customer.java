@@ -41,7 +41,7 @@ public class Customer {
 	/**
 	 * The email address of the customer
 	 */
-	@Column( name = "Email", nullable=false, length=40,unique=true)
+	@Column( name = "Email", nullable=false, length=40)
 	private String email;
 	
 	
@@ -66,7 +66,7 @@ public class Customer {
 	/**
 	 * A path to the image of this customer
 	 */
-	private String imagePath;
+	private byte[] image;
 	
 	
 	/**
@@ -186,16 +186,16 @@ public class Customer {
 	 * Returns the path of the image of this customer
 	 * @return the image of this customer
 	 */
-	public String getImagePath() {
-		return imagePath;
+	public byte[] getImage() {
+		return image;
 	}
 	
 	/**
 	 * Sets the path of the image of this customer
 	 * @param image
 	 */
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	
 }

@@ -207,11 +207,16 @@ public class JpaManager {
 		  c.setFirstName(customer.getFirstName());
 		  c.setLastName(customer.getLastName());
 		  c.setPassword(customer.getPassword());
-		  c.setImagePath(customer.getImagePath());
+		  c.setImage(customer.getImage());
 		  em.getTransaction().commit();
 		  
 		  return true;
 	}
+	
+//	public byte[] getImageForUser( int userId ) {
+//		Customer c = em.find(Customer.class, userId);
+//		return c.getImage();
+//	}
 	
 	/**
 	 * This method inserts the given order

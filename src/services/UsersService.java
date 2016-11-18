@@ -44,6 +44,7 @@ public class UsersService {
 	public String isUserExist( @QueryParam("email") String email, @QueryParam("pass") String password ){
 		
 		Customer c = jpa.isUserExist(email,password);
+		//c.setImage(null);
 		Gson json = new Gson();
 		return json.toJson(c);
 	}
@@ -144,4 +145,20 @@ public class UsersService {
 			return "notOk";
 		}
 	}
+	
+	
+//	/**
+//	 * This service returns the image of the user with the given id
+//	 * @param userId
+//	 * @return json string that represents the image if exists
+//	 */
+//	@GET
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Path("/getImageForUser")
+//	public String getImageForUser( @QueryParam("userId") int userId ){
+//		
+//		byte[] imageBytes = jpa.getImageForUser(userId);
+//		Gson json = new Gson();
+//		return json.toJson(imageBytes);
+//	}
 }
