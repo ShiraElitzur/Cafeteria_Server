@@ -28,7 +28,7 @@ function initTable(data) {
         type: 'GET',
         dataType: 'json',
         url: theUrl,
-        timeout: 5000,
+        timeout: 20000,
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {
@@ -76,6 +76,7 @@ function addMain(title) {
     $.ajax({
         type: "POST",
         url: urlAddress,
+        timeout: 20000,
         data: JSON.stringify(drink),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -110,6 +111,7 @@ function deleteMain(main) {
     $.ajax({
         type: "POST",
         url: urlAddress,
+        timeout: 20000,
         data: JSON.stringify(main),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -154,6 +156,7 @@ function updateMain(id, title) {
     $.ajax({
         type: "POST",
         url: urlAddress,
+        timeout: 20000,
         data: JSON.stringify(main),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
