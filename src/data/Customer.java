@@ -29,13 +29,13 @@ public class Customer {
 	/**
 	 * The first name of the customer
 	 */
-	@Column( name = "First_Name", nullable=false, length=30)
+	@Column( name = "First_Name", nullable=false, length=40)
 	private String firstName;
 	
 	/**
 	 * The last name of the customer
 	 */
-	@Column( name = "Last_Name", nullable=false, length=30)
+	@Column( name = "Last_Name", nullable=false, length=40)
 	private String lastName;
 	
 	/**
@@ -48,7 +48,7 @@ public class Customer {
 	/**
 	 * The password of this customer
 	 */
-	@Column( name = "Password", nullable=false, length=20)
+	@Column( name = "Password", length=40)
 	private String password;
 	
 //	/**

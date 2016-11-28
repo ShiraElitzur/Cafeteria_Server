@@ -42,7 +42,7 @@ public class UsersService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/isUserExist")
 	public String isUserExist( @QueryParam("email") String email, @QueryParam("pass") String password ){
-		
+		System.out.println("in check user: " + email + " " + password);
 		Customer c = jpa.isUserExist(email,password);
 		//c.setImage(null);
 		Gson json = new Gson();

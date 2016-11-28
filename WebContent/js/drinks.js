@@ -32,7 +32,7 @@ function initTable(data) {
         type: 'GET',
         dataType: 'json',
         url: theUrl,
-        timeout: 20000,
+        timeout: 5000,
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {
