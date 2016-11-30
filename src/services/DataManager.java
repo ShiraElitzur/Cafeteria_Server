@@ -252,5 +252,65 @@ public class DataManager {
 		jpa.updateServingForm(servingForm);
 		return "OK";
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getOrders")
+	public String getOrders() {
+		Gson json = new Gson();
+		List<Order> orders = new ArrayList<>();
+		orders = jpa.getOrders();
+
+		
+		System.out.println("orders size:" + orders.size());
+		return json.toJson(orders.toArray());
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/updateOrderDelivered")
+	public String updateOrderDelivered( InputStream input ) {
+		// to get the json from the client i receive in this method the input stream and build the json string
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new GsonBuilder().setDateFormat("dd-MM-yyyy HH:mm:ss.SSSZ").create();
+		Order order = gson.fromJson(json.toString(), Order.class);
+		jpa.updateOrderDelivered(order);
+		return "OK";
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/updateOrderReady")
+	public String updateOrderReady( InputStream input ) {
+		// to get the json from the client i receive in this method the input stream and build the json string
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new GsonBuilder().setDateFormat("dd-MM-yyyy HH:mm:ss.SSSZ").create();
+		Order order = gson.fromJson(json.toString(), Order.class);
+		jpa.updateOrderReady(order);
+		return "OK";
+	}
+
 
 }
