@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,7 +54,7 @@ public class Order {
 	/**
 	 * The items that this order contains
 	 */
-	@OneToMany(cascade = CascadeType.ALL)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)// One Order can have many Items, Item can be connected to many Orders. Unidirectional
 	private List<OrderedItem> items;
 	
 	/**
@@ -249,3 +250,4 @@ public class Order {
 		this.comment = comment;
 	}
 }
+
