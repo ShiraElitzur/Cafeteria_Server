@@ -642,23 +642,46 @@ public class JpaManager {
 		return null;
 	}
 	
+		
+	/**
+	 * Returns list of the orders
+	 * @return list of the orders
+	 */
+	public List<Order> getOrders() {
+		Query query = em.createQuery("select o from Order o where o.isDelivered = false");
+		Vector<Order> orders = (Vector<Order>)query.getResultList();
+		return orders;
+	}
+	
+	/**
+	 * Update the given order is delivered property
+	 * @param order
+	 */
+	public void updateOrderDelivered(Order order) {
+		Order or = em.find(Order.class, order.getId());
+		 
+		  em.getTransaction().begin();
+		  or.setDelivered(order.isDelivered());
+		  em.getTransaction().commit();		
+	}
+	
+	/**
+	 * Update the given order is ready property
+	 * @param order
+	 */
+	public void updateOrderReady(Order order) {
+		Order or = em.find(Order.class, order.getId());
+		 
+		  em.getTransaction().begin();
+		  or.setReady(order.isReady());
+		  em.getTransaction().commit();		
+	}
+	
+
+	
 	public static void main ( String [] args ) {
 		JpaManager jpa = JpaManager.getInstance();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
