@@ -106,9 +106,9 @@ function initExtras(data) {
             $.each(data, function (index, element) {
                 if (index < 10) { //show only 10 but keep populate the extras array
                     nextIndex = index;
-                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn btn-primary" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
                 } else {
-                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn btn-primary" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
                     var last = $('#extrasTable tr').last();
                     last.addClass("hide");
@@ -167,7 +167,7 @@ function addExtra(title, price) {
                 price: data.price
             };
 
-            $('#extrasTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn btn-primary" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+            $('#extrasTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
             extras.push(extra);
 

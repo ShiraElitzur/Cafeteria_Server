@@ -114,8 +114,8 @@ iconAddress + "/icons/cookies_white.png"
                 $.each(items, function (index, element) {
                     $('#itemsTable').append($('<tr id="' + element.title + '"><td>' + element.title + '</td>' +
                         '<td>' + element.price + '</td>' +
-                        '<td> <button type="button" class="btn btn-primary" id="editItem"> <span id="editText">Edit </span> <span' +
-                        ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" id="deleteItem"' +
+                        '<td> <button type="button" class="btn my-button" id="editItem"> <span id="editText">Edit </span> <span' +
+                        ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteItem"' +
                         '>Delete    <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
                 })
                 if (firstItem === true) {
@@ -221,8 +221,8 @@ iconAddress + "/icons/cookies_white.png"
 
         $('#itemsTable').append($('<tr id="' + title + '"><td>' + title + '</td>' +
             '<td>' + price + '</td>' +
-            '<td> <button type="button" class="btn btn-primary" id="editItem"> <span id="editText">Edit </span> <span' +
-            ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" id="deleteItem"' +
+            '<td> <button type="button" class="btn my-button" id="editItem"> <span id="editText">Edit </span> <span' +
+            ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteItem"' +
             '>Delete    <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
         if (firstItem === true) {
@@ -279,8 +279,8 @@ iconAddress + "/icons/cookies_white.png"
 
         $.each(meals, function (index, element) {
             $('#mealsTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' +
-                '<td> <button type="button" class="btn btn-primary" id="editMeal">Edit <span' +
-                ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" ' +
+                '<td> <button type="button" class="btn my-button" id="editMeal">Edit <span' +
+                ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" ' +
                 'id="deleteMeal">Delete    <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
         })
 

@@ -23,8 +23,8 @@ td {
 
 th {
     float: left;
-    background-color: rgba(23, 20, 237, 0.27);
-    width: 50%;
+	background-color: rgba(197, 123, 117, 0.45);
+	width: 50%;
 }
 
 .results tr[visible='false'],

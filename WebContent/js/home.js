@@ -23,7 +23,7 @@ function initTable(data) {
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {
-                $('#categoriesTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn btn-primary"     id="editCategory">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" ' + 'id="deleteCategory">Delete    <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#categoriesTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button"     id="editCategory">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" ' + 'id="deleteCategory">Delete    <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
 
                 categories.push({

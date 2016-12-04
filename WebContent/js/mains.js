@@ -32,7 +32,7 @@ function initTable(data) {
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {
-                $('#mainsTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn btn-primary" id="editMain" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" id="deleteMain"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#mainsTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editMain" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteMain"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
 
                 mains.push({
@@ -86,7 +86,7 @@ function addMain(title) {
                 price: data.price
             };
 
-            $('#mainsTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn btn-primary" id="editDrink" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn btn-primary" id="deleteDrink"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+            $('#mainsTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editDrink" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteDrink"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
 
             mains.push(main);

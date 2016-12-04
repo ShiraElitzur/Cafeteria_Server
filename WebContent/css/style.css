@@ -6,9 +6,9 @@
 }
 
 .my-headline {
-    color: blueviolet;
+	color: rgba(233, 128, 0, 0.79); 
     font-family: "Great Vibes", cursive;
-    font-weight: normal;
+    font-weight: bold;
     margin-top: 25px;
     margin-bottom: 25px;
     text-shadow: 0 1px 1px #fff;
@@ -47,4 +47,28 @@ form .error {
 
 .space{
     margin:10px;
+}
+
+.my-button{
+	color: #fff;
+    background-color: #d02333;
+    border-color: #841822;
+}
+
+.my-button:hover {
+    color: #fff;
+    background-color: #961b26;
+    border-color: #ca2130;
+}
+
+.my-button:active {
+    color: #fff;
+    background-color: #961b26;
+    border-color: #ca2130;
+}
+
+.my-button:focus {
+    color: #fff;
+    background-color: #961b26;
+    border-color: #ca2130;
 }
