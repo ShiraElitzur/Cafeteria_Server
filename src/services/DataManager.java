@@ -311,6 +311,28 @@ public class DataManager {
 		jpa.updateOrderReady(order);
 		return "OK";
 	}
-
+	
+	/**
+	 * Returns list of favorites meals
+	 * @return list of favorites meals
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getFavorites")
+	public String getFavorites(/*@QueryParam("userId") String userId*/ ) {
+		System.out.println("inside getFavorites");
+		Gson json = new Gson();
+		List<OrderedMeal> meals;
+		meals = jpa.getFavorites(1);
+		System.out.println("meals size for user 1 : " + meals.size());
+		for( OrderedMeal meal : meals ) {
+			if(!(jpa.isMealExist(meal.getParentMeal()))) {
+				System.out.println("meal is not anymore in db : " + meal.getTitle());
+				meals.remove(meal);
+			}
+		}
+	
+		return json.toJson(meals.toArray());	
+	}
 
 }
