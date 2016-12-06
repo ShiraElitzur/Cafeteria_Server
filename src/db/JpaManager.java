@@ -685,6 +685,29 @@ public class JpaManager {
 		  em.getTransaction().commit();		
 	}
 	
+	/**
+	 * 
+	 */
+	public List<OrderedMeal> getFavorites( int userId ) {
+		Customer c = em.find(Customer.class, userId );
+		Query query = em.createQuery("select o.meals from Order o where o.customer = :customer");
+		query.setParameter("customer", c);
+//		SELECT * FROM ROOT.ORDERED_MEALS WHERE Id In 
+//		(SELECT Meals_Id FROM ROOT.ORDERS_ORDERED_MEALS WHERE Order_Id IN
+//				(SELECT Id FROM ROOT.ORDERS WHERE Customer_Id = 1));
+		Vector<OrderedMeal> meals = (Vector<OrderedMeal>)query.getResultList();
+		return meals;
+	}
+	
+	public boolean isMealExist( Meal meal ) {
+		if (em.contains(meal)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	
 
 	
 	public static void main ( String [] args ) {
