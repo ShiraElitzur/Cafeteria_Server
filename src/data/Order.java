@@ -48,7 +48,7 @@ public class Order {
 	/**
 	 * The meals that this order contains
 	 */
-	@OneToMany(cascade = CascadeType.ALL)// One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
+	@OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.ALL)// One Order can have many OrderedMeal(s), OrderedMeal can have only one Order. Bidirectional
 	private List<OrderedMeal> meals;
 	
 	/**

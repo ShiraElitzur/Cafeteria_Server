@@ -23,6 +23,7 @@ import data.Extra;
 import data.Item;
 import data.Main;
 import data.Order;
+import data.OrderedMeal;
 import data.ServingForm;
 import db.JpaManager;
 

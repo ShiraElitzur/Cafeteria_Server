@@ -39,7 +39,7 @@ public class OrderedMeal {
 	 * The meal in the menu that this ordered meal is an actual instance of
 	 */
 	@ManyToOne // OrderedMeal has only one Meal, Meal can have many OrderedMeal(s). Unidirectional ( No access from Meal to its OrderedMeal(s) )
-	@JoinColumn( name = "Meal_Id")
+	@JoinColumn( name = "Meal_Id", nullable=true)
 	private Meal parentMeal;
 	
 	/**
