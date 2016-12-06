@@ -455,9 +455,17 @@ public class JpaManager {
 		for (Meal m: meals){
 			Meal meal = em.find(Meal.class, m.getId());
 			
-			  em.getTransaction().begin();
-			  em.remove(meal);
-			  em.getTransaction().commit();
+			em.getTransaction().begin();
+
+			Query query = em.createQuery("select meal from OrderedMeal meal where meal.parentMeal = :parentMeal");
+			query.setParameter("parentMeal", m);
+			Vector<OrderedMeal> orderedMeals = (Vector<OrderedMeal>)query.getResultList();
+			for( OrderedMeal om : orderedMeals) {
+				om.setParentMeal(null);
+			}
+			
+		    em.remove(meal);
+		    em.getTransaction().commit();
 		}
 	}
 
