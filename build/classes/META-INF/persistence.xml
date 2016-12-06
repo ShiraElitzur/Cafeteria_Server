@@ -13,6 +13,7 @@
 		<class>data.OrderedItem</class>
 		<class>data.Extra</class>
 		<class>data.ServingForm</class>
+		<class>data.Server</class>
 		
 		<properties>
 			<property name="javax.persistence.schema-generation.create-database-schemas" value="true"/>

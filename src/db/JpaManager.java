@@ -28,6 +28,7 @@ import data.Main;
 import data.Meal;
 import data.Order;
 import data.OrderedMeal;
+import data.Server;
 import data.ServingForm;
 
 
@@ -708,12 +709,17 @@ public class JpaManager {
 		}
 	}
 
-	
+
+	public String getServerAddress() {
+		Server server = em.find(Server.class, 1);
+		return server.getAddress();
+	}
 
 	
 	public static void main ( String [] args ) {
 		JpaManager jpa = JpaManager.getInstance();
 	}
+
 
 
 
