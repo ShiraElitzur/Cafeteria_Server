@@ -710,9 +710,10 @@ public class JpaManager {
 	}
 
 
-	public String getServerAddress() {
-		Server server = em.find(Server.class, 1);
-		return server.getAddress();
+	public List<Server> getServers() {
+		Query query = em.createQuery("select s from Server s");
+		Vector<Server> servers = (Vector<Server>)query.getResultList();
+		return servers;
 	}
 
 	

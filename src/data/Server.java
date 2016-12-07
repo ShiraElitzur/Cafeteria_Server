@@ -18,6 +18,10 @@ public class Server {
 	@Column( name = "Id", nullable=false)
 	private int id;
 	
+	@Column( name = "Cafeteria_Name", nullable=false)
+	private String cafeteriaName;
+	
+	@Column( name = "Address", nullable=false)
 	private String address;
 
 	public int getId() {
@@ -36,5 +40,12 @@ public class Server {
 		this.address = address;
 	}
 
+	public String getCafeteriaName() {
+		return cafeteriaName;
+	}
+
+	public void setCafeteriaName(String cafeteriaName) {
+		this.cafeteriaName = cafeteriaName;
+	}
 	
 }

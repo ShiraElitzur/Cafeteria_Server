@@ -208,7 +208,7 @@ $(document).ready(function () {
         }
         
         if (newServing === true) {
-//            window.location.href = "./category-details.html";
+            window.location.href = "./category-details.html";
 
         } else {
             if ($("#saveMeal").text() == "Update") {
@@ -222,7 +222,7 @@ $(document).ready(function () {
             } else {
                 sessionStorage.setItem("meal", JSON.stringify(meal));
             }
-//            window.location.href = "./category-details.html";
+            window.location.href = "./category-details.html";
 
         }
 
