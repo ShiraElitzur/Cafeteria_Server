@@ -3,8 +3,12 @@ package services;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -262,8 +266,6 @@ public class DataManager {
 		List<Order> orders = new ArrayList<>();
 		orders = jpa.getOrders();
 
-		
-		System.out.println("orders size:" + orders.size());
 		return json.toJson(orders.toArray());
 	}
 	
@@ -310,7 +312,58 @@ public class DataManager {
 		Gson gson = new GsonBuilder().setDateFormat("dd-MM-yyyy HH:mm:ss.SSSZ").create();
 		Order order = gson.fromJson(json.toString(), Order.class);
 		jpa.updateOrderReady(order);
+		sendNotificationToUser(order);
 		return "OK";
+	}
+	
+	public void sendNotificationToUser( Order order ) {
+		System.out.println("send notification to user: "+order.getCustomer());
+		int userId = order.getCustomer().getId();
+		String token = jpa.getUserPushToken(userId);
+		try {
+		   String jsonResponse;
+		   URL url = new URL("https://onesignal.com/api/v1/notifications");
+		   HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		   con.setUseCaches(false);
+		   con.setDoOutput(true);
+		   con.setDoInput(true);
+		   con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		   con.setRequestProperty("Authorization", "Basic NGEwMGZmMjItY2NkNy0xMWUzLTk5ZDUtMDAwYzI5NDBlNjJj");
+		   con.setRequestMethod("POST");
+		   String msg = "הזמנה מס' " + order.getId() + "\nההזמנה המוכנה מחכה לך בקפיטריה :)";
+		   String strJsonBody = "{"
+		                      +   "\"app_id\": \"272de338-7ae2-498a-b1fc-a56f3f603dd2\","
+		                      +   "\"include_player_ids\": [\""+token+"\"],"
+		                      +   "\"data\": {\"order\": \""+order.getId()+"\"},"
+		                      +   "\"contents\": {\"en\": \""+msg+"\"}"
+		                      + "}";
+
+		   byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+		   con.setFixedLengthStreamingMode(sendBytes.length);
+
+		   OutputStream outputStream = con.getOutputStream();
+		   outputStream.write(sendBytes);
+
+		   int httpResponse = con.getResponseCode();
+		   System.out.println("httpResponse: " + httpResponse);
+
+		   if (  httpResponse >= HttpURLConnection.HTTP_OK
+		      && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+		      Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+		      jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+		      scanner.close();
+		   }
+		   else {
+		      Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+		      jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+		      scanner.close();
+		   }
+		   System.out.println("jsonResponse:\n" + jsonResponse);
+
+			
+		} catch(Throwable t) {
+		   t.printStackTrace();
+		}
 	}
 	
 	/**
