@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -379,12 +380,20 @@ public class DataManager {
 		List<OrderedMeal> meals;
 		meals = jpa.getFavorites(1);
 		System.out.println("meals size for user 1 : " + meals.size());
-		for( OrderedMeal meal : meals ) {
-			if(!(jpa.isMealExist(meal.getParentMeal()))) {
-				System.out.println("meal is not anymore in db : " + meal.getTitle());
-				meals.remove(meal);
+		
+		Iterator<OrderedMeal> iter = meals.iterator();
+
+		while (iter.hasNext()) {
+		    OrderedMeal meal = iter.next();
+
+		    if(meal.getParentMeal() == null) {
+		    	System.out.println("meal is not anymore in db : " + meal.getTitle());
+		        iter.remove();
+		    } else {
+				System.out.println(meal.getParentMeal().getTitle());
 			}
 		}
+		
 	
 		return json.toJson(meals.toArray());	
 	}
