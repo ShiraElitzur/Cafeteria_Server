@@ -108,7 +108,9 @@ public class OrderedMeal {
 	 */
 	public void setParentMeal(Meal parentMeal) {
 		this.parentMeal = parentMeal;
-        this.title = parentMeal.getTitle();
+		if( parentMeal != null) {
+			this.title = parentMeal.getTitle();
+		}
 	}
 	
 	/**
