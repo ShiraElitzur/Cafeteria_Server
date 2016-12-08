@@ -174,6 +174,18 @@ public class JpaManager {
 	}
 	
 	/**
+	 * This method returns the customer is inserted successfully, else returns null
+	 * @return customer if exist otherwise null
+	 */
+	public Customer ResigsterUser( Customer customer ) {
+		em.getTransaction().begin();		
+		em.persist(customer);
+		em.getTransaction().commit();
+		
+		return customer;
+	}
+	
+	/**
 	 * Returns a boolean that indicates if user inserted successfully
 	 * @param customer
 	 * @return a boolean that indicates if user inserted successfully

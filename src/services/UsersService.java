@@ -146,6 +146,38 @@ public class UsersService {
 		}
 	}
 	
+	/**
+	 * This service checks if the user with the given details exists in the db, if he isn't register
+	 * the user to the db.
+	 * @param email
+	 * @param password
+	 * @return json string that represents the customer or null if doesn't exist
+	 */
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Path("/validateOrSignUpUser")
+	public String validateOrSignUpUser( InputStream input ){
+		StringBuilder jsonUser = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				jsonUser.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		Gson gson = new Gson();
+		Customer c = gson.fromJson(jsonUser.toString(), Customer.class);
+		c.setId(0);
+		
+		Customer isExist = jpa.isUserExist(c.getEmail(),c.getPassword());
+		if (isExist == null){
+			isExist = jpa.ResigsterUser(c);
+		}
+		return new Gson().toJson(isExist);
+	}
 	
 //	/**
 //	 * This service returns the image of the user with the given id
