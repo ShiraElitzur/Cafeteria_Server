@@ -7,9 +7,18 @@
     width: 50px;
 }
 
+.thumbnail {
+    background: rgba(193, 102, 114, 0.67);
+}
+
+ul.thumbnails.image_picker_selector li .thumbnail.selected {
+    background: rgba(92, 184, 92, 0.67);
+}
+
 .selected-icon {
+    background: rgba(92, 184, 92, 0.67);
     width: 50px;
     overflow: auto;
-    padding: 0px;
+    padding: 3px;
     margin: 0 auto;
 }

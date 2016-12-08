@@ -300,9 +300,9 @@ INSERT INTO ROOT.CATEGORIES_MEALS (CATEGORY_ID, MEALS_ID)
 	VALUES (4, 7);
 	
 INSERT INTO ROOT.SERVERS (ADDRESS,CAFETERIA_NAME) 
-	VALUES ('192.168.43.231','Karnaf-Shira');
+	VALUES ('192.168.43.231','קרנף - שירה');
 INSERT INTO ROOT.SERVERS (ADDRESS,CAFETERIA_NAME) 
-	VALUES ('192.168.1.11','Karnaf-Anael');
+	VALUES ('192.168.1.11','קרנף - אנאל');
 INSERT INTO ROOT.SERVERS (ADDRESS,CAFETERIA_NAME) 
-	VALUES ('time2eat.eu-gb.mybluemix.net','Karnaf-Global');
+	VALUES ('time2eat.eu-gb.mybluemix.net','קרנף - גלובאלי');
 	
