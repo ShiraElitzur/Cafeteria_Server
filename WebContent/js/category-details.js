@@ -1,4 +1,5 @@
-var iconAddress = "http://time2eat.eu-gb.mybluemix.net";
+//var iconAddress = "http://time2eat.eu-gb.mybluemix.net";
+var iconAddress = "http://localhost:8080/CafeteriaServer"; 
 var icons = [];
     var items = [];
     var mealsToDel = [];
@@ -24,7 +25,34 @@ iconAddress + "/icons/pizza_black.png",
 iconAddress + "/icons/pizza_white.png",
 iconAddress + "/icons/snacks.png",
 iconAddress + "/icons/cookies_black.png",
-iconAddress + "/icons/cookies_white.png"
+iconAddress + "/icons/cookies_white.png",
+iconAddress + "/icons/candy1.png",
+iconAddress + "/icons/candy.png",
+iconAddress + "/icons/can.png",
+iconAddress + "/icons/fish.png",
+iconAddress + "/icons/cupcake.png",
+iconAddress + "/icons/croissant.png",
+iconAddress + "/icons/kebab.png",
+iconAddress + "/icons/ice-cream.png",
+iconAddress + "/icons/hamburger.png",
+iconAddress + "/icons/salad1.png",
+iconAddress + "/icons/pot.png",
+iconAddress + "/icons/pizza.png",
+iconAddress + "/icons/water.png",
+iconAddress + "/icons/turkey.png",
+iconAddress + "/icons/tea.png",
+iconAddress + "/icons/gingerbread.png",
+iconAddress + "/icons/ice-cream1.png",
+iconAddress + "/icons/chef.png",
+iconAddress + "/icons/pie.png",
+iconAddress + "/icons/risotto.png",
+iconAddress + "/icons/fries.png",
+iconAddress + "/icons/mixer1.png",
+iconAddress + "/icons/pan.png",
+iconAddress + "/icons/pasta.png",
+iconAddress + "/icons/spaguetti.png",
+iconAddress + "/icons/sandwich.png",
+iconAddress + "/icons/wrap.png"
 
 ];
     $(document).ready(function () {
