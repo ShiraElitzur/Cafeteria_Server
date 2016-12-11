@@ -156,6 +156,26 @@ public class JpaManager {
 	}
 	
 	/**
+	 * This method checks if the customer exist according to the email.
+	 * if so, returns the customer, else returns null
+	 * @param email
+	 * @param password
+	 * @return customer if exist otherwise null
+	 */
+	public Customer findUserByEmail( String email ) {	
+		Query query = em.createQuery("select c from Customer c where c.email = :email");
+		query.setParameter("email", email);
+		
+		Customer c = null;
+		try{
+		c = (Customer)query.getSingleResult();
+		} catch ( NoResultException e ) {
+			return null;
+		}
+		return c;
+	}
+	
+	/**
 	 * Returns the password of the customer according to the given email
 	 * @param email
 	 * @return the customer if exist, otherwise null
