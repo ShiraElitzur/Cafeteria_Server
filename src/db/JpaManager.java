@@ -722,8 +722,9 @@ public class JpaManager {
 	/**
 	 * 
 	 */
-	public List<Meal> getFavorites( int userId ) {
+	public List<Meal> getFavoriteMeals( int userId ) {
 		Customer c = em.find(Customer.class, userId );
+		System.out.println("get f meals for user " + userId);
 //		Query query = em.createQuery("select o.meals from Order o where o.customer = :customer");
 //		query.setParameter("customer", c);
 //		SELECT * FROM ROOT.ORDERED_MEALS WHERE Id In 
@@ -736,8 +737,8 @@ public class JpaManager {
 		List<Meal> favoritesMeals = new ArrayList<>();
 		String sqlScript = "select meal_id from ordered_meals where id in "
 				+ "( select meals_id from orders_ordered_meals where order_id in "
-				+"( select id from orders where customer_id = 1) ) group by meal_id order by count(meal_id)" 
-				+"desc FETCH FIRST 3 ROWS ONLY";
+				+"( select id from orders where customer_id = "+userId+") ) group by meal_id order by count(meal_id)" 
+				+"desc FETCH FIRST 5 ROWS ONLY";
 		
 		Query q = em.createNativeQuery(sqlScript);
 		List<Integer> meals = q.getResultList();
@@ -762,6 +763,29 @@ public class JpaManager {
 		} else {
 			return false;
 		}
+	}
+	
+	
+	public List<Item> getFavoriteItems( int userId ) {
+		Customer c = em.find(Customer.class, userId );
+
+		System.out.println("get f items for user " + userId);
+		List<Item> favoriteItems = new ArrayList<>();
+		String sqlScript = "select item_id from ordered_items where id in "
+				+ "( select items_id from orders_ordered_items where order_id in "
+				+"( select id from orders where customer_id = "+userId+") ) group by item_id order by count(item_id)" 
+				+"desc FETCH FIRST 10 ROWS ONLY";
+		
+		Query q = em.createNativeQuery(sqlScript);
+		List<Integer> items = q.getResultList();
+
+		for (Integer i : items) {
+			Item item = em.find(Item.class, i );
+			favoriteItems.add(item);
+		}
+		
+		return favoriteItems;
+		//Vector<OrderedMeal> meals = (Vector<OrderedMeal>)query.getResultList();
 	}
 
 
