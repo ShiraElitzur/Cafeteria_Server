@@ -374,27 +374,29 @@ public class DataManager {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getFavorites")
-	public String getFavorites(/*@QueryParam("userId") String userId*/ ) {
+	public String getFavorites(@QueryParam("userId") int userId ) {
 		System.out.println("inside getFavorites");
 		Gson json = new Gson();
-		List<OrderedMeal> meals;
-		meals = jpa.getFavorites(1);
-		System.out.println("meals size for user 1 : " + meals.size());
+		List<Meal> meals;
 		
-		Iterator<OrderedMeal> iter = meals.iterator();
+		// get the top 3 meals that the user ordered 
+		meals = jpa.getFavorites(userId);
 
-		while (iter.hasNext()) {
-		    OrderedMeal meal = iter.next();
-
-		    if(meal.getParentMeal() == null) {
-		    	System.out.println("meal is not anymore in db : " + meal.getTitle());
-		        iter.remove();
-		    } else {
-				System.out.println(meal.getParentMeal().getTitle());
-			}
+		// add to the meals our favorites - should be replaced with some query
+		// but before we must add it to the table and to the website, do we really want to do so?
+		if( !meals.contains(jpa.getMeal(4))) {
+			meals.add(jpa.getMeal(4));
+		}
+		if( !meals.contains(jpa.getMeal(5))) {
+			meals.add(jpa.getMeal(5));
+		}
+		if( !meals.contains(jpa.getMeal(6))) {
+			meals.add(jpa.getMeal(6));
+		}
+		if( !meals.contains(jpa.getMeal(7))) {
+			meals.add(jpa.getMeal(7));
 		}
 		
-	
 		return json.toJson(meals.toArray());	
 	}
 
