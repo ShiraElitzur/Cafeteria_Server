@@ -702,15 +702,38 @@ public class JpaManager {
 	/**
 	 * 
 	 */
-	public List<OrderedMeal> getFavorites( int userId ) {
+	public List<Meal> getFavorites( int userId ) {
 		Customer c = em.find(Customer.class, userId );
-		Query query = em.createQuery("select o.meals from Order o where o.customer = :customer");
-		query.setParameter("customer", c);
+//		Query query = em.createQuery("select o.meals from Order o where o.customer = :customer");
+//		query.setParameter("customer", c);
 //		SELECT * FROM ROOT.ORDERED_MEALS WHERE Id In 
 //		(SELECT Meals_Id FROM ROOT.ORDERS_ORDERED_MEALS WHERE Order_Id IN
 //				(SELECT Id FROM ROOT.ORDERS WHERE Customer_Id = 1));
-		Vector<OrderedMeal> meals = (Vector<OrderedMeal>)query.getResultList();
-		return meals;
+
+//		Query query = em.createQuery("select om.parentMeal from OrderedMeal om where om in ("
+//				+ "select o.meals from Order o where o.customer = :customer)");
+		
+		List<Meal> favoritesMeals = new ArrayList<>();
+		String sqlScript = "select meal_id from ordered_meals where id in "
+				+ "( select meals_id from orders_ordered_meals where order_id in "
+				+"( select id from orders where customer_id = 1) ) group by meal_id order by count(meal_id)" 
+				+"desc FETCH FIRST 3 ROWS ONLY";
+		
+		Query q = em.createNativeQuery(sqlScript);
+		List<Integer> meals = q.getResultList();
+
+		for (Integer m : meals) {
+			Meal meal = em.find(Meal.class, m );
+			favoritesMeals.add(meal);
+		}
+		
+		return favoritesMeals;
+		//Vector<OrderedMeal> meals = (Vector<OrderedMeal>)query.getResultList();
+	}
+	
+	public Meal getMeal( int mealId ) {
+		Meal meal = em.find(Meal.class, mealId );
+		return meal;
 	}
 	
 	public boolean isMealExist( Meal meal ) {
