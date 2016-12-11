@@ -375,31 +375,49 @@ public class DataManager {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/getFavorites")
-	public String getFavorites(@QueryParam("userId") int userId ) {
+	@Path("/getFavoriteMeals")
+	public String getFavoriteMeals(@QueryParam("userId") int userId ) {
 		System.out.println("inside getFavorites");
 		Gson json = new Gson();
 		List<Meal> meals;
 		
 		// get the top 3 meals that the user ordered 
-		meals = jpa.getFavorites(userId);
+		meals = jpa.getFavoriteMeals(userId);
 
 		// add to the meals our favorites - should be replaced with some query
 		// but before we must add it to the table and to the website, do we really want to do so?
-		if( !meals.contains(jpa.getMeal(4))) {
-			meals.add(jpa.getMeal(4));
-		}
-		if( !meals.contains(jpa.getMeal(5))) {
-			meals.add(jpa.getMeal(5));
-		}
-		if( !meals.contains(jpa.getMeal(6))) {
-			meals.add(jpa.getMeal(6));
-		}
-		if( !meals.contains(jpa.getMeal(7))) {
-			meals.add(jpa.getMeal(7));
-		}
-		
+//		if( !meals.contains(jpa.getMeal(4))) {
+//			meals.add(jpa.getMeal(4));
+//		}
+//		if( !meals.contains(jpa.getMeal(5))) {
+//			meals.add(jpa.getMeal(5));
+//		}
+//		if( !meals.contains(jpa.getMeal(6))) {
+//			meals.add(jpa.getMeal(6));
+//		}
+//		if( !meals.contains(jpa.getMeal(7))) {
+//			meals.add(jpa.getMeal(7));
+//		}
+//		
 		return json.toJson(meals.toArray());	
+	}
+	
+	/**
+	 * Returns list of favorites items
+	 * @return list of favorites items
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getFavoriteItems")
+	public String getFavoriteItems(@QueryParam("userId") int userId ) {
+		System.out.println("inside getFavoriteItems");
+		Gson json = new Gson();
+		List<Item> items;
+		
+		// get the top 3 meals that the user ordered 
+		items = jpa.getFavoriteItems(userId);
+		System.out.println("favorites items size - "+items.size());
+		return json.toJson(items.toArray());	
 	}
 
 }
