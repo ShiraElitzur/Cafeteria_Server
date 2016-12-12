@@ -133,7 +133,9 @@ h1 {
     font-size: 300%;
 }
 
-.my-img{
-	margin: 0 auto;
+.my-img {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
     display: inline;
 }
