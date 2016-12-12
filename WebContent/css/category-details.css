@@ -22,3 +22,8 @@ ul.thumbnails.image_picker_selector li .thumbnail.selected {
     padding: 3px;
     margin: 0 auto;
 }
+
+.thumbnail>img {
+    height: 50px;
+    width: 50px;
+}
