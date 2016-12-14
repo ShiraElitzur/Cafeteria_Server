@@ -9,7 +9,7 @@
 	color: rgba(233, 128, 0, 0.79); 
     font-family: "Great Vibes", cursive;
     font-weight: bold;
-    margin-top: 25px;
+    padding-top: 25px;
     margin-bottom: 25px;
     text-shadow: 0 1px 1px #fff;
 }
@@ -46,7 +46,7 @@ form .error {
 }
 
 .space{
-    margin:10px;
+    margin:10px auto;
 }
 
 .my-button{
@@ -71,4 +71,22 @@ form .error {
     color: #fff;
     background-color: #961b26;
     border-color: #ca2130;
+}
+
+.shadow{   
+-webkit-box-shadow: 0px 2px 4px 4px rgba(0,0,0,0.2);
+-moz-box-shadow: 0px 2px 4px 4px rgba(0,0,0,0.2);
+box-shadow: 0px 2px 4px 4px rgba(0,0,0,0.2);
+height: 100%;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.box{
+    margin: auto;
+    width: 100%;
+    background: #fffcfc;
+    position: absolute;
+    bottom: 0;
+    top: 60px;
 }

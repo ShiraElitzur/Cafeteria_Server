@@ -1,8 +1,10 @@
 
 .navbar-custom {
+    height: 60px;
    background-color: #c54439;
    border-color: #a2382f;
    border-radius: 0;
+    margin-bottom: 0;
 }
 
 .navbar-custom .navbar-brand,

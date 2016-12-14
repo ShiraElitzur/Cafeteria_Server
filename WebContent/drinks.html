@@ -26,50 +26,55 @@
 
     <div id="navbar"> </div>
 
-    <h1 class="text-center my-headline">Drinks Table</h1>
+    <div class="box">
+        <div class="shadow container-fluid">
 
-    <div id="addDrinkDiv" class="custom-div">
-        <div class="row">
-            <div class="col-md-5 col-sm-5 col-xs-12 singleInput">
-                <input id="title" type="text" class="form-control" placeholder="Title" aria-describedby="basic-addon1">
-            </div>
-            <div class="col-md-5 col-sm-5 col-xs-12 singleInput">
-                <input id="price" type="number" min="0" class="form-control" placeholder="Price" aria-describedby="basic-addon1">
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-12 singleInput">
-                <button id="addDrink" type="button" class="btn btn-success">Add
-      <span class="glyphicon glyphicon-ok"></span>
-    </button>
-                <button id="updateDrink" type="button" class="btn btn-success">Update
-      <span class="glyphicon glyphicon-ok"></span>
-    </button>
-            </div>
-        </div>
-    </div>
+            <h1 class="text-center my-headline">Drinks Table</h1>
 
-    <div class="container">
-        <div class="table-center">
-            <table class="table table-hover table-fixed results" id="drinksTable">
-                <div class="form-group half-cetnered">
-                    <input type="text" class="search form-control" placeholder="Search">
-                    <span class="counter"></span>
+            <div id="addDrinkDiv" class="custom-div">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-12 singleInput">
+                        <input id="title" type="text" class="form-control" placeholder="Title" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="col-md-5 col-sm-5 col-xs-12 singleInput">
+                        <input id="price" type="number" min="0" class="form-control" placeholder="Price" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12 singleInput">
+                        <button id="addDrink" type="button" class="btn btn-success">Add
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                        <button id="updateDrink" type="button" class="btn btn-success">Update
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </div>
                 </div>
-                <thead>
-                    <tr>
-                        <th>Drink</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr class="warning no-result">
-                        <td colspan="4"><i class="fa fa-warning"></i> No result</td>
-                    </tr>
-                </thead>
-                <tbody>
+            </div>
 
-                </tbody>
-            </table>
+            <div class="form-group half-cetnered">
+                <input type="text" class="search form-control" placeholder="Search">
+                <span class="counter"></span>
+            </div>
+
+            <div class="container">
+                <div class="table-center">
+                    <table class="table table-hover table-fixed results" id="drinksTable">
+                        <thead>
+                            <tr>
+                                <th>Drink</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr class="warning no-result">
+                                <td colspan="4"><i class="fa fa-warning"></i> No result</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
