@@ -215,18 +215,25 @@ public class JpaManager {
 	
 	/**
 	 * Returns a boolean that indicates if user inserted successfully
+	 * 
 	 * @param customer
 	 * @return a boolean that indicates if user inserted successfully
 	 */
-	public boolean insertUser( Customer customer ) {
-		em.getTransaction().begin();		
-		em.persist(customer);
-		em.getTransaction().commit();
-		
-		if(em.contains(customer)) {
-			return true;
-		} else {
-			return false;
+	public int insertUser(Customer customer) {
+		em.getTransaction().begin();
+
+		try {
+			em.persist(customer);
+			em.getTransaction().commit();
+
+			if (em.contains(customer)) {
+				return 0;
+			} else {
+				return 1;
+			}
+
+		} catch (PersistenceException e) {
+			return -1;
 		}
 	}
 	

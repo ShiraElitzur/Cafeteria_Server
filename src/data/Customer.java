@@ -41,7 +41,7 @@ public class Customer {
 	/**
 	 * The email address of the customer
 	 */
-	@Column( name = "Email", nullable=false, length=40)
+	@Column( name = "Email", nullable=false, length=40, unique=true)
 	private String email;
 	
 	

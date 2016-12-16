@@ -74,16 +74,9 @@ public class UsersService {
 		Gson gson = new Gson();
 		Customer c = gson.fromJson(jsonUser.toString(), Customer.class);
 		System.out.println(c.getFirstName());
-		boolean result = jpa.insertUser(c);
-		if(result) {
-			return "OK";
-		} else {
-			return "notOk";
-		}
-		// **** Fix the return value to boolean or json !!
-//		JsonObject jsonObject = new JsonObject();
-//		jsonObject.addProperty("result", );
-//		return jsonObject;
+		int result = jpa.insertUser(c);
+		return String.valueOf(result);
+
 	}
 	
 	/**
