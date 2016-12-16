@@ -6,17 +6,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.sql.Blob;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.validation.ConstraintViolationException;
+
+import org.eclipse.persistence.exceptions.DatabaseException;
+
+import com.google.gson.Gson;
 
 import sun.swing.PrintingStatus;
 import data.Category;
@@ -335,15 +343,20 @@ public class JpaManager {
 	
 	/**
 	 * This method inserts the given drink
+	 * 
 	 * @param drink
 	 * @return the inserted drink
 	 */
-	public Drink insertDrink( Drink drink ) {
+	public String insertDrink(Drink drink) {
 		em.getTransaction().begin();
-				
-		em.persist(drink);
-		em.getTransaction().commit();
-		return drink;
+
+		try {
+			em.persist(drink);
+			em.getTransaction().commit();
+		} catch (PersistenceException e) {
+			return "-1";
+		}
+		return new Gson().toJson(drink);
 	}
 	
 	/**
@@ -351,12 +364,17 @@ public class JpaManager {
 	 * @param main
 	 * @return the inserted main
 	 */
-	public Main insertMain( Main main ) {
+	public String insertMain( Main main ) {
 		em.getTransaction().begin();
-				
-		em.persist(main);
-		em.getTransaction().commit();
-		return main;
+			
+		try {
+			em.persist(main);
+			em.getTransaction().commit();
+		} catch (PersistenceException e) {
+			return "-1";
+		}
+		
+		return new Gson().toJson(main);
 	}
 	
 	/**
@@ -377,12 +395,16 @@ public class JpaManager {
 	 * @param extra
 	 * @return the inserted extra
 	 */
-	public Extra insertExtra(Extra extra) {
+	public String insertExtra(Extra extra) {
 		em.getTransaction().begin();
 		
-		em.persist(extra);
-		em.getTransaction().commit();	
-		return extra;
+		try{
+			em.persist(extra);
+			em.getTransaction().commit();
+			} catch(PersistenceException ex){
+				return "-1";
+			}
+		return new Gson().toJson(extra);
 	}
 	
 	/**
@@ -401,13 +423,17 @@ public class JpaManager {
 	 * Edit the given drink
 	 * @param drink
 	 */
-	public void editDrink(Drink drink) {
+	public String editDrink(Drink drink) {
 		Drink update = em.find(Drink.class, drink.getId());
-		 
-		  em.getTransaction().begin();
-		  update.setPrice(drink.getPrice());
-		  update.setTitle(drink.getTitle());
-		  em.getTransaction().commit();
+			try {
+				  em.getTransaction().begin();
+				  update.setPrice(drink.getPrice());
+				  update.setTitle(drink.getTitle());
+				  em.getTransaction().commit();
+			} catch (PersistenceException e) {
+				return "-1";
+			}
+		return "0";
 		
 	}
 
@@ -507,25 +533,37 @@ public class JpaManager {
 	 * Edits the given extra 
 	 * @param extra
 	 */
-	public void editExtra(Extra extra) {
+	public String editExtra(Extra extra) {
 		Extra update = em.find(Extra.class, extra.getId());
 		 
+		try{
 		  em.getTransaction().begin();
 		  update.setPrice(extra.getPrice());
 		  update.setTitle(extra.getTitle());
-		  em.getTransaction().commit();		
+		  em.getTransaction().commit();	
+		} catch(PersistenceException ex){
+			return "-1";
+		}
+		return "0";
+		  
 	}
 	
 	/**
 	 * Edits the given main
+	 * 
 	 * @param main
 	 */
-	public void editMain(Main main) {
+	public String editMain(Main main) {
 		Main update = em.find(Main.class, main.getId());
-		 
-		  em.getTransaction().begin();
-		  update.setTitle(main.getTitle());
-		  em.getTransaction().commit();		
+		try {
+			em.getTransaction().begin();
+			update.setTitle(main.getTitle());
+			em.getTransaction().commit();
+			em.getTransaction().commit();
+		} catch (PersistenceException ex) {
+			return "-1";
+		}
+		return "0";
 	}
 	
 	/**

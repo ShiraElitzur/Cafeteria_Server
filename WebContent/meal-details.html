@@ -2,175 +2,155 @@
 <html>
 
 <head>
-<meta charset="utf-8">
-<title>Time2eaT</title>
+    <meta charset="utf-8">
+    <title>Time2eaT</title>
 
-<!-- for FF, Chrome, Opera -->
-<link rel="icon" type="image/png" href="time2eat.ico">
+    <!-- for FF, Chrome, Opera -->
+    <link rel="icon" type="image/png" href="time2eat.ico">
 
-<!-- for IE -->
-<link rel="icon" type="image/x-icon" href="time2eat.ico">
-<link rel="shortcut icon" type="image/x-icon" href="time2eat.ico" />
+    <!-- for IE -->
+    <link rel="icon" type="image/x-icon" href="time2eat.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="time2eat.ico" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
-<link rel="stylesheet" type="text/css"
-	href="css/bootstrap-duallistbox.css">
-<link href="css/style.css" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-duallistbox.css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/mealDetails.css" rel="stylesheet">
 </head>
 
 <body onload="initExtras()">
 
-	<div class="space">
-		<button type="button" id="back" class="btn my-button">Go
-			Back</button>
-	</div>
-	<div class="container">
-		<h1 id="pageTitle" class="my-headline text-center">Add Meal</h1>
-		<form id="mealDetailsForm" class="my-form">
-			<div class="form-group">
-				<label for="mealTitle">Title</label> <input type="text"
-					class="form-control" id="mealTitle" required>
-			</div>
-			<div class="form-group">
-				<label for="mealPrice">Price</label> <input type="number" min="0"
-					class="form-control" id="mealPrice" required>
-			</div>
+    <div class="space">
+        <button type="button" id="back" class="btn my-button">חזור</button>
+    </div>
+    <div class="container">
+        <h1 id="pageTitle" class="my-headline text-center">הוסף ארוחה</h1>
+        <form id="mealDetailsForm" class="my-form">
+            <div class="form-group">
+                <label for="mealTitle">שם הארוחה</label>
+                <input type="text" class="form-control" id="mealTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="mealPrice">מחיר</label>
+                <input type="number" min="0" class="form-control" id="mealPrice" required>
+            </div>
 
 
-			<div class="form-group text-center">
-				<h4 class="text-center">Choose Main:</h4>
-				<div class="row">
-					<div class="col-md-6 col-sm-6 col-xs-6 singleInput">
-						<button id="addExistingMain" type="button" class="btn my-button">Existing
-							Main</button>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-6 singleInput">
-						<button id="addNewMain" type="button" class="btn my-button">Create
-							New Main</button>
-					</div>
-				</div>
-			</div>
+            <div class="form-group text-center">
+                <h4 class="text-center">בחר עיקרית</h4>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6 singleInput">
+                        <button id="addExistingMain" type="button" class="btn my-button">עיקרית קיימת</button>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 singleInput">
+                        <button id="addNewMain" type="button" class="btn my-button">צור עיקרית</button>
+                    </div>
+                </div>
+            </div>
 
-			<div id="existing-main" class="form-group">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12 singleInput">
-						<select id="selectpickerMains" data-width="100%"
-							data-live-search="true" class="selectpicker"
-							title="Choose one of the following">
+            <div id="existing-main" class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 singleInput">
+                        <select id="selectpickerMains" data-width="100%" data-live-search="true" class="selectpicker" title="בחר אחת מהאפשרויות הבאות">
 
-						</select>
-					</div>
-				</div>
-			</div>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-			<div id="new-main" class="form-group">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12 singleInput">
-						<label for="mainTitle">Main title: </label> <input id="mainTitle"
-							type="text" class="form-control" placeholder="Title"
-							aria-describedby="basic-addon1">
-					</div>
-				</div>
-			</div>
+            <div id="new-main" class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 singleInput">
+                        <label for="mainTitle">שם העיקרית:</label>
+                        <input id="mainTitle" type="text" class="form-control" placeholder="שם" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
 
-			<div class="form-group text-center">
-				<h4 class="text-center">Choose Serving Form:</h4>
-				<div class="row">
-					<div class="col-md-6 col-sm-6 col-xs-6 singleInput">
-						<button id="addExistingServing" type="button"
-							class="btn my-button">Existing Serving Form</button>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-6 singleInput">
-						<button id="addNewserving" type="button" class="btn my-button">Create
-							New Serving Form</button>
-					</div>
-				</div>
-			</div>
+            <div class="form-group text-center">
+                <h4 class="text-center">בחר צורת הגשה</h4>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6 singleInput">
+                        <button id="addExistingServing" type="button" class="btn my-button">צורת הגשה קיימת</button>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 singleInput">
+                        <button id="addNewserving" type="button" class="btn my-button">צור צורת הגשה</button>
+                    </div>
+                </div>
+            </div>
 
-			<div id="existing-serving" class="form-group">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12 singleInput">
-						<select id="selectpickerServings" data-width="100%"
-							data-live-search="true" class="selectpicker"
-							title="Choose one of the following">
+            <div id="existing-serving" class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 singleInput">
+                        <select id="selectpickerServings" data-width="100%" data-live-search="true" class="selectpicker" title="בחר אחת מהאפשרויות הבאות">
 
-						</select>
-					</div>
-				</div>
-			</div>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-			<div id="new-serving" class="form-group">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-xs-12 singleInput">
-						<label for="servingTitle">Serving Form title: </label> <input
-							id="servingTitle" type="text" class="form-control"
-							placeholder="Title" aria-describedby="basic-addon1">
-					</div>
-				</div>
-			</div>
-			
-			<h4 class="text-center">This meal includes a drink?</h4>
-			<div class="checkbox">
-				<label> <input id="includesDrink" type="checkbox"> Includes Drink </label>
-			</div>
+            <div id="new-serving" class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 singleInput">
+                        <label for="servingTitle">שם צורת הגשה:</label>
+                        <input id="servingTitle" type="text" class="form-control" placeholder="Title" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
 
-			<div class="form-group row">
-				<label for="extraAmount" class="col-xs-12 col-form-label">Extra
-					Amount </label>
-				<div class="col-xs-12">
-					<input class="form-control" value="0" type="number"
-						id="extraAmount" min="0">
-				</div>
-			</div>
+            <h4 class="text-center">האם ארוחה זו כוללת שתייה?</h4>
+            <div class="checkbox">
+                <label>
+                    <input id="includesDrink" type="checkbox"> כולל שתייה</label>
+            </div>
 
-			<div class="form-group">
-				<label>Extras</label>
-				<div id="addExtrasDiv">
-					<div class="row">
-						<div class="col-md-6 col-sm-6 col-xs-12 singleInput">
-							<input id="extraTitle" type="text" class="form-control"
-								placeholder="Title" aria-describedby="basic-addon1">
-						</div>
-						<div class="col-md-6 col-sm-6 col-xs-12 singleInput">
-							<input id="extraPrice" type="number" min="0" class="form-control"
-								placeholder="Price" aria-describedby="basic-addon1">
-						</div>
-						<div class="col-md-12 col-sm-12 col-xs-12 singleInput text-center">
-							<button id="addExtra" type="button" class="btn btn-success">
-								Add Extra <span class="glyphicon glyphicon-ok"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<select multiple="multiple" size="8" name="duallistbox">
+            <div class="form-group row">
+                <label for="extraAmount" class="col-xs-12 col-form-label">כמות תוספות</label>
+                <div class="col-xs-12">
+                    <input class="form-control" value="0" type="number" id="extraAmount" min="0">
+                </div>
+            </div>
 
-				</select>
-			</div>
+            <div class="form-group">
+                <label>Extras</label>
+                <div id="addExtrasDiv">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12 singleInput">
+                            <input id="extraTitle" type="text" class="form-control" placeholder="שם" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 singleInput">
+                            <input id="extraPrice" type="number" min="0" class="form-control" placeholder="מחיר" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 singleInput text-center">
+                            <button id="addExtra" type="button" class="btn btn-success">
+                                הוסף תוספת <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <select multiple="multiple" size="8" name="duallistbox">
 
-			<div class="form-group text-center">
-				<button id="saveMeal" type="submit" class="btn btn-primary my-button">Submit</button>
-			</div>
-		</form>
-	</div>
+                </select>
+            </div>
+
+            <div class="form-group text-center">
+                <button id="saveMeal" type="submit" class="btn btn-primary my-button">שלח</button>
+            </div>
+        </form>
+    </div>
 
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="js/jquery.bootstrap-duallistbox.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="js/image-picker.min.js"></script>
-	<script type="text/javascript" src="js/js.js"></script>
-	<script type="text/javascript" src="js/meal-details.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/jquery.bootstrap-duallistbox.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="js/image-picker.min.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script type="text/javascript" src="js/meal-details.js"></script>
 
 
 </body>

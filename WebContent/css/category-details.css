@@ -1,20 +1,170 @@
-#addItemDiv {
+* {
+    /* So 100% means 100% */
+    box-sizing: border-box;
+}
+html,
+body {
+    /* Make the body to be as tall as browser window */
+    height: 100%;
+}
+.my-form {
+    width: 70%;
+    margin: 0 auto;
+    padding: 16px;
+    padding-bottom: 30px;
+}
+.my-headline {
+    color: rgba(233, 128, 0, 0.79);
+    font-family: "Great Vibes", cursive;
+    font-weight: bold;
+    text-shadow: 0 1px 0px #754607;
+    font-size: 3em;
+}
+.singleInput {
+    padding: 6px 12px;
+}
+.custom-div {
+    width: 50%;
     padding: 10px;
+    margin: 0 auto;
+}
+table {
+    border-spacing: 0;
 }
 
+.table{
+    width:0;
+    margin: 0 auto;
+}
+
+tbody, thead tr { display: block; }
+
+tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media only screen and (max-device-width: 480px) {
+    tbody {
+    height: 35%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    }
+}
+
+tbody td, thead th {
+    width: 140px;
+}
+
+thead th:last-child {
+    width: 156px; /* 140px + 16px scrollbar width */
+}
+
+th {
+	background-color: rgba(197, 123, 117, 0.45);
+    text-align: right;
+}
+form .error {
+    color: #ff0000;
+}
+.space {
+    margin: 10px auto;
+}
+.my-button {
+    margin: 2px;
+    color: #fff;
+    background-color: #d02333;
+    border-color: #841822;
+}
+.my-button:hover {
+    color: #fff;
+    background-color: #961b26;
+    border-color: #ca2130;
+}
+.my-button:active {
+    color: #fff;
+    background-color: #961b26;
+    border-color: #ca2130;
+}
+.my-button:focus {
+    color: #fff;
+    background-color: #961b26;
+    border-color: #ca2130;
+}
+.shadow {
+    -webkit-box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 80%;
+    margin: 0 auto;
+    background-color: rgba(49, 112, 143, 0.04);
+}
+.box {
+    margin: auto;
+    width: 100%;
+    background: #fffcfc;
+    bottom: 0;
+    top: 60px;
+    height: 100%;
+    /** Minus the nav bar size */
+    height: calc(100% - 60px);
+    overflow: hidden;
+}
+.rtl {
+    direction: rtl;
+}
+.ltr {
+    direction: ltr;
+}
+label.rtl {
+    float: right;
+    clear: both;
+}
+input {
+    direction: rtl;
+}
+div.checkbox {
+    float: right;
+    clear: both;
+}
+html {
+    direction: rtl;
+}
+.space-top {
+    margin-top: 10px;
+}
+
+.glyphicon{
+    padding-right: 5px;
+}
+
+.results tr[visible='false'],
+.no-result {
+    display: none;
+}
+
+.counter {
+    color: #ccc;
+}
+
+.half-centered {
+    margin: 0 auto;
+}
+
+
+#addItemDiv {}
 .thumbnail a>img,
 .thumbnail>img {
     width: 50px;
 }
-
 .thumbnail {
     background: rgba(193, 102, 114, 0.67);
+    margin-bottom: 5px;
 }
-
 ul.thumbnails.image_picker_selector li .thumbnail.selected {
     background: rgba(92, 184, 92, 0.67);
 }
-
 .selected-icon {
     background: rgba(92, 184, 92, 0.67);
     width: 50px;
@@ -22,8 +172,46 @@ ul.thumbnails.image_picker_selector li .thumbnail.selected {
     padding: 3px;
     margin: 0 auto;
 }
-
 .thumbnail>img {
     height: 50px;
     width: 50px;
+}
+@media (max-width: 768px) {
+    #addItem {
+        margin-top: 5px;
+    }
+}
+
+tbody {
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media only screen and (max-device-width: 480px) {
+    tbody {
+    height: 60%;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    }
+}
+
+.table{
+    margin: 0;
+}
+
+.margin-bottom{
+    margin-bottom: 5px;
+}
+
+ul.thumbnails.image_picker_selector li {
+    margin: 0px 3px 3px 0px;
+    cursor: pointer;
+    float: right;
+}
+
+.gray-background{
+    box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.2);
+    background-color: rgba(103, 93, 93, 0.11);
 }

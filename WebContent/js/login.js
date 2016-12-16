@@ -19,7 +19,7 @@ $(document).ready(function () {
         }, function (data, status) {
             //            alert("Data: " + data + "\nStatus: " + status);
             if (data === null || data == undefined) {
-                alert("Wrong details!");
+                alert("פרטים שגויים!");
             } else {
 
                 var d = new Date();
@@ -48,7 +48,7 @@ $(document).ready(function () {
             if (data === null || data == undefined) {
                 alert("Wrong email!");
             } else {
-                $('#passwordResult').append("Your password is: " + data.password)
+                $('#passwordResult').append("הסיסמה שלך היא: " + data.password)
                 $('#passwordResult').show();
 
 //                alert("Your password is: " + data.password);

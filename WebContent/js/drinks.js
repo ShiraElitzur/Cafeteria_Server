@@ -36,7 +36,7 @@ function initTable(data) {
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {
-                $('#drinksTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editDrink" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteDrink"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#drinksTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editDrink" >ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteDrink"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
 
                 drinks.push({
@@ -87,17 +87,20 @@ function addDrink(title, price) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            var drink = {
-                id: data.id,
-                title: data.title,
-                price: data.price
-            };
+            if (data === -1) {
+                alert("משקה זה קיים כבר!")
+            } else {
+                var drink = {
+                    id: data.id,
+                    title: data.title,
+                    price: data.price
+                };
 
-            $('#drinksTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editDrink" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteDrink"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#drinksTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editDrink" >ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteDrink"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
 
-            drinks.push(drink);
-
+                drinks.push(drink);
+            }
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -135,13 +138,13 @@ function deleteDrink(drink) {
 
 function confirmDelete(drink) {
     BootstrapDialog.confirm({
-        title: 'Pay Attention!',
-        message: 'Are you sure you want to delete this item ?',
+        title: ' שים לב !',
+        message: 'האם אתה בטוח שברצונך למחוק פריט זה ?',
         type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
         closable: true, // <-- Default value is false
         draggable: true, // <-- Default value is false
-        btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-        btnOKLabel: 'Yes', // <-- Default value is 'OK',
+        btnCancelLabel: 'לא', // <-- Default value is 'Cancel',
+        btnOKLabel: 'כן', // <-- Default value is 'OK',
         btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
         callback: function (result) {
             // result will be true if button was click, while it will be false if users close the dialog directly.
@@ -161,18 +164,22 @@ function updateDrink(id, title, price) {
     var urlAddress = server + "/rest/web/editDrink";
 
     $.ajax({
-        type: "POST",
-        url: urlAddress,
-        data: JSON.stringify(drink),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            row.find('td:eq(0)').html(title);
-            drinks[index] = drink;
-            $("#addDrink").show();
-            $('#title').val("");
-            $('#price').val("");
-        },
+            type: "POST",
+            url: urlAddress,
+            data: JSON.stringify(drink),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data === -1) {
+                    alert("משקה זה קיים כבר !")
+                } else {
+                    row.find('td:eq(0)').html(title);
+                    drinks[index] = drink;
+                }
+                $("#addDrink").show();
+                $('#title').val("");
+                $('#price').val("");
+            },
         failure: function (errMsg) {
             alert(errMsg);
         }

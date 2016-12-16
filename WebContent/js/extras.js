@@ -7,6 +7,39 @@ var prevIndex = 0;
 var nextIndex;
 $(document).ready(function () {
 
+    $("#previous").attr("disabled", true);
+
+    $(".search").keyup(function () {
+        var searchTerm = $(".search").val();
+        var listItem = $('.results tbody').children('tr');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+        $.extend($.expr[':'], {
+            'containsi': function (elem, i, match, array) {
+                return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+            }
+        });
+
+        $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
+            $(this).attr('visible', 'false');
+            $(this).addClass("hide");
+        });
+
+        $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
+            $(this).attr('visible', 'true');
+            $(this).removeClass("hide");
+        });
+
+        var count = $('.results tbody tr[visible="true"]').length;
+        $('.counter').text(count + ' item');
+
+        if (count == '0') {
+            $('.no-result').show();
+        } else {
+            $('.no-result').hide();
+        }
+    });
+
     $("#updateExtra").click(function () {
         var title = $('#title').val();
         var price = $('#price').val();
@@ -26,7 +59,7 @@ $(document).ready(function () {
     $("#updateExtra").hide();
 
     $("#next").click(function () {
-        alert("start: prev " + prevIndex + " next " + nextIndex);
+        //                alert("start: prev " + prevIndex + " next " + nextIndex);
 
         if ((prevIndex + 1) === extras.length) {
             $("#previous").attr("disabled", false);
@@ -48,14 +81,17 @@ $(document).ready(function () {
             }
         });
 
-        alert("finish: prev " + prevIndex + " next " + nextIndex);
+        //                alert("finish: prev " + prevIndex + " next " + nextIndex);
         if ((prevIndex + 1) === extras.length) {
             $("#next").attr("disabled", true);
+        }
+        if ((prevIndex + 1) === extras.length) {
+            $("#previous").attr("disabled", false);
         }
     });
 
     $("#previous").click(function () {
-        alert("start: prev " + prevIndex + " next " + nextIndex);
+        //        alert("start: prev " + prevIndex + " next " + nextIndex);
 
         var rowCount = $('#extrasTable tr.hide').length;
         if (rowCount < extras.length) {
@@ -82,7 +118,7 @@ $(document).ready(function () {
                 }
             });
         }
-        alert("prev " + prevIndex + " next " + nextIndex);
+        //        alert("prev " + prevIndex + " next " + nextIndex);
 
         if ((prevIndex + 1) === extras.length) {
             $("#previous").attr("disabled", true);
@@ -106,9 +142,9 @@ function initExtras(data) {
             $.each(data, function (index, element) {
                 if (index < 10) { //show only 10 but keep populate the extras array
                     nextIndex = index;
-                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td> <button type="button" class="btn my-button" id="deleteExtra"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
                 } else {
-                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                    $('#extrasTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td><td> <button type="button" class="btn my-button" id="deleteExtra"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
                     var last = $('#extrasTable tr').last();
                     last.addClass("hide");
@@ -161,16 +197,19 @@ function addExtra(title, price) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            var extra = {
-                id: data.id,
-                title: data.title,
-                price: data.price
-            };
+            if (data === -1) {
+                alert("תוספת זו קיימת כבר !")
+            } else {
+                var extra = {
+                    id: data.id,
+                    title: data.title,
+                    price: data.price
+                };
 
-            $('#extrasTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editExtra">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteExtra"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#extrasTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td> <td> <button type="button" class="btn my-button" id="editExtra">ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button><td> <button type="button" class="btn my-button" id="deleteExtra"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
-            extras.push(extra);
-
+                extras.push(extra);
+            }
         },
         failure: function (errMsg) {
             alert(errMsg);
@@ -181,13 +220,13 @@ function addExtra(title, price) {
 
 function confirmDelete(extra) {
     BootstrapDialog.confirm({
-        title: 'Pay Attention!',
-        message: 'Are you sure you want to delete this item ?',
+        title: ' שים לב !',
+        message: 'האם אתה בטוח שברצונך למחוק פריט זה ?',
         type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
         closable: true, // <-- Default value is false
         draggable: true, // <-- Default value is false
-        btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-        btnOKLabel: 'Yes', // <-- Default value is 'OK',
+        btnCancelLabel: 'לא', // <-- Default value is 'Cancel',
+        btnOKLabel: 'כן', // <-- Default value is 'OK',
         btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
         callback: function (result) {
             // result will be true if button was click, while it will be false if users close the dialog directly.
@@ -240,8 +279,12 @@ function updateExtra(id, title, price) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            row.find('td:eq(0)').html(title);
-            extras[index] = extra;
+            if (data === -1) {
+                alert("תוספת זו קיימת כבר!");
+            } else {
+                row.find('td:eq(0)').html(title);
+                extras[index] = extra;
+            }
             $("#addExtra").show();
             $('#title').val("");
             $('#price').val("");

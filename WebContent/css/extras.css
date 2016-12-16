@@ -1,43 +1,22 @@
-.table-fixed {
-    width: 100%;
+#previous{
+    float:right;
 }
 
-tbody {
-    height: 350px;
-    overflow-y: auto;
-    width: 100%;
+#next{
+    float:left;
 }
 
-thead,
-tbody,
-tr,
-td,
-th {
-    display: block;
-}
-
-td {
-    float: left;
-    width: 50%;
-}
-
-th {
-    float: left;
-    background-color: rgba(197, 123, 117, 0.45);
-    width: 50%;
-}
-
-.results tr[visible='false'],
-.no-result {
-    display: none;
-}
-
-.counter {
-    padding: 8px;
-    color: #ccc;
-}
-
-.half-cetnered {
-    width: 50%;
+#tableButtons{
+    width: 40%;
     margin: 0 auto;
+}
+
+.marginButton{
+    margin-bottom:10px;
+}
+
+@media only screen and (max-device-width: 480px) {
+    #tableButtons{
+        width:100%;
+    }
 }

@@ -32,7 +32,7 @@ function initTable(data) {
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {
-                $('#mainsTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editMain" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteMain"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#mainsTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editMain" >ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteMain"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
 
                 mains.push({
@@ -76,20 +76,23 @@ function addMain(title) {
     $.ajax({
         type: "POST",
         url: urlAddress,
-        data: JSON.stringify(drink),
+        data: JSON.stringify(main),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            var drink = {
-                id: data.id,
-                title: data.title,
-                price: data.price
-            };
+            if (data === -1) {
+                alert("עיקרית זו קיימת כבר !")
+            } else {
+                main = {
+                    id: data.id,
+                    title: data.title
+                };
 
-            $('#mainsTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editDrink" >Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" id="deleteDrink"' + '>Delete <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#mainsTable').append($('<tr id="' + data.id + '"><td>' + data.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editDrink" >ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteDrink"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
 
+                mains.push(main);
+            }
 
-            mains.push(main);
 
         },
         failure: function (errMsg) {
@@ -127,13 +130,13 @@ function deleteMain(main) {
 
 function confirmDelete(main) {
     BootstrapDialog.confirm({
-        title: 'Pay Attention!',
-        message: 'Are you sure you want to delete this item ?\nAll meals with this main will be deleted',
+        title: ' שים לב !',
+        message: ' האם אתה בטוח שברצונך למחוק פריט זה? \n כל הארוחות עם העיקרית הזו ימחקו',
         type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
         closable: true, // <-- Default value is false
         draggable: true, // <-- Default value is false
-        btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-        btnOKLabel: 'Yes', // <-- Default value is 'OK',
+        btnCancelLabel: 'לא', // <-- Default value is 'Cancel',
+        btnOKLabel: 'כן', // <-- Default value is 'OK',
         btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
         callback: function (result) {
             // result will be true if button was click, while it will be false if users close the dialog directly.
@@ -158,8 +161,12 @@ function updateMain(id, title) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            row.find('td:eq(0)').html(title);
-            mains[index] = main;
+            if (data === -1) {
+                alert("עיקרית זו קיימת כבר !")
+            } else {
+                row.find('td:eq(0)').html(title);
+                mains[index] = main;
+            }
             $("#addMain").show();
             $('#title').val("");
         },

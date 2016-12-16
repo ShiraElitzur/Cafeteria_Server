@@ -28,9 +28,10 @@ $(document).ready(function () {
     initServings();
 
     dualllistbox = $('select[name="duallistbox"]').bootstrapDualListbox({
-        nonSelectedListLabel: 'Non-selected',
-        selectedListLabel: 'Selected',
+        nonSelectedListLabel: 'לא נבחרו',
+        selectedListLabel: 'נבחרו',
         preserveSelectionOnMove: 'moved',
+        infoTextEmpty: 'הרשימה ריקה',
 
     });
 
@@ -250,8 +251,8 @@ $(document).ready(function () {
         $("#existing-serving").show();
 
         $('#extraAmount').val(editMeal.extraAmount);
-        $('#saveMeal').text("Update");
-        $('#pageTitle').text("Edit Meal");
+        $('#saveMeal').text("עדכן");
+        $('#pageTitle').text("עריכת ארוחה");
         if (editMeal.includesDrink === true){
         $('#includesDrink').prop('checked', true);
         } else{

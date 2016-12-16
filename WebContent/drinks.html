@@ -29,50 +29,50 @@
     <div class="box">
         <div class="shadow container-fluid">
 
-            <h1 class="text-center my-headline">Drinks Table</h1>
+            <h1 class="text-center my-headline">שתייה בארוחה</h1>
 
-            <div id="addDrinkDiv" class="custom-div">
-                <div class="row">
-                    <div class="col-md-5 col-sm-5 col-xs-12 singleInput">
-                        <input id="title" type="text" class="form-control" placeholder="Title" aria-describedby="basic-addon1">
+            <div id="addDrinkDiv" class="custom-div text-center">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <input id="title" type="text" class="form-control" placeholder="שם" aria-describedby="basic-addon1">
                     </div>
-                    <div class="col-md-5 col-sm-5 col-xs-12 singleInput">
-                        <input id="price" type="number" min="0" class="form-control" placeholder="Price" aria-describedby="basic-addon1">
+                    <div class="form-group">
+                        <input id="price" type="number" min="0" class="form-control" placeholder="מחיר" aria-describedby="basic-addon1">
                     </div>
-                    <div class="col-md-2 col-sm-2 col-xs-12 singleInput">
-                        <button id="addDrink" type="button" class="btn btn-success">Add
-                            <span class="glyphicon glyphicon-ok"></span>
-                        </button>
-                        <button id="updateDrink" type="button" class="btn btn-success">Update
-                            <span class="glyphicon glyphicon-ok"></span>
-                        </button>
+                    <div class="form-group">
+                        <div class="singleInput">
+                            <button id="addDrink" type="button" class="btn btn-success">הוסף
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <button id="updateDrink" type="button" class="btn btn-success">עדכן
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row form-group half-centered">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <input type="text" class="search form-control space-top" placeholder="חפש..">
+                        <span class="counter"></span>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group half-cetnered">
-                <input type="text" class="search form-control" placeholder="Search">
-                <span class="counter"></span>
-            </div>
+            <table class="table table-hover header-fixed results" id="drinksTable">
+                <thead>
+                    <tr>
+                        <th>משקה</th>
+                        <th>עריכה</th>
+                        <th>הסרה</th>
+                    </tr>
+                    <tr class="warning no-result">
+                        <td colspan="4"><i class="fa fa-warning"></i> No result</td>
+                    </tr>
+                </thead>
+                <tbody>
 
-            <div class="container">
-                <div class="table-center">
-                    <table class="table table-hover table-fixed results" id="drinksTable">
-                        <thead>
-                            <tr>
-                                <th>Drink</th>
-                                <th>Action</th>
-                            </tr>
-                            <tr class="warning no-result">
-                                <td colspan="4"><i class="fa fa-warning"></i> No result</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
 

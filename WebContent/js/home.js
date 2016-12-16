@@ -23,7 +23,8 @@ function initTable(data) {
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {
-                $('#categoriesTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button"     id="editCategory">Edit <span' + ' class="glyphicon glyphicon-pencil"></span></button> <button type="button" class="btn my-button" ' + 'id="deleteCategory">Delete    <span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                $('#categoriesTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editCategory">ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" ' + 'id="deleteCategory">הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+
 
 
                 categories.push({
@@ -47,13 +48,13 @@ function initTable(data) {
 
 function confirmDelete(category, index) {
     BootstrapDialog.confirm({
-        title: 'Pay Attention!',
-        message: 'Are you sure you want to delete this item ?',
+        title: ' שים לב !',
+        message: 'האם אתה בטוח שברצונך למחוק קטגוריה זו?',
         type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
         closable: true, // <-- Default value is false
         draggable: true, // <-- Default value is false
-        btnCancelLabel: 'No', // <-- Default value is 'Cancel',
-        btnOKLabel: 'Yes', // <-- Default value is 'OK',
+        btnCancelLabel: 'לא', // <-- Default value is 'Cancel',
+        btnOKLabel: 'כן', // <-- Default value is 'OK',
         btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
         callback: function (result) {
             // result will be true if button was click, while it will be false if users close the dialog directly.
@@ -65,7 +66,7 @@ function confirmDelete(category, index) {
 }
 
 function deleteCategory(category, index) {
-    var urlAddress = server+ "/rest/web/deleteCategory";
+    var urlAddress = server + "/rest/web/deleteCategory";
 
     var decoded = arrayBufferToBase64(category.icon);
     category.icon = decoded;

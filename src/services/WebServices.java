@@ -152,11 +152,8 @@ public class WebServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String addDrink(Drink drink) {
 		System.out.println("in adddrink method " + drink.getTitle() + " " + drink.getPrice());
-		Drink insertedDrink = jpa.insertDrink(drink);
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(insertedDrink);
-		System.out.println(jsonString);
-		return jsonString;
+		String result = jpa.insertDrink(drink);
+		return result;
 
 	}
 
@@ -188,8 +185,7 @@ public class WebServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String editDrink(Drink drink) {
 		System.out.println("in edit drink method id is " + drink.toString());
-		jpa.editDrink(drink);
-		return "{\"result\": \"Good\"}";
+		return jpa.editDrink(drink);
 	}
 
 	@POST
@@ -231,8 +227,7 @@ public class WebServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String editMain(Main main) {
 		System.out.println("in edit main method id is " + main.toString());
-		jpa.editMain(main);
-		return "{\"result\": \"Good\"}";
+		return jpa.editMain(main);
 	}
 
 	@POST
@@ -241,8 +236,7 @@ public class WebServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String editExtra(Extra extra) {
 		System.out.println("in edit drink method id is " + extra.toString());
-		jpa.editExtra(extra);
-		return "{\"result\": \"Good\"}";
+		return jpa.editExtra(extra);
 	}
 
 	@POST
@@ -251,11 +245,7 @@ public class WebServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String addExtra(Extra extra) {
 		System.out.println("in add extra method " + extra.getTitle() + " " + extra.getPrice());
-		Extra insertedExtra = jpa.insertExtra(extra);
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(insertedExtra);
-		System.out.println(jsonString);
-		return jsonString;
+		return jpa.insertExtra(extra);
 
 	}
 
@@ -265,11 +255,7 @@ public class WebServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String addMain(Main main) {
 		System.out.println("in add main method " + main.getTitle());
-		Main insertedMain = jpa.insertMain(main);
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(insertedMain);
-		System.out.println(jsonString);
-		return jsonString;
+		return jpa.insertMain(main);
 
 	}
 	

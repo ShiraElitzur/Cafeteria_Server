@@ -1,54 +1,51 @@
-
 .navbar-custom {
     height: 60px;
-   background-color: #c54439;
-   border-color: #a2382f;
-   border-radius: 0;
+    background-color: #c54439;
+    border-color: #a2382f;
+    border-radius: 0;
     margin-bottom: 0;
+    z-index: 1;
 }
-
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-brand:hover,
 .navbar-custom .navbar-brand:focus {
-  color: #FFF;
+    color: #FFF;
 }
-
 .navbar-custom .navbar-nav > li > a {
-  color: #FFF;
+    color: #FFF;
 }
-
 .navbar-custom .navbar-nav > li > a:hover,
 .navbar-custom .navbar-nav > li > a:focus {
-	background-color: #E98000;
+    background-color: #E98000;
 }
-
 .navbar-custom .navbar-nav > .active > a,
 .navbar-custom .navbar-nav > .active > a:hover,
 .navbar-custom .navbar-nav > .active > a:focus {
-  color: #FFF;
-  background-color: #FFF;
+    color: #FFF;
+    background-color: #FFF;
 }
-
 .navbar-custom .navbar-text {
-  margin-left: 5em;
-  margin-right: 5em;
-  color: #FFF;
+    margin-left: 5em;
+    margin-right: 5em;
+    color: #FFF;
 }
-
-.navbar-brand{
-  margin-left: 1em;
+.navbar-brand {
+    margin-left: 1em;
 }
-
 .navbar-custom .navbar-toggle {
-  border-color: #FFF;
+    border-color: #FFF;
 }
-
 .navbar-custom .navbar-toggle:hover,
 .navbar-custom .navbar-toggle:focus {
-	background-color: #ed9b37
+    background-color: #ed9b37
 }
-
 .navbar-custom .navbar-toggle .icon-bar {
-  background-color: #FFF;
+    background-color: #FFF;
 }
-
+.navbar-nav {
+    background-color: rgba(197, 68, 57, 0.82);
+}
+#signOut {
+    margin-top: 10px;
+    float: left;
+}

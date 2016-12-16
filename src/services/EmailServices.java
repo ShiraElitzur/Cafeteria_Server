@@ -51,6 +51,73 @@ public class EmailServices {
 		}
 	}
 	
+	/**
+	 * This service send email given from web
+	 * @param input an input stream between the server and the client
+	 * @return return 0 if email sent successfully, otherwise -1
+	 */
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/sendMessage")
+	public String sendMessage( InputStream input ) {
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new Gson();
+		WebMessage message = gson.fromJson(json.toString(), WebMessage.class);
+		return String.valueOf(sendEmailFromWeb(message));
+	}
+	
+	
+	private int sendEmailFromWeb(WebMessage webMessage) {
+		System.out.println("inside send email");
+
+		final String username = "time2eat2016@gmail.com";
+		final String password = "time2eat2016";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
+
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(webMessage.getEmail()));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse("time2eat2016@gmail.com"));
+			message.setSubject("Time2eaT - Web Message");
+			message.setText("New Web Message from : " + webMessage.getEmail() + "\n" + "Message: " + webMessage.getMessage());
+
+			Transport.send(message);
+
+
+		} catch (MessagingException e) {
+			System.out.println("Something wen wrong while sending email");
+			return -1;
+		}
+		
+		System.out.println("Email Sent");	
+		return 0;
+	}
+
 	public void sendEmail(Customer customer) {
 		System.out.println("inside send email");
 
@@ -125,4 +192,29 @@ public class EmailServices {
 //			throw new RuntimeException(e);
 //		}
 //	}
+	
+	private class WebMessage{
+		private String email;
+		private String message;
+		public String getEmail() {
+			return email;
+		}
+		public void setEmail(String email) {
+			this.email = email;
+		}
+		public String getMessage() {
+			return message;
+		}
+		public void setMessage(String message) {
+			this.message = message;
+		}
+		
+		@Override
+		public String toString() {
+			return "Message [email=" + email + ", message=" + message + "]";
+		}
+		
+		
+		
+	}
 }
