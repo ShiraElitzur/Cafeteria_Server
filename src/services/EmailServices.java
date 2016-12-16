@@ -21,10 +21,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import data.Customer;
-import data.Order;
 import db.JpaManager;
 
 @Path("email")
@@ -110,7 +108,10 @@ public class EmailServices {
 
 
 		} catch (MessagingException e) {
-			System.out.println("Something wen wrong while sending email");
+			System.out.println("Something went wrong while sending email");
+			System.out.println(e.getMessage().toString());
+			System.out.println(e.getCause().toString());
+			System.out.println(e.getStackTrace());
 			return -1;
 		}
 		
@@ -140,7 +141,7 @@ public class EmailServices {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("time2eat@gmail.com"));
+			message.setFrom(new InternetAddress("time2eat2016@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(customer.getEmail()));
 			message.setSubject("Time2eaT - Password Recovery");
@@ -149,9 +150,8 @@ public class EmailServices {
 
 			Transport.send(message);
 
-
 		} catch (MessagingException e) {
-			System.out.println("Something wen wrong while sending email");
+			System.out.println("Something went wrong while sending email");
 			throw new RuntimeException(e);
 		}
 		

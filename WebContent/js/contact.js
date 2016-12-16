@@ -14,8 +14,7 @@ function updateDrink() {
 	};
 	var urlAddress = server + "/rest/email/sendMessage";
 
-	$
-			.ajax({
+	$.ajax({
 				type : "POST",
 				url : urlAddress,
 				data : JSON.stringify(webMessage),
@@ -29,7 +28,8 @@ function updateDrink() {
 						.append("</button>");
 						$('#response > .alert-success').append("<strong>ההודעה נשלחה בהצלחה </strong>");
 						$('#response > .alert-success').append('</div>');
-						
+						$("#contactForm")[0].reset();
+
 					} else { // email wasnt sent
 						$('#response').html("<div class='alert alert-danger'>");
 						$('#response > .alert-danger')
@@ -38,7 +38,7 @@ function updateDrink() {
 						$('#response > .alert-danger').append("<strong>מצטערים לא הצלחנו לשלוח את ההודעה כרגע");
 						$('#response > .alert-danger').append('</div>');
 						//clear all fields
-						$('#contactForm').trigger("reset");
+						$("#contactForm")[0].reset();
 					}
 				},
 				failure : function(errMsg) {
