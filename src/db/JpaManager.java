@@ -735,7 +735,28 @@ public class JpaManager {
 	 * @return list of the orders
 	 */
 	public List<Order> getOrders() {
-		Query query = em.createQuery("select o from Order o where o.isDelivered = false");
+		Query query = em.createQuery("select o from Order o where o.isDelivered = false AND o.isReady = false");
+		Vector<Order> orders = (Vector<Order>)query.getResultList();
+		return orders;
+	}
+	
+	
+	/**
+	 * Returns list of the orders
+	 * @return list of the orders
+	 */
+	public List<Order> getOrdersReady() {
+		Query query = em.createQuery("select o from Order o where o.isReady = true AND o.isDelivered = false");
+		Vector<Order> orders = (Vector<Order>)query.getResultList();
+		return orders;
+	}
+	
+	/**
+	 * Returns list of the orders
+	 * @return list of the orders
+	 */
+	public List<Order> getDeliveredOrders() {
+		Query query = em.createQuery("select o from Order o where o.isReady = true AND o.isDelivered = true");
 		Vector<Order> orders = (Vector<Order>)query.getResultList();
 		return orders;
 	}
@@ -833,7 +854,6 @@ public class JpaManager {
 		//Vector<OrderedMeal> meals = (Vector<OrderedMeal>)query.getResultList();
 	}
 
-
 	public List<Server> getServers() {
 		Query query = em.createQuery("select s from Server s");
 		Vector<Server> servers = (Vector<Server>)query.getResultList();
@@ -844,8 +864,5 @@ public class JpaManager {
 	public static void main ( String [] args ) {
 		JpaManager jpa = JpaManager.getInstance();
 	}
-
-
-
 
 }

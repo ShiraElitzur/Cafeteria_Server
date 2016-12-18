@@ -263,6 +263,17 @@ public class DataManager {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getOrdersReady")
+	public String getOrdersReady() {
+		Gson json = new Gson();
+		List<Order> orders = new ArrayList<>();
+		orders = jpa.getOrdersReady();
+
+		return json.toJson(orders.toArray());
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getOrders")
 	public String getOrders() {
 		Gson json = new Gson();

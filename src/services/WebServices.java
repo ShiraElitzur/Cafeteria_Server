@@ -41,6 +41,7 @@ import data.Extra;
 import data.Item;
 import data.Main;
 import data.Meal;
+import data.Order;
 import data.ServingForm;
 import db.JpaManager;
 
@@ -112,6 +113,17 @@ public class WebServices {
 		return json.toJson(mains.toArray());
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getOrders")
+	public String getOrders() {
+		System.out.println("In get orders");
+		Gson json = new Gson();
+		List<Order> orders = new ArrayList<>();
+		orders = jpa.getDeliveredOrders();
+		return json.toJson(orders.toArray());
+	}
+	
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)

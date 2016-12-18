@@ -1,0 +1,29 @@
+#chartContainer{
+    direction: ltr;
+}
+.shadow {
+/*
+    -webkit-box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 4px 4px rgba(0, 0, 0, 0.2);
+ 
+   */    height: 100%;
+
+    width: 95%;
+/*
+    margin: 0 auto;
+    background-color: rgba(103, 93, 93, 0.11);
+*/
+}
+.box {
+        height: 100%;
+/*
+    margin: auto;
+    width: 100%;
+    background: #fffcfc;
+    bottom: 0;
+    top: 60px;
+    height: calc(100% - 60px);
+    overflow: hidden;
+*/
+}
