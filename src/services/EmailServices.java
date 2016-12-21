@@ -22,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import data.Cafeteria;
 import data.Customer;
 import db.JpaManager;
 
@@ -73,6 +74,32 @@ public class EmailServices {
 		Gson gson = new Gson();
 		WebMessage message = gson.fromJson(json.toString(), WebMessage.class);
 		return String.valueOf(sendEmailFromWeb(message));
+	}
+	
+	/**
+	 * This service send email given from web
+	 * @param input an input stream between the server and the client
+	 * @return return 0 if email sent successfully, otherwise -1
+	 */
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/adminForgotPassword")
+	public String adminForgotPassword( InputStream input ) {
+		StringBuilder json = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(input));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				json.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		// with Gson i convert the json to Customer object
+		Gson gson = new Gson();
+		Cafeteria c = gson.fromJson(json.toString(), Cafeteria.class);
+		return String.valueOf(sendEmail(c));
 	}
 	
 	
@@ -156,6 +183,48 @@ public class EmailServices {
 		}
 		
 		System.out.println("Email Sent");
+	}
+	
+	public int sendEmail(Cafeteria cafeteria) {
+		System.out.println("inside send email");
+
+		final String username = "time2eat2016@gmail.com";
+		final String password = "time2eat2016";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
+
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("time2eat2016@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(cafeteria.getAdminEmail()));
+			message.setSubject("Time2eaT - Password Recovery");
+			message.setText("Dear Manager of " + cafeteria.getCafeteriaName() + ", "
+				+ "\n Your password is: " + cafeteria.getAdminPassword());
+
+			Transport.send(message);
+
+		} catch (MessagingException e) {
+			System.out.println("Something went wrong while sending email");
+			return -1;
+		}
+		
+		
+		System.out.println("Email Sent");
+		return 0;
+
 	}
 	
 //	public static void main(String[] args) {

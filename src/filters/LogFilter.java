@@ -28,8 +28,11 @@ public class LogFilter implements Filter {
 		
         String emailName = "cafeteria-admin-email";
         String passwordName = "cafeteria-admin-password";
+        String serverIp = "cafeteria-server-ip";
+
 		boolean emailCookie = false;
 		boolean passwordCookie = false;
+		boolean serverCookie = false;
 
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
@@ -41,7 +44,9 @@ public class LogFilter implements Filter {
 					emailCookie = true;
 				} else if (cookies[i].getName().equals(passwordName)){
 					passwordCookie = true;
-				}
+				}  else if (cookies[i].getName().equals(serverIp)){
+					serverCookie = true;
+				} 
 				
 				System.out.println("cookie[" + i + "] : " + cookies[i].getName() + " " + cookies[i].getValue());
 			}  
@@ -59,7 +64,7 @@ public class LogFilter implements Filter {
 
 		}else{
 		
-			if (emailCookie == false || passwordCookie == false){
+			if (emailCookie == false || passwordCookie == false || serverCookie == false){
 			System.out.println("user is not logged");
 			response.sendRedirect(baseURL+"index.html");
 		}else{

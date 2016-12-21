@@ -1,13 +1,4 @@
-//var server="http://time2eat.eu-gb.mybluemix.net";
-
-//when working locally:
-var server = "http://localhost:8080/CafeteriaServer"; 
-//var server = "http://localhost:9080/CafeteriaServer"; 
-//when working on the remote server:
-//var server ="";
-
-$(document).ready(function () {
-
+$(document).ready(function () {	
     $("#navbar").load("navbar.html");
 
     $(".search").keyup(function () {
@@ -73,9 +64,11 @@ function logout() {
     //        localStorage.removeItem('customer');
     var emailCookieName = 'cafeteria-admin-email';
     var passwordCookieName = 'cafeteria-admin-password';
+    var serverCookieName = 'cafeteria-server-ip';
 
     document.cookie = emailCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
     document.cookie = passwordCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    document.cookie = serverCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
 
 
     window.location = "./index.html";

@@ -29,10 +29,10 @@
 <!-- 	</init-param> -->
 	</filter>
 
-<!-- <filter-mapping> -->
-<!-- 	<filter-name>LogFilter</filter-name> -->
-<!-- 	<url-pattern>*.html</url-pattern>	 -->
-<!-- </filter-mapping> -->
+<filter-mapping>
+	<filter-name>LogFilter</filter-name>
+	<url-pattern>*.html</url-pattern>	
+</filter-mapping>
 	
 <!-- 		<filter> -->
 <!--   <filter-name>CorsFilter</filter-name> -->

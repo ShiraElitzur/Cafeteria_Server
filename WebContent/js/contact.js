@@ -1,11 +1,11 @@
 $(document).ready(function() {
 	$("#sendemail").click(function() {
-		updateDrink();
+		sendEmail();
 	});
 
 });
 
-function updateDrink() {
+function sendEmail() {
 	var email = $('#email').val();
 	var message = $('#message').val();
 	var webMessage = {

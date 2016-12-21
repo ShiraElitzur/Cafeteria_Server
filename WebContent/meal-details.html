@@ -18,6 +18,9 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap-duallistbox.css">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/mealDetails.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="js/constants.js"></script>
+    
 </head>
 
 <body onload="initExtras()">
@@ -114,21 +117,23 @@
             </div>
 
             <div class="form-group">
-                <label>Extras</label>
-                <div id="addExtrasDiv">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12 singleInput">
+                <label>תוספות</label>
+                <div id="addExtrasDiv" class="custom-div text-center">
+                <form class="form-inline">
+                    <div class="form-group">
                             <input id="extraTitle" type="text" class="form-control" placeholder="שם" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12 singleInput">
+                    </div>
+                    <div class="form-group">
                             <input id="extraPrice" type="number" min="0" class="form-control" placeholder="מחיר" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-xs-12 singleInput text-center">
+                    </div>
+                    <div class="form-group">
+                        <div class="singleInput">
                             <button id="addExtra" type="button" class="btn btn-success">
                                 הוסף תוספת <span class="glyphicon glyphicon-ok"></span>
                             </button>
                         </div>
                     </div>
+                </form>
                 </div>
             </div>
             <div class="form-group">
@@ -138,7 +143,7 @@
             </div>
 
             <div class="form-group text-center">
-                <button id="saveMeal" type="submit" class="btn btn-primary my-button">שלח</button>
+                <button id="saveMeal" type="button" class="btn btn-primary my-button">שלח</button>
             </div>
         </form>
     </div>

@@ -47,6 +47,7 @@ function initOrders(data) {
         type: 'GET',
         dataType: 'json',
         url: theUrl,
+        async: false,
         timeout: 5000,
         success: function (data, textStatus) {
             test = data;
@@ -125,71 +126,109 @@ function initOrders(data) {
     //
     //    chart.render();
 
-    // Load the Visualization API and the corechart package.
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
+    if (orders.length > 0){
+    	 // Load the Visualization API and the corechart package.
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
 
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawChart);
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
 
-    // Callback that creates and populates a data table,
-    // instantiates the pie chart, passes in the data and
-    // draws it.
-    function drawChart() {
-        var found = false;
-        var items = [];
-        $.each(orders, function (index, element) {
-                if (element.items.length > 0) {
-                    for (var i = 0; i < element.items.length; i++) {
-                        var item = {
-                            "id": element.items[i].parentItem.id,
-                            "title": element.items[i].parentItem.title,
-                            "qty": 0
-                        };
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+            var found = false;
+            var foundMeal = false;
+            var items = [];
+            var meals = [];
+            var favorites = [];
+            $.each(orders, function (index, element) {
+                    if (element.items.length > 0) {
+                        for (var i = 0; i < element.items.length; i++) {
+                            var item = {
+                                "id": element.items[i].parentItem.id,
+                                "title": element.items[i].parentItem.title,
+                                "qty": 0
+                            };
 
-                        alert("item " + item.title);
-                        for (var p = 0; p < items.length; p++) {
-                            if (items[p].id == item.id) {
-                                found = true;
-                                items[p].qty++;
-                                break;
+                            for (var p = 0; p < items.length; p++) {
+                                if (items[p].id === item.id) {
+                                    found = true;
+                                    items[p].qty++;
+                                    favorites[p].qty++;
+                                    break;
+                                }
+                            }
+                            if (found === false) {
+                                item.qty++;
+                                items.push(item);
+                                favorites.push(item);
                             }
                         }
-                        if (found === false) {
-                            item.qty++;
-                            items.push(item);
+                    }
+                    if (element.meals.length > 0) {
+                        for (var m = 0; m < element.meals.length; m++) {
+                        	var meal = {
+                                "id": element.meals[m].id,
+                                "title": element.meals[m].parentMeal.title,
+                                "qty": 0
+                            };
+
+                            for (var r = 0; r < meals.length; r++) {
+                                if (meals[r].id === meal.id) {
+                                	foundMeal = true;
+                                    meals[r].qty++;
+                                    favorites[r].qty++;
+                                    break;
+                                }
+                            }
+                            if (foundMeal === false) {
+                                meal.qty++;
+                                meals.push(meal);
+                                favorites.push(meal);
+                            }
                         }
                     }
-                }
 
-            })
-            // Add rows + data at the same time
-            // -----------------------------
-        test = items;
-        var data = new google.visualization.DataTable();
+                })
 
-        // Declare columns
-        data.addColumn('string', 'item Name');
-        data.addColumn('number', 'buy');
-        data.addRows(items.length);
-        for (var i = 0; i < items.length; i++) {
-            for (var j = 0; j < 2; j++) {
-                if (j === 0) {
-                    data.setCell(i, j, items[i].title);
-                } else {
-                    data.setCell(i, j, items[i].qty);
+                // Add rows + data at the same time
+                // -----------------------------
+            favorites.sort(function(a, b){return b.qty-a.qty});
+            var data = new google.visualization.DataTable();
+
+            // Declare columns
+            data.addColumn('string', 'item Name');
+            data.addColumn('number', 'buy');
+            data.addRows(favorites.length);
+            var max = 6;
+            for (var i = 0; i < max; i++) {
+                for (var j = 0; j < 2; j++) {
+                    if (j === 0) {
+                        data.setCell(i, j, favorites[i].title);
+                    } else {
+                        data.setCell(i, j, favorites[i].qty);
+                    }
                 }
             }
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            var options = {'title':'המוצרים הנמכרים ביותר',
+            	    'backgroundColor': 'transparent',   
+            		'is3D':true,
+            	    titleTextStyle: {
+            	        fontSize: 30, // 12, 18 whatever you want (don't specify px)
+            	        bold: true,    // true or false
+            	    },
+            	    tooltip: {textStyle:  {fontSize: 18,bold: false}},
+            	    legend: {textStyle:  {fontSize: 20,bold: false}}
+
+            };
+            chart.draw(data, options);
         }
-
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, {
-            width: 400,
-            height: 240
-        });
     }
+   
 
 }

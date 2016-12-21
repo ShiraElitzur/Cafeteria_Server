@@ -36,6 +36,7 @@ public class PushServices {
 		System.out.println("send notification to user: "+order.getCustomer());
 		int userId = order.getCustomer().getId();
 		String token = jpa.getUserPushToken(userId);
+		System.out.println("send notification to token: "+ token);
 		try {
 		   String jsonResponse;
 		   URL url = new URL("https://onesignal.com/api/v1/notifications");

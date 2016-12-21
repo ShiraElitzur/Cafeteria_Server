@@ -11,7 +11,9 @@ $(document).ready(function () {
     $('#loginBtn').click(function () {
         var email = $('#email').val();
         var password = $('#password').val();
-        var urlAddress = server + "/rest/web/adminLogin";
+        var mainServer = "http://time2eat.eu-gb.mybluemix.net";
+        var local = "CafeteriaServer";
+        var urlAddress ="http://localhost:8080/CafeteriaServer/rest/web/adminLogin";
 
         $.post(urlAddress, {
             email: email,
@@ -25,12 +27,15 @@ $(document).ready(function () {
                 var d = new Date();
                 var emailName = 'cafeteria-admin-email';
                 var passwordName = 'cafeteria-admin-password';
+                var serverIp = 'cafeteria-server-ip';
 
                 d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
                 var expires = "expires=" + d.toUTCString();
-                document.cookie = emailName + "=" + data.email + ";" + expires + ";path=/";
+                document.cookie = emailName + "=" + data.adminEmail + ";" + expires + ";path=/";
 
-                document.cookie = passwordName + "=" + data.password + ";" + expires + ";path=/";
+                document.cookie = passwordName + "=" + data.adminPassword + ";" + expires + ";path=/";
+
+                document.cookie = serverIp + "=" + data.serverIp + ";" + expires + ";path=/";
 
                 window.location = "./home.html";
             }
@@ -39,7 +44,8 @@ $(document).ready(function () {
 
     $('#forgotPasswordBtn').click(function () {
         var email = $('#forgot-email').val();
-        var urlAddress =server + "/rest/web/getAdminPassword";
+        var mainServer = "http://time2eat.eu-gb.mybluemix.net";
+        var urlAddress = "/rest/web/getAdminPassword";
 
         $.post(urlAddress, {
             email: email
@@ -60,3 +66,37 @@ $(document).ready(function () {
         });
     });
 });
+
+function sendEmail() {
+	var email = $('#forgot-email').val();
+	var cafeteria = {
+		id : 0,
+		cafeteriaName: "",
+		serverIp: "",
+		adminEmail: email,
+		adminPassword: "",
+		openingHoursStart: "",
+		openingHoursEnd: ""
+	};
+	var urlAddress = server + "/rest/email/adminForgotPassword";
+
+	$.ajax({
+				type : "POST",
+				url : urlAddress,
+				data : JSON.stringify(cafeteria),
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(data) {
+					if (data === 0) { // email sent
+		                $('#passwordResult').append("<strong>דואר אלקטרוני נשלח עם הסיסמא </strong>");
+		                $('#passwordResult').show();
+
+					} else { // email wasnt sent
+						alert("<strong>פרטים שגויים, לא נמצא משתמש עם הדואר האלקטרוני שהוכנס");
+					}
+				},
+				failure : function(errMsg) {
+					alert(errMsg);
+				}
+			});
+}

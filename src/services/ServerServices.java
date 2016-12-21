@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
-import data.Server;
+import data.Cafeteria;
 import db.JpaManager;
 
 @Path("/server")
@@ -24,7 +24,7 @@ public class ServerServices {
 	public String getServers() {
 		System.out.println("inside get servers");
 		Gson json = new Gson();
-		List<Server> servers = new ArrayList<>();
+		List<Cafeteria> servers = new ArrayList<>();
 		servers = jpa.getServers();
 		return json.toJson(servers.toArray());	
 	}

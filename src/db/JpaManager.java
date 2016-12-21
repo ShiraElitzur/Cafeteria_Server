@@ -36,7 +36,7 @@ import data.Main;
 import data.Meal;
 import data.Order;
 import data.OrderedMeal;
-import data.Server;
+import data.Cafeteria;
 import data.ServingForm;
 
 
@@ -157,6 +157,28 @@ public class JpaManager {
 		Customer c = null;
 		try{
 		c = (Customer)query.getSingleResult();
+		} catch ( NoResultException e ) {
+			return null;
+		}
+		return c;
+	}
+
+	
+	/**
+	 * This method checks if the admin exist according to the email and the password.
+	 * if so, returns his cafeteria, else returns null
+	 * @param email
+	 * @param password
+	 * @return cafeteria if exist otherwise null
+	 */
+	public Cafeteria isAdminExist( String email,String password ) {	
+		Query query = em.createQuery("select c from Cafeteria c where c.adminEmail = :email and c.adminPassword = :password");
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		
+		Cafeteria c = null;
+		try{
+		c = (Cafeteria)query.getSingleResult();
 		} catch ( NoResultException e ) {
 			return null;
 		}
@@ -854,9 +876,9 @@ public class JpaManager {
 		//Vector<OrderedMeal> meals = (Vector<OrderedMeal>)query.getResultList();
 	}
 
-	public List<Server> getServers() {
-		Query query = em.createQuery("select s from Server s");
-		Vector<Server> servers = (Vector<Server>)query.getResultList();
+	public List<Cafeteria> getServers() {
+		Query query = em.createQuery("select c from Cafeteria c");
+		Vector<Cafeteria> servers = (Vector<Cafeteria>)query.getResultList();
 		return servers;
 	}
 

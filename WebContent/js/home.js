@@ -17,9 +17,9 @@ function initTable(data) {
     var theUrl = server + "/rest/web/getAllCategories";
     $.ajax({
         type: 'GET',
-        dataType: 'json',
+        dataType: "json",
         url: theUrl,
-        timeout: 5000,
+        timeout: 8000,
         success: function (data, textStatus) {
             //            alert('request successful');
             $.each(data, function (index, element) {

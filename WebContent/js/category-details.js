@@ -1,5 +1,3 @@
-//var iconAddress = "http://time2eat.eu-gb.mybluemix.net";
-var iconAddress = "http://localhost:8080/CafeteriaServer";
 var icons = [];
 var items = [];
 var mealsToDel = [];
@@ -8,26 +6,14 @@ var meals = new Array();
 var icon_index = 0;
 var firstMeal = true;
 var categoryEdit;
-var localIcons = [iconAddress + "/icons/meat.png",
-		iconAddress + "/icons/hamburger_black.png",
-		iconAddress + "/icons/hamburger_white.png",
+var localIcons = [
 		iconAddress + "/icons/hamburger.png",
 		iconAddress + "/icons/wrap.png",
 		iconAddress + "/icons/turkey.png",
 		iconAddress + "/icons/kebab.png",
-		iconAddress + "/icons/cafe_black.png",
-		iconAddress + "/icons/cafe_white.png",
-		iconAddress + "/icons/tea_white.png",
-		iconAddress + "/icons/tea_black.png",
-		iconAddress + "/icons/hotDrink.png",
 		iconAddress + "/icons/tea.png",
-		iconAddress + "/icons/coldDrink.png",
 		iconAddress + "/icons/water.png",
 		iconAddress + "/icons/can.png",
-		iconAddress + "/icons/bakery.png",
-		iconAddress + "/icons/snacks.png",
-		iconAddress + "/icons/cookies_black.png",
-		iconAddress + "/icons/cookies_white.png",
 		iconAddress + "/icons/candy1.png",
 		iconAddress + "/icons/candy.png",
 		iconAddress + "/icons/cupcake.png",
@@ -35,11 +21,7 @@ var localIcons = [iconAddress + "/icons/meat.png",
 		iconAddress + "/icons/ice-cream.png",
 		iconAddress + "/icons/gingerbread.png",
 		iconAddress + "/icons/ice-cream1.png",
-		iconAddress + "/icons/salad.png",
 		iconAddress + "/icons/salad1.png",
-		iconAddress + "/icons/dairy.png",
-		iconAddress + "/icons/pizza_black.png",
-		iconAddress + "/icons/pizza_white.png",
 		iconAddress + "/icons/pizza.png",
 		iconAddress + "/icons/fish.png",
 		iconAddress + "/icons/pie.png",
@@ -101,6 +83,12 @@ $(document)
                 var icon = $('#theIcon').attr("src");
                 sessionStorage.setItem("categoryIcon", icon);
                 sessionStorage.setItem("inEdit", true);
+                if (sessionStorage.getItem("editMeal") !== null && sessionStorage.getItem("editMeal") !== undefined){
+                    sessionStorage.setItem("categoryExist", true);
+                }
+                if (items.length > 0){
+                	sessionStorage.setItem("items",JSON.stringify(items));
+                }
                 window.location = "./meal-details.html";
             });
 
@@ -129,7 +117,7 @@ $(document)
             });
 
             // if we are in edit category
-            if (sessionStorage.getItem("categoryEdit") !== null) {
+            if (sessionStorage.getItem("categoryEdit") !== null && sessionStorage.getItem("categoryEdit") !== undefined){
                 categoryEdit = JSON.parse(sessionStorage
                     .getItem("categoryEdit"));
                 sessionStorage.removeItem("categoryEdit");
@@ -158,6 +146,7 @@ $(document)
                 $("#saveCategory").text("עדכן");
                 $('#pageTitle').text("עריכת קטגוריה");
 
+               
                 var temp = arrayBufferToBase64(categoryEdit.icon);
                 var imgSrc = "data:image/png;base64," + temp;
                 $('#theIcon').attr("src", imgSrc);
@@ -168,23 +157,45 @@ $(document)
 
             // to cover a case that we was in edit category,
             // and then moved to meal details
-            if (sessionStorage.getItem("inEdit") !== null) {
+            if (sessionStorage.getItem("inEdit") !== null && sessionStorage.getItem("inEdit") !== undefined) {
                 $("#saveCategory").text("עדכן");
                 $('#pageTitle').text("עריכת קטגוריה");
-
             }
+            
+           if (sessionStorage.getItem("categoryExist") !== null && sessionStorage.getItem("categoryExist") !== undefined){
+               $("#saveCategory").text("שלח");
+               $('#pageTitle').text("הוספת קטגוריה");
+           }
 
             if (meals !== null && meals.length > 0) {
                 initMealsTable();
             }
 
-            if (sessionStorage.getItem("saveDetails") !== null) {
+            if (sessionStorage.getItem("saveDetails") !== null && sessionStorage.getItem("saveDetails") !== undefined) {
                 $("#categoryTitle").val(
                     sessionStorage.getItem("categoryTitle"));
                 $("#categoryDescription").val(
                     sessionStorage.getItem("categoryDescription"));
                 var icon = sessionStorage.getItem("categoryIcon");
                 $('#theIcon').attr("src", icon);
+                $("#saveCategory").text("שלח");
+                $('#pageTitle').text("הוספת קטגוריה");
+                items = JSON.parse(sessionStorage.getItem("items"));
+                if (items.length > 0) {
+                    $
+                        .each(
+                            items,
+                            function (index, element) {
+                                $('#itemsTable')
+                                    .append(
+                                        $('<tr id="' + element.title + '"><td>' + element.title + '</td>' + '<td>' + element.price + '</td>' + '<td> <button type="button" class="btn my-button" id="editItem"> <span id="editText">ערוך</span> <span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteItem"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                            })
+                    if (firstItem === true) {
+                        addOnClickFunctions();
+                        firstItem = false;
+                    }
+                }
+                
             }
             sessionStorage.setItem("saveDetails", true);
 
@@ -275,13 +286,11 @@ function addOnClickFunctions() {
                     titleCell.attr('contenteditable', true);
                     titleCell.css("border", "0.5px solid blue");
                     priceCell.css("border", "0.5px solid blue");
-                    $(this).closest('tr').find("#editText").text(
-                        'עדכן');
+                    $(this).closest('tr').find("#editText").text('עדכן');
 
                 } else if ($(this).closest('tr').find("#editText")
                     .text() === ("עדכן")) {
-                    $(this).closest('tr').find("#editText").text(
-                        "ערוך");
+                    $(this).closest('tr').find("#editText").text("ערוך");
                     titleCell.prop('contenteditable', false);
                     priceCell.prop('contenteditable', false);
                     titleCell.attr('contenteditable', false);
@@ -447,7 +456,6 @@ function deleteMeals(mealsToDel) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            // alert("success " + data);
         },
         failure: function (errMsg) {
             alert(errMsg);

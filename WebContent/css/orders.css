@@ -27,3 +27,15 @@
     overflow: hidden;
 */
 }
+
+.googleChart{
+	width:100%;
+	height:100%;
+}
+
+@media only screen and (max-device-width: 480px) {
+    tbody {
+	width:100%;
+	height:100%;
+    }
+}

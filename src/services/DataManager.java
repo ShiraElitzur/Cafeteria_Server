@@ -54,7 +54,6 @@ public class DataManager {
 		Gson json = new Gson();
 		List<Category> categories = new ArrayList<>();
 		categories = jpa.getCategories();
-		System.out.println(categories.get(0).getTitle());
 		return json.toJson(categories.toArray());	
 	}
 	

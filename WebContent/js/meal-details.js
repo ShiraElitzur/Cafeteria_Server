@@ -68,8 +68,8 @@ $(document).ready(function () {
         $("#existing-serving").hide();
     });
 
-    $("#mealDetailsForm").submit(function () {
-        if ($('#new-main').is(":hidden") && $('#existing-main').is(":hidden")) {
+    $("#saveMeal").click(function () {
+    	if ($('#new-main').is(":hidden") && $('#existing-main').is(":hidden")) {
             alert("Fill main !");
             return false;
         }
@@ -142,7 +142,7 @@ $(document).ready(function () {
             addNewMainToDB($('#mainTitle').val(),
                 function (result) {
                     meal.main = result;
-                    if ($("#saveMeal").text() == "Update") {
+                    if ($("#saveMeal").text() === "עדכן") {
                         var meals = JSON.parse(sessionStorage.getItem("meals"));
                         var index = sessionStorage.getItem("editMealIndex");
                         meals[index] = meal;
@@ -165,7 +165,7 @@ $(document).ready(function () {
             addNewServingToDB($('#servingTitle').val(),
                 function (result) {
                     meal.serving = result;
-                    if ($("#saveMeal").text() == "Update") {
+                    if ($("#saveMeal").text() === "עדכן") {
                         var meals = JSON.parse(sessionStorage.getItem("meals"));
                         var index = sessionStorage.getItem("editMealIndex");
                         meals[index] = meal;
@@ -183,18 +183,12 @@ $(document).ready(function () {
             newServing = false;
         }
 
-        //        alert("meal title: " + meal.title + "\n" +
-        //            "meal price: " + meal.price + "\n" +
-        //            "main id: " + meal.main.id + "\n" +
-        //            "main title: " + meal.main.title + "\n" +
-        //            "extra amount: " + meal.extraAmount + "\n" +
-        //            "selected extra: " + meal.extras.length
-        //        );
+
 
         if (newMain === true) {
 
         } else {
-            if ($("#saveMeal").text() == "Update") {
+            if ($("#saveMeal").text() === "עדכן") {
                 var meals = JSON.parse(sessionStorage.getItem("meals"));
                 var index = sessionStorage.getItem("editMealIndex");
                 meals[index] = meal;
@@ -207,12 +201,18 @@ $(document).ready(function () {
             }
 
         }
-        
+//        alert("meal title: " + meal.title + "\n" +
+//                "meal price: " + meal.price + "\n" +
+//                "main id: " + meal.main.id + "\n" +
+//                "main title: " + meal.main.title + "\n" +
+//                "extra amount: " + meal.extraAmount + "\n" +
+//                "selected extra: " + meal.extras.length
+//            );
         if (newServing === true) {
             window.location.href = "./category-details.html";
 
         } else {
-            if ($("#saveMeal").text() == "Update") {
+            if ($("#saveMeal").text() === "עדכן") {
                 var meals = JSON.parse(sessionStorage.getItem("meals"));
                 var index = sessionStorage.getItem("editMealIndex");
                 meals[index] = meal;
@@ -228,8 +228,7 @@ $(document).ready(function () {
         }
 
         return false;
-
-
+        
     });
 
     $('#selectpickerMains').on('changed.bs.select', function (event, clickedIndex, newValue, oldValue) {
@@ -328,7 +327,7 @@ function initMains() {
                     title: element.title
                 });
             })
-            if ($("#saveMeal").text() == "Update") {
+            if ($("#saveMeal").text() == "עדכן") {
                 $('#selectpickerMains').selectpicker('val', editMeal.main.title);
                 selectedIndex = 1;
             }
@@ -359,7 +358,7 @@ function initServings() {
                     title: element.title
                 });
             })
-            if ($("#saveMeal").text() == "Update") {
+            if ($("#saveMeal").text() == "עדכן") {
                 $('#selectpickerServings').selectpicker('val', editMeal.serving.title);
                 selectedServingIndex = 1;
             }
@@ -391,17 +390,19 @@ function addExtra(title, price) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            console.log("in add extra :" + data.id);
-            dualllistbox.append('<option value="' + data.id + '"selected="selected">' + data.title + '</option>');
-            dualllistbox.bootstrapDualListbox('refresh', true);
+            if (data === -1) {
+                alert("תוספת זו קיימת כבר !")
+            } else {
+                console.log("in add extra :" + data.id);
+                dualllistbox.append('<option value="' + data.id + '"selected="selected">' + data.title + '</option>');
+                dualllistbox.bootstrapDualListbox('refresh', true);
 
-            extras.push({
-                id: data.id,
-                title: data.title,
-                price: data.price
-            });
-
-
+                extras.push({
+                    id: data.id,
+                    title: data.title,
+                    price: data.price
+                });
+            }
 
         },
         failure: function (errMsg) {

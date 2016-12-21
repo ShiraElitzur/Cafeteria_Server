@@ -34,6 +34,7 @@ import com.google.gson.reflect.TypeToken;
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
+import data.Cafeteria;
 import data.Category;
 import data.Customer;
 import data.Drink;
@@ -47,9 +48,6 @@ import db.JpaManager;
 
 @Path("/web")
 public class WebServices {
-
-	private final String email = "admin@gmail.com";
-	private final String password = "123456";
 
 	/**
 	 * The instance of jpaManger
@@ -377,37 +375,18 @@ public class WebServices {
 	public String adminLogin(@FormParam("email") String adminEmail,@FormParam("password")String adminPassword) {
 		System.out.println("in admin login method " + adminEmail + " " + adminPassword);
 		Gson gson = new Gson();
-		if (adminEmail.equals(email) && adminPassword.equals(password)){
-			Customer customer = new Customer();
-			customer.setEmail(adminEmail);
-			customer.setPassword(adminPassword);
-			String jsonString = gson.toJson(customer);
+		Cafeteria c = jpa.isAdminExist(adminEmail, adminPassword);
+		if (c!=null){
+			System.out.println("return " + c.toString());
+		}
+		if (c != null){;
+			String jsonString = gson.toJson(c);
 			System.out.println(jsonString);
 			return jsonString;
 			
 		}else{
 			return null;
 		}
-	}
-
-	@POST
-	@Path("/getAdminPassword")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getAdminPassword(@FormParam("email") String adminEmail) {
-		System.out.println("in forgot password method " + adminEmail);
-		if (adminEmail.equals(email)){
-			Customer customer = new Customer();
-			customer.setEmail(adminEmail);
-			customer.setPassword(password);
-			Gson gson = new Gson();
-
-			String jsonString = gson.toJson(customer);
-			System.out.println(jsonString);
-			return jsonString;
-		}else{
-			return null;
-		}
-
 	}
 
 }
