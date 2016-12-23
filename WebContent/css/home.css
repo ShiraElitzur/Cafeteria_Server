@@ -1,3 +1,31 @@
-.half-centered{
-    width:50%;
+.gray{
+    background-color: #f5f5f5;
+}
+
+.centered-form{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.myIcon{
+	display: block;
+	margin-bottom : 10px;
+}
+
+.input-group-addon:last-child{
+	border: 0.1px solid;
+}
+
+.myLabel{
+	float:right;
+	font-size:16px;
+}
+
+.myInputMargin{
+	margin-bottom:10px;
+	margin-top:10px;
+}
+
+.shadow {
+    overflow: auto;
 }

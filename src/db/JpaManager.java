@@ -7,7 +7,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.sql.Blob;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
@@ -783,6 +786,31 @@ public class JpaManager {
 		return orders;
 	}
 	
+
+	public List<Order> getOrdersByDate(String date) {
+		Calendar calendar = Calendar.getInstance();
+		Calendar oneMonthAfter = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+		try {
+			calendar.setTime(sdf.parse(date));
+			oneMonthAfter.setTime(sdf.parse(date));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("after formating: " + calendar.get(Calendar.YEAR) + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH));
+		
+		oneMonthAfter.add(Calendar.MONTH, 1);
+		Query query = em.createQuery("select o from Order o where o.date >= :date AND o.date < :endMonth");
+		query.setParameter("date", calendar.getTime());
+		query.setParameter("endMonth", oneMonthAfter.getTime());
+
+		Vector<Order> orders = (Vector<Order>)query.getResultList();
+		System.out.println("ORDERS SIZE "+ orders.size());
+
+		return orders;
+	}
+	
 	/**
 	 * Update the given order is delivered property
 	 * @param order
@@ -805,6 +833,25 @@ public class JpaManager {
 		  em.getTransaction().begin();
 		  or.setReady(order.isReady());
 		  em.getTransaction().commit();		
+	}
+	
+	public Cafeteria updateCafeteria(Cafeteria c) {
+		Query query = em.createQuery("select c from Cafeteria c where c.adminEmail = :email");
+		query.setParameter("email", c.getAdminEmail());
+		
+		Cafeteria cafeteria = null;
+		try{
+			cafeteria = (Cafeteria)query.getSingleResult();
+		} catch ( NoResultException e ) {
+			return null;
+		}
+		 em.getTransaction().begin();
+		 cafeteria.setCafeteriaName(c.getCafeteriaName());
+		 cafeteria.setOpeningHoursStart(c.getOpeningHoursStart());
+		 cafeteria.setOpeningHoursEnd(c.getOpeningHoursEnd());
+		 em.getTransaction().commit();	
+		
+		return c;
 	}
 	
 	/**
@@ -886,5 +933,6 @@ public class JpaManager {
 	public static void main ( String [] args ) {
 		JpaManager jpa = JpaManager.getInstance();
 	}
+
 
 }

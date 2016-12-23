@@ -12,7 +12,10 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Blob;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -388,5 +391,51 @@ public class WebServices {
 			return null;
 		}
 	}
+	
 
+	@POST
+	@Path("/getOrdersByDate")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getOrdersByDate(@FormParam("date") String date) {
+		System.out.println("In get orders from date " + date);
+		Gson json = new Gson();
+		List<Order> orders = new ArrayList<>();
+		orders = jpa.getOrdersByDate(date);
+		return json.toJson(orders.toArray());
+
+	}
+	
+	
+	@POST
+	@Path("/updateCafeteria")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateCafeteria(@FormParam("email") String email, @FormParam("cafeteriaName") String cafeteriaName,
+			@FormParam("timeStart") String timeStart, @FormParam("timeEnd") String timeEnd) {
+		System.out.println("in update Cafeteria method " + email + " " + cafeteriaName + " " + timeStart + " " + timeEnd);
+		Cafeteria c = new Cafeteria();
+		c.setAdminEmail(email);
+		c.setCafeteriaName(cafeteriaName);
+
+		String[] parts = timeStart.split(":");
+		String part1 = parts[0]; // hour
+		String part2 = parts[1]; // minute
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(part1));
+		calendar.set(Calendar.MINUTE, Integer.parseInt(part2));
+		c.setOpeningHoursStart(calendar);
+
+		parts = timeEnd.split(":");
+		part1 = parts[0]; // hour
+		part2 = parts[1]; // minute
+		calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(part1));
+		calendar.set(Calendar.MINUTE, Integer.parseInt(part2));
+		c.setOpeningHoursEnd(calendar);
+
+		Cafeteria cafeteria = jpa.updateCafeteria(c);
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(cafeteria);
+		System.out.println(jsonString);
+		return jsonString;
+	}
 }

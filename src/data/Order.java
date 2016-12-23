@@ -41,7 +41,7 @@ public class Order {
 	/**
 	 * The customer who made this order
 	 */
-	@ManyToOne(cascade=CascadeType.ALL) // Order has one Customer, Customer has many orders. Bidirectional ( Customer has list of orders )
+	@ManyToOne // Order has one Customer, Customer has many orders. Bidirectional ( Customer has list of orders )
 	@JoinColumn( name = "Customer_Id")
 	private Customer customer;
 	

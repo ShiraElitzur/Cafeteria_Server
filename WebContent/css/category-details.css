@@ -16,7 +16,6 @@ body {
 .my-headline {
     color: rgba(233, 128, 0, 0.79);
     font-family: "Great Vibes", cursive;
-    font-weight: bold;
     text-shadow: 0 1px 0px #754607;
     font-size: 3em;
 }

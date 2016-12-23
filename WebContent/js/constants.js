@@ -9,16 +9,60 @@
 //var iconAddress = "http://localhost:8080/CafeteriaServer";
 var iconAddress;
 var server;
-                var name = 'cafeteria-server-ip' + "=";
+var cafeteriaName;
+var startHours;
+var endHours;
+                var serverCookie = 'cafeteria-server-ip' + "=";
+                var startHoursCookie = 'cafeteria-start-hours' + "=";
+                var endHoursCookie = 'cafeteria-end-hours' + "=";
+                var cafeteriaNameCookie = 'cafeteria-name' + "=";
+
                 var ca = document.cookie.split(';');
                 for (var i = 0; i < ca.length; i++) {
                     var c = ca[i];
-                    while (c.charAt(0) == ' ') {
+                    while (c.charAt(0) === ' ') {
                         c = c.substring(1);
                     }
-                    if (c.indexOf(name) == 0) {
-                    	server = "http://"+ c.substring(name.length, c.length);
-                    	iconAddress = "http://"+ c.substring(name.length, c.length);
+                    if (c.indexOf(serverCookie) === 0) {
+                    	server = "http://"+ c.substring(serverCookie.length, c.length);
+                    	iconAddress = "http://"+ c.substring(serverCookie.length, c.length);
                     	break;
                     }
                 }
+                
+                ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(startHoursCookie) === 0) {
+                    	startHours = c.substring(startHoursCookie.length, c.length);
+                    	break;
+                    }
+                } 
+
+                ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(endHoursCookie) === 0) {
+                    	endHours = c.substring(endHoursCookie.length, c.length);
+                    	break;
+                    }
+                } 
+                
+                ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(cafeteriaNameCookie) === 0) {
+                    	cafeteriaName = c.substring(cafeteriaNameCookie.length, c.length);
+                    	break;
+                    }
+                }
+                

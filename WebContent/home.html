@@ -2,67 +2,118 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Time2eaT</title>
+<meta charset="utf-8">
+<title>Time2eaT</title>
 
-    <!-- for FF, Chrome, Opera -->
-    <link rel="icon" type="image/png" href="time2eat.ico">
+<!-- for FF, Chrome, Opera -->
+<link rel="icon" type="image/png" href="time2eat.ico">
 
-    <!-- for IE -->
-    <link rel="icon" type="image/x-icon" href="time2eat.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="time2eat.ico" />
+<!-- for IE -->
+<link rel="icon" type="image/x-icon" href="time2eat.ico">
+<link rel="shortcut icon" type="image/x-icon" href="time2eat.ico" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/navbar.css" rel="stylesheet">
-    <link href="css/home.css" rel="stylesheet">
-    
-    <script type="text/javascript" src="js/constants.js"></script>
-    
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/navbar.css" rel="stylesheet">
+<link href="css/home.css" rel="stylesheet">
+
+<script type="text/javascript" src="js/constants.js"></script>
+
 </head>
 
-<body onload="initTable();">
+<body>
 
-    <div id="navbar"> </div>
+	<div id="navbar"></div>
 
-    <div class="box">
-        <div class="shadow container-fluid">
+	<div class="box">
+		<div class="shadow container-fluid text-center gray">
 
-            <div class="text-center">
-                <h1 class="my-headline">קטגוריות</h1>
-                <button type="button" id="addCategory" class="btn my-button">הוסף קטגוריה</button>
-            </div>
+			<div class="row">
+				<div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+					<legend class="text-xs-center my-headline">צור קשר</legend>
+					<h4>לכל שאלה ניתן ליצור קשר ונחזור אלייך בהקדם.</h4>
+					<form id="contactForm" class="centered-form" method="post">
+						<fieldset>
+							<div class="form-group">
+								<input id="email" name="email" type="text"
+									placeholder="דואר אלקטרוני" class="form-control">
+							</div>
 
-            <div class="form-group half-centered">
-                <input type="text" class="search form-control space" placeholder="חפש..">
-                <span class="counter"></span>
-            </div>
+							<div class="form-group">
+								<textarea class="form-control" id="message" name="message"
+									placeholder="גוף ההודעה" rows="7"></textarea>
+							</div>
 
-            <table class="table table-hover header-fixed results" id="categoriesTable">
-                <thead>
-                    <tr>
-                        <th>קטגוריה</th>
-                        <th>עריכה</th>
-                        <th>הסרה</th>
-                    </tr>
-                    <tr class="warning no-result">
-                        <td colspan="4"><i class="fa fa-warning"></i>אין תוצאות מתאימות</td>
-                    </tr>
-                </thead>
-                <tbody>
+							<div class="form-group">
+								<button id="sendemail" type="button"
+									class="btn my-button btn-lg">שלח הודעה</button>
+							</div>
+						</fieldset>
+					</form>
+					<p id="response"></p>
+				</div>
+				<div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
+					<form id="cafeteriaDetailsForm">
+					<fieldset>
+						<legend class="text-xs-center my-headline">פרטי הקפיטריה</legend>
+						<div class="form-group centered-form myInputMargin">
+							<label for="cafeteriaName" class="myLabel">שם הקפיטריה:</label> <input
+								id="cafeteriaName" type="text" class="form-control"
+								placeholder="שם הקפיטריה" aria-describedby="basic-addon1">
+						</div>
+						<div class="form-group centered-form myInputMargin">
+							<div class="input-group bootstrap-timepicker timepicker myIcon">
+								<label class="myLabel"">שעת פתיחה</label> <input
+									id="timepicker-start" type="text"
+									class="form-control input-small"> <span
+									class="input-group-addon myborder"> <i
+									class="glyphicon glyphicon-time"></i>
+								</span>
+							</div>
+						</div>
+						<div class="form-group centered-form myInputMargin">
+							<div class="input-group bootstrap-timepicker timepicker myIcon">
+								<label class="myLabel">שעת סגירה</label> <input
+									id="timepicker-end" type="text"
+									class="form-control input-small"> <span
+									class="input-group-addon myborder"> <i
+									class="glyphicon glyphicon-time"></i>
+								</span>
+							</div>
+							<div class="form-group">
+								<button id="cafeteriaDetailsBtn" type="button"
+									class="btn my-button btn-lg">החלף פרטים</button>
+							</div>
 
-                </tbody>
-            </table>
-        </div>
-    </div>
+						</div>
+						</fieldset>
+					</form>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
-    <script type="text/javascript" src="js/js.js"></script>
-    <script type="text/javascript" src="js/home.js"></script>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.js"></script>
+	<script type="text/javascript" src="js/js.js"></script>
+	<script type="text/javascript" src="js/home.js"></script>
 </body>
 
 </html>

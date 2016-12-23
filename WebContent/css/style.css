@@ -16,7 +16,6 @@ body {
 .my-headline {
     color: rgba(233, 128, 0, 0.79);
     font-family: "Great Vibes", cursive;
-    font-weight: bold;
     text-shadow: 0 1px 0px #754607;
     font-size: 3em;
 }
@@ -41,7 +40,7 @@ tbody, thead tr { display: block; }
 
 tbody {
     min-height: 200px;
-    height: 60%;
+    height: 80%;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -49,7 +48,7 @@ tbody {
 @media only screen and (max-device-width: 480px) {
     tbody {
     min-height: 100px;
-    height: 35%;
+    height: 45%;
     overflow-y: auto;
     overflow-x: hidden;
     }

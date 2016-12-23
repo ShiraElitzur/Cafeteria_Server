@@ -1,119 +1,170 @@
-//window.customer = JSON.parse(localStorage.customer);
-var categories = [];
-$(document).ready(function () {
-    sessionStorage.removeItem("meal");
-    sessionStorage.removeItem("meals");
-    sessionStorage.removeItem("inEdit");
-    sessionStorage.removeItem("saveDetails");
-    $("#addCategory").click(function () {
-        window.location = "category-details.html";
+$(document).ready(function() {
+
+    $('#timepicker-start').timepicker({
+        maxHours: 24,
+        showMeridian: false,
+        defaultTime: 'current',
+        minuteStep: 1,
+        snapToStep: false,
+        defaultTime: startHours
     });
+    
+    $('#timepicker-end').timepicker({
+        maxHours: 24,
+        showMeridian: false,
+        defaultTime: 'current',
+        minuteStep: 1,
+        snapToStep: false,
+        defaultTime: endHours
+    });
+	
+	$("#sendemail").click(function() {
+		sendEmail();
+	});
+	
+    $("#cafeteriaName").val(cafeteriaName);
+    $("#cafeteriaName").attr("disabled",true);
+    $('#timepicker-end').attr("disabled",true);
+    $('#timepicker-start').attr("disabled",true);
+    
+	$("#cafeteriaDetailsBtn").click(function() {
+		if ($("#cafeteriaDetailsBtn").text() === "החלף פרטים"){
+			$("#cafeteriaName").attr("disabled",false);
+		    $('#timepicker-end').attr("disabled",false);
+		    $('#timepicker-start').attr("disabled",false);
+		    $("#cafeteriaDetailsBtn").text("עדכן פרטים");
+		} else{
+			$("#cafeteriaName").attr("disabled",true);
+		    $('#timepicker-end').attr("disabled",true);
+		    $('#timepicker-start').attr("disabled",true);
+		    $("#cafeteriaDetailsBtn").text("החלף פרטים");
+		    updateCafeteriaDetails();
+		}
+	    
+	    
+	});
 
 });
 
+function sendEmail() {
+	var email = $('#email').val();
+	var message = $('#message').val();
+	var webMessage = {
+		email : email,
+		message : message
+	};
+	var urlAddress = server + "/rest/email/sendMessage";
 
-function initTable(data) {
-    categories = [];
-    var theUrl = server + "/rest/web/getAllCategories";
-    $.ajax({
-        type: 'GET',
-        dataType: "json",
-        url: theUrl,
-        timeout: 8000,
-        success: function (data, textStatus) {
-            //            alert('request successful');
-            $.each(data, function (index, element) {
-                $('#categoriesTable').append($('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editCategory">ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" ' + 'id="deleteCategory">הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+	$.ajax({
+				type : "POST",
+				url : urlAddress,
+				data : JSON.stringify(webMessage),
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(data) {
+					if (data === 0) { // email sent
+						$('#response').html("<div class='alert alert-success'>");
+						$('#response > .alert-success')
+						.html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+						.append("</button>");
+						$('#response > .alert-success').append("<strong>ההודעה נשלחה בהצלחה </strong>");
+						$('#response > .alert-success').append('</div>');
+						$("#contactForm")[0].reset();
 
+					} else { // email wasnt sent
+						$('#response').html("<div class='alert alert-danger'>");
+						$('#response > .alert-danger')
+						.html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+						.append("</button>");
+						$('#response > .alert-danger').append("<strong>מצטערים לא הצלחנו לשלוח את ההודעה כרגע");
+						$('#response > .alert-danger').append('</div>');
+						//clear all fields
+						$("#contactForm")[0].reset();
+					}
+				},
+				failure : function(errMsg) {
+					alert(errMsg);
+				}
+			});
+}
 
-
-                categories.push({
-                    id: element.id,
-                    title: element.title,
-                    description: element.description,
-                    items: element.items,
-                    meals: element.meals,
-                    icon: element.icon
-                });
-            })
-
-            addOnClickFunctions();
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            alert('request failed');
+function updateCafeteriaDetails(){
+    var emailName = 'cafeteria-admin-email' +"=";
+    var email;
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
         }
-    });
-
-}
-
-function confirmDelete(category, index) {
-    BootstrapDialog.confirm({
-        title: ' שים לב !',
-        message: 'האם אתה בטוח שברצונך למחוק קטגוריה זו?',
-        type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-        closable: true, // <-- Default value is false
-        draggable: true, // <-- Default value is false
-        btnCancelLabel: 'לא', // <-- Default value is 'Cancel',
-        btnOKLabel: 'כן', // <-- Default value is 'OK',
-        btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
-        callback: function (result) {
-            // result will be true if button was click, while it will be false if users close the dialog directly.
-            if (result) { //no clicked
-                deleteCategory(category);
-            }
+        if (c.indexOf(emailName) === 0) {
+        	email = c.substring(emailName.length, c.length);
+        	break;
         }
-    });
-}
-
-function deleteCategory(category, index) {
-    var urlAddress = server + "/rest/web/deleteCategory";
-
-    var decoded = arrayBufferToBase64(category.icon);
-    category.icon = decoded;
-
-    $.ajax({
-        type: "POST",
-        url: urlAddress,
-        data: JSON.stringify(category),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            var tableRowId = "#" + category.id;
-            $(tableRowId).remove();
-            categories.splice(index, 1);
-
-        },
-        failure: function (errMsg) {
-            alert(errMsg);
-        }
-    });
-}
-
-function addOnClickFunctions() {
-    $(document).on("click", "#categoriesTable #deleteCategory", function (e) {
-        var row = $(this).closest('tr');
-        var index = row.index();
-        var category = categories[index];
-        confirmDelete(category, index);
-    });
-
-    $(document).on("click", "#categoriesTable #editCategory", function (e) {
-
-        var row = $(this).closest('tr');
-        var index = row.index();
-        var categoryEdit = categories[index];
-        sessionStorage.setItem("categoryEdit", JSON.stringify(categoryEdit));
-        window.location = "category-details.html";
-
-    });
-}
-
-function arrayBufferToBase64(buffer) {
-    var binary = '';
-    var bytes = new Uint8Array(buffer);
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
     }
-    return window.btoa(binary);
+	
+    var name = $('#cafeteriaName').val();
+    var timeStart = $('#timepicker-start').val();
+    var timeEnd = $('#timepicker-end').val();
+
+	
+	var urlAddress = server + "/rest/web/updateCafeteria";
+	$.post(urlAddress, {
+        email: email,
+        cafeteriaName: name,
+        timeStart: timeStart,
+        timeEnd: timeEnd
+    }, function (data, status) {
+        if (data === null) {
+            alert("null");
+        } else {
+        	replaceCookies(data);
+        }
+    });
+
+}
+
+function replaceCookies(data){
+	//remove cookies
+    var cafeteriaName = 'cafeteria-name';
+    var startingHours = 'cafeteria-start-hours';
+    var endingHours = 'cafeteria-end-hours';
+    
+    document.cookie = cafeteriaName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    document.cookie = startingHours + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    document.cookie = endingHours + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    
+    // add cookies
+    var d = new Date();
+    d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    
+    document.cookie = cafeteriaName + "=" + data.cafeteriaName + ";" + expires + ";path=/";
+    var date = data.openingHoursStart;
+    var dateString = date.hourOfDay + ":" + date.minute;
+
+    $('#timepicker-start').timepicker({
+        maxHours: 24,
+        showMeridian: false,
+        defaultTime: 'current',
+        minuteStep: 1,
+        snapToStep: false,
+        defaultTime: dateString
+    });
+    document.cookie = startingHours + "=" + dateString + ";" + expires + ";path=/";
+    date = data.openingHoursEnd;
+    dateString = date.hourOfDay + ":" + date.minute;
+    
+    document.cookie = endingHours + "=" + dateString + ";" + expires + ";path=/";
+   
+    $('#timepicker-end').timepicker({
+        maxHours: 24,
+        showMeridian: false,
+        defaultTime: 'current',
+        minuteStep: 1,
+        snapToStep: false,
+        defaultTime: dateString
+    });
+    
+    $('#cafeteriaName').val(data.cafeteriaName);
 }

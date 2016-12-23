@@ -2,51 +2,17 @@ var orders = [];
 var index;
 var row;
 var test;
-$(document).ready(function () {
-    $(".search").keyup(function () {
-        var searchTerm = $(".search").val();
-        var listItem = $('.results tbody').children('tr');
-        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
-
-        $.extend($.expr[':'], {
-            'containsi': function (elem, i, match, array) {
-                return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
-            }
-        });
-
-        $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
-            $(this).attr('visible', 'false');
-            $(this).addClass("hide");
-        });
-
-        $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
-            $(this).attr('visible', 'true');
-            $(this).removeClass("hide");
-        });
-
-        var count = $('.results tbody tr[visible="true"]').length;
-        $('.counter').text(count + ' item');
-
-        if (count == '0') {
-            $('.no-result').show();
-        } else {
-            $('.no-result').hide();
-        }
-    });
-
-
-
-});
-
-
-function initOrders(data) {
-    orders = [];
-    var order;
-    var theUrl = server + "/rest/web/getOrders";
+var date;
+function getOrdersByDate() {
+	date = $('.date-picker').val();
+	$('#ordersTable tbody').empty();
+    orders.length = 0;
+    var theUrl = server + "/rest/web/getOrdersByDate";
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         url: theUrl,
+        data: {date: date},
         async: false,
         timeout: 5000,
         success: function (data, textStatus) {
@@ -65,7 +31,7 @@ function initOrders(data) {
                     "pickupTime": element.pickupTime
                 };
 
-                $('#ordersTable').append($('<tr id="' + order.id + '"><td>' + order.date + '</td>' + '<td>' + order.payment + "&#x20AA;" + '</td></tr>'));
+                $('#ordersTable').append($('<tr id="' + order.id + '"><td>' + order.date + '</td>' + '<td>' + order.payment + " &#x20AA;" + '</td></tr>'));
                 orders.push(order);
 
             })
@@ -75,56 +41,10 @@ function initOrders(data) {
             alert('request failed');
         }
     });
+}
 
-    //    var chart = new CanvasJS.Chart("chartContainer", {
-    //        backgroundColor: "#eee",
-    //        title: {
-    //            text: "המוצרים המוזמנים ביותר"
-    //        },
-    //        animationEnabled: true,
-    //        theme: "theme2",
-    //        data: [
-    //            {
-    //                type: "doughnut",
-    //                indexLabelFontFamily: "Garamond",
-    //                indexLabelFontSize: 20,
-    //                startAngle: 0,
-    //                indexLabelFontColor: "dimgrey",
-    //                indexLabelLineColor: "darkgrey",
-    //                toolTipContent: "{y} %",
-    //
-    //                dataPoints: [
-    //                    {
-    //                        y: 51.04,
-    //                        indexLabel: "שניצל בצלחת {y}%"
-    //                    },
-    //                    {
-    //                        y: 40.83,
-    //                        indexLabel: "קוקה קולה {y}%"
-    //                    },
-    //                    {
-    //                        y: 3.20,
-    //                        indexLabel: "קפה ומאפה {y}%"
-    //                    },
-    //                    {
-    //                        y: 1.11,
-    //                        indexLabel: "המבורגר בלחמניה {y}%"
-    //                    },
-    //                    {
-    //                        y: 2.29,
-    //                        indexLabel: "במבה {y}%"
-    //                    },
-    //                    {
-    //                        y: 1.53,
-    //                        indexLabel: "קפה שחור {y}%"
-    //                    }
-    //
-    //					]
-    //				}
-    //				]
-    //    });
-    //
-    //    chart.render();
+function initOrders(data) {
+	getOrdersByDate();
 
     if (orders.length > 0){
     	 // Load the Visualization API and the corechart package.
@@ -223,12 +143,91 @@ function initOrders(data) {
             	        bold: true,    // true or false
             	    },
             	    tooltip: {textStyle:  {fontSize: 18,bold: false}},
-            	    legend: {textStyle:  {fontSize: 20,bold: false}}
+            	    legend: {textStyle:  {fontSize: 18,bold: false}}
 
             };
             chart.draw(data, options);
         }
     }
-   
-
+    
 }
+
+$(document).ready(function () {
+	$('.date-picker').datepicker(
+            {
+                dateFormat: "mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onClose: function(dateText, inst) {
+
+
+                    function isDonePressed(){
+                        return ($('#ui-datepicker-div').html().indexOf('ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all ui-state-hover') > -1);
+                    }
+
+                    if (isDonePressed()){
+                        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                        $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+                        
+                         $('.date-picker').focusout()//Added to remove focus from datepicker input box on selecting date
+                     	getOrdersByDate();
+
+                    }
+                },
+                beforeShow : function(input, inst) {
+
+                    inst.dpDiv.addClass('month_year_datepicker')
+
+                    if ((datestr = $(this).val()).length > 0) {
+                        year = datestr.substring(datestr.length-4, datestr.length);
+                        month = datestr.substring(0, 2);
+                        $(this).datepicker('option', 'defaultDate', new Date(year, month-1, 1));
+                        $(this).datepicker('setDate', new Date(year, month-1, 1));
+                        $(".ui-datepicker-calendar").hide();
+                    }
+                }
+            });
+	
+	$('.date-picker').datepicker("setDate", new Date());
+	date = $('.date-picker').val();
+	initOrders();
+
+	
+    $(".search").keyup(function () {
+        var searchTerm = $(".search").val();
+        var listItem = $('.results tbody').children('tr');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+        $.extend($.expr[':'], {
+            'containsi': function (elem, i, match, array) {
+                return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+            }
+        });
+
+        $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
+            $(this).attr('visible', 'false');
+            $(this).addClass("hide");
+        });
+
+        $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
+            $(this).attr('visible', 'true');
+            $(this).removeClass("hide");
+        });
+
+        var count = $('.results tbody tr[visible="true"]').length;
+        $('.counter').text(count + ' item');
+
+        if (count == '0') {
+            $('.no-result').show();
+        } else {
+            $('.no-result').hide();
+        }
+    });
+
+
+
+});
+
+

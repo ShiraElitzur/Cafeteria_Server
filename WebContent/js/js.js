@@ -65,10 +65,16 @@ function logout() {
     var emailCookieName = 'cafeteria-admin-email';
     var passwordCookieName = 'cafeteria-admin-password';
     var serverCookieName = 'cafeteria-server-ip';
-
+    var cafeteriaName = 'cafeteria-name';
+    var startingHours = 'cafeteria-start-hours';
+    var endingHours = 'cafeteria-end-hours';
+    
     document.cookie = emailCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
     document.cookie = passwordCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
     document.cookie = serverCookieName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    document.cookie = cafeteriaName + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    document.cookie = startingHours + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    document.cookie = endingHours + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
 
 
     window.location = "./index.html";

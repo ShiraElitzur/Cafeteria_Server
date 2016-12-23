@@ -1,3 +1,5 @@
+var date;
+var dateString;
 $(document).ready(function () {
     $('.message a').click(function () {
         $('form').animate({
@@ -13,7 +15,8 @@ $(document).ready(function () {
         var password = $('#password').val();
         var mainServer = "http://time2eat.eu-gb.mybluemix.net";
         var local = "CafeteriaServer";
-        var urlAddress ="http://localhost:8080/CafeteriaServer/rest/web/adminLogin";
+//        var urlAddress ="http://localhost:8080/CafeteriaServer/rest/web/adminLogin";
+        var urlAddress ="/rest/web/adminLogin";
 
         $.post(urlAddress, {
             email: email,
@@ -28,6 +31,9 @@ $(document).ready(function () {
                 var emailName = 'cafeteria-admin-email';
                 var passwordName = 'cafeteria-admin-password';
                 var serverIp = 'cafeteria-server-ip';
+                var cafeteriaName = 'cafeteria-name';
+                var startingHours = 'cafeteria-start-hours';
+                var endingHours = 'cafeteria-end-hours';
 
                 d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
                 var expires = "expires=" + d.toUTCString();
@@ -35,7 +41,15 @@ $(document).ready(function () {
 
                 document.cookie = passwordName + "=" + data.adminPassword + ";" + expires + ";path=/";
 
-                document.cookie = serverIp + "=" + data.serverIp + ";" + expires + ";path=/";
+                document.cookie = serverIp + "=" + data.serverIp + ";" + expires + ";path=/";                
+               
+                document.cookie = cafeteriaName + "=" + data.cafeteriaName + ";" + expires + ";path=/";
+                date = data.openingHoursStart;
+                dateString = date.hourOfDay + ":" + date.minute;
+                document.cookie = startingHours + "=" + dateString + ";" + expires + ";path=/";
+                date = data.openingHoursEnd;
+                dateString = date.hourOfDay + ":" + date.minute;
+                document.cookie = endingHours + "=" + dateString + ";" + expires + ";path=/";
 
                 window.location = "./home.html";
             }
