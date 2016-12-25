@@ -854,6 +854,21 @@ public class JpaManager {
 		return c;
 	}
 	
+	public Cafeteria getAdminPassword(String email) {
+		Query query = em.createQuery("select c from Cafeteria c where c.adminEmail = :email");
+		query.setParameter("email", email);
+		
+		Cafeteria cafeteria = null;
+		try{
+			cafeteria = (Cafeteria)query.getSingleResult();
+		} catch ( NoResultException e ) {
+			return null;
+		}
+		 em.getTransaction().begin();
+		
+		return cafeteria;
+	}
+	
 	/**
 	 * 
 	 */

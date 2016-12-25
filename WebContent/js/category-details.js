@@ -70,7 +70,12 @@ $(document)
                 sessionStorage.removeItem("meals");
                 sessionStorage.removeItem("inEdit");
                 sessionStorage.removeItem("saveDetails");
-                window.location.href = "./home.html";
+                sessionStorage.removeItem("saveDetails");
+                sessionStorage.removeItem("items");
+                sessionStorage.removeItem("categoryExist");
+                sessionStorage.removeItem("exisitingCategory");
+                
+                window.location.href = "./categories.html";
             });
 
             // before moving to meal details page, save title
@@ -86,7 +91,7 @@ $(document)
                 if (sessionStorage.getItem("editMeal") !== null && sessionStorage.getItem("editMeal") !== undefined){
                     sessionStorage.setItem("categoryExist", true);
                 }
-                if (items.length > 0){
+                if (items !== null && items !== undefined && items.length > 0){
                 	sessionStorage.setItem("items",JSON.stringify(items));
                 }
                 window.location = "./meal-details.html";
@@ -118,13 +123,14 @@ $(document)
 
             // if we are in edit category
             if (sessionStorage.getItem("categoryEdit") !== null && sessionStorage.getItem("categoryEdit") !== undefined){
-                categoryEdit = JSON.parse(sessionStorage
-                    .getItem("categoryEdit"));
+                categoryEdit = JSON.parse(sessionStorage.getItem("categoryEdit"));
                 sessionStorage.removeItem("categoryEdit");
                 sessionStorage.setItem("inEdit", true);
 
                 $("#categoryTitle").val(categoryEdit.title);
                 $("#categoryDescription").val(categoryEdit.description);
+                sessionStorage.setItem("exisitingCategory", true);
+
                 items = categoryEdit.items;
                 if (items.length > 0) {
                     $
@@ -180,8 +186,9 @@ $(document)
                 $('#theIcon').attr("src", icon);
                 $("#saveCategory").text("שלח");
                 $('#pageTitle').text("הוספת קטגוריה");
-                items = JSON.parse(sessionStorage.getItem("items"));
-                if (items.length > 0) {
+                var isItems = JSON.parse(sessionStorage.getItem("items"));
+                if (isItems !== null && isItems !== undefined && isItems.length > 0) {
+                	items = JSON.parse(sessionStorage.getItem("items"));
                     $
                         .each(
                             items,
@@ -199,6 +206,10 @@ $(document)
             }
             sessionStorage.setItem("saveDetails", true);
 
+            if (sessionStorage.getItem("exisitingCategory") !== null && sessionStorage.getItem("exisitingCategory") !== undefined){
+                $("#saveCategory").text("עדכן");
+                $('#pageTitle').text("עריכת קטגוריה");
+            }
         });
 
 function initIcons() {
@@ -386,7 +397,16 @@ function saveCategoryinDB() {
         icon: icon
     }, function (data, status) {
         // alert("Data: " + data + "\nStatus: " + status);
-        window.location = "./home.html";
+        sessionStorage.removeItem("meal");
+        sessionStorage.removeItem("meals");
+        sessionStorage.removeItem("inEdit");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("items");
+        sessionStorage.removeItem("categoryExist");
+        sessionStorage.removeItem("exisitingCategory");
+        
+        window.location.href = "./categories.html";
 
         if (data === null) {
             alert("null");
@@ -435,8 +455,18 @@ function updateCategoryinDB() {
         if (mealsToDel !== null) {
             deleteMeals(mealsToDel);
         }
-        window.location = "./home.html";
-
+        
+        sessionStorage.removeItem("meal");
+        sessionStorage.removeItem("meals");
+        sessionStorage.removeItem("inEdit");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("items");
+        sessionStorage.removeItem("categoryExist");
+        sessionStorage.removeItem("exisitingCategory");
+        
+        window.location = "./categories.html";
+        
         if (data === null) {
             alert("null");
         } else {

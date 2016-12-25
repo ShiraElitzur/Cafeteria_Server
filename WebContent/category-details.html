@@ -1,129 +1,516 @@
-<!doctype html>
-<html>
+var icons = [];
+var items = [];
+var mealsToDel = [];
+var firstItem = true;
+var meals = new Array();
+var icon_index = 0;
+var firstMeal = true;
+var categoryEdit;
+var localIcons = [
+		iconAddress + "/icons/hamburger.png",
+		iconAddress + "/icons/wrap.png",
+		iconAddress + "/icons/turkey.png",
+		iconAddress + "/icons/kebab.png",
+		iconAddress + "/icons/tea.png",
+		iconAddress + "/icons/water.png",
+		iconAddress + "/icons/can.png",
+		iconAddress + "/icons/candy1.png",
+		iconAddress + "/icons/candy.png",
+		iconAddress + "/icons/cupcake.png",
+		iconAddress + "/icons/croissant.png",
+		iconAddress + "/icons/ice-cream.png",
+		iconAddress + "/icons/gingerbread.png",
+		iconAddress + "/icons/ice-cream1.png",
+		iconAddress + "/icons/salad1.png",
+		iconAddress + "/icons/pizza.png",
+		iconAddress + "/icons/fish.png",
+		iconAddress + "/icons/pie.png",
+		iconAddress + "/icons/risotto.png",
+		iconAddress + "/icons/fries.png",
+		iconAddress + "/icons/pasta.png",
+		iconAddress + "/icons/spaguetti.png",
+		iconAddress + "/icons/sandwich.png",
+		iconAddress + "/icons/pot.png",
+		iconAddress + "/icons/chef.png",
+		iconAddress + "/icons/mixer1.png",
+		iconAddress + "/icons/pan.png"
+	];
 
-<head>
-    <meta charset="utf-8">
-    <title>Time2eaT</title>
+$(document)
+    .ready(
+        function () {
 
-    <!-- for FF, Chrome, Opera -->
-    <link rel="icon" type="image/png" href="time2eat.ico">
+            meals = [];
+            // if we returned from add meal
+            if (sessionStorage.getItem("meal") !== null) {
+                var temp = JSON.parse(sessionStorage.getItem("meal"));
+                sessionStorage.removeItem("meal");
+                // if this is the first meal
+                if (sessionStorage.getItem("meals") === null) {
+                    sessionStorage.setItem("meals", meals);
+                } else {
+                    // if we have more meals
+                    meals = JSON.parse(sessionStorage.getItem("meals"));
+                }
+                // add the new meal
+                meals.push(temp);
+                // save the meals
+                sessionStorage.setItem("meals", JSON.stringify(meals));
+            }
 
-    <!-- for IE -->
-    <link rel="icon" type="image/x-icon" href="time2eat.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="time2eat.ico" />
+            // if there wasn't a meal in storage
+            if (sessionStorage.getItem("inEdit") !== null) {
+                meals = JSON.parse(sessionStorage.getItem("meals"));
+            }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-duallistbox.css">
-    <link href="css/image-picker.css" rel="stylesheet">
-    <link href="css/category-details.css" rel="stylesheet">
-    
-    <script type="text/javascript" src="js/constants.js"></script>
+            // if we get out from this page remove all
+            // session storage variables
+            $("#backToCategories").click(function () {
+                sessionStorage.removeItem("meal");
+                sessionStorage.removeItem("meals");
+                sessionStorage.removeItem("inEdit");
+                sessionStorage.removeItem("saveDetails");
+                sessionStorage.removeItem("saveDetails");
+                sessionStorage.removeItem("items");
+                sessionStorage.removeItem("categoryExist");
+                sessionStorage.removeItem("exisitingCategory");
+                
+                window.location.href = "./categories.html";
+            });
 
+            // before moving to meal details page, save title
+            // and description. to-do: add icon.
+            $("#addMealBtn").click(function () {
+                var title = $("#categoryTitle").val();
+                sessionStorage.setItem("categoryTitle", title);
+                var desc = $("#categoryDescription").val();
+                sessionStorage.setItem("categoryDescription", desc);
+                var icon = $('#theIcon').attr("src");
+                sessionStorage.setItem("categoryIcon", icon);
+                sessionStorage.setItem("inEdit", true);
+                if (sessionStorage.getItem("editMeal") !== null && sessionStorage.getItem("editMeal") !== undefined){
+                    sessionStorage.setItem("categoryExist", true);
+                }
+                if (items !== null && items !== undefined && items.length > 0){
+                	sessionStorage.setItem("items",JSON.stringify(items));
+                }
+                window.location = "./meal-details.html";
+            });
 
-</head>
+            // check if all fileds are filled
+            $("#addItem").click(function () {
+                var itemTitle = $("#itemTitle").val();
+                var itemPrice = $("#itemPrice").val();
+                if (itemPrice.length < 1 || itemTitle.length < 1) {
+                    alert("אנא מלא את כל השדות");
+                } else {
+                    addItem(itemTitle, itemPrice);
+                    $("#itemTitle").val("");
+                    $("#itemPrice").val("");
+                }
+            });
 
-<body onload="initIcons()">
+            $("#categoryDetailsForm").submit(function () {
+                $("#saveCategory").attr("disabled", true);
+                if ($("#saveCategory").text() === "עדכן") {
+                    updateCategoryinDB();
+                } else {
+                    saveCategoryinDB();
+                }
+                sessionStorage.removeItem("meals");
+                return false;
+            });
 
-    <div class="container gray-background">
-        <div class="space">
-            <button type="button" id="backToCategories" class="btn my-button">חזור</button>
-        </div>
-        <h1 id="pageTitle" class="my-headline text-center">הוסף קטגוריה</h1>
+            // if we are in edit category
+            if (sessionStorage.getItem("categoryEdit") !== null && sessionStorage.getItem("categoryEdit") !== undefined){
+                categoryEdit = JSON.parse(sessionStorage.getItem("categoryEdit"));
+                sessionStorage.removeItem("categoryEdit");
+                sessionStorage.setItem("inEdit", true);
 
-        <form id="categoryDetailsForm" class="my-form">
-            <div class="form-group">
-                <label for="categoryTitle">שם הקטגוריה</label>
-                <input type="text" class="form-control" id="categoryTitle" required>
-            </div>
-            <div class="form-group">
-                <label for="categoryDescription">תיאור</label>
-                <input type="text" class="form-control" id="categoryDescription" required>
-            </div>
+                $("#categoryTitle").val(categoryEdit.title);
+                $("#categoryDescription").val(categoryEdit.description);
+                sessionStorage.setItem("exisitingCategory", true);
 
-            <div class="form-group">
-                <label>פריט</label>
-                <div id="addItemDiv">
-                    <div class="form-inline">
-                        <div class="form-group">
-                            <input id="itemTitle" type="text" class="form-control" placeholder="שם" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="form-group">
-                            <input id="itemPrice" type="number" min="0" class="form-control" placeholder="מחיר" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="form-group">
-                            <button id="addItem" type="button" class="btn btn-success">הוסף
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                items = categoryEdit.items;
+                if (items.length > 0) {
+                    $
+                        .each(
+                            items,
+                            function (index, element) {
+                                $('#itemsTable')
+                                    .append(
+                                        $('<tr id="' + element.title + '"><td>' + element.title + '</td>' + '<td>' + element.price + '</td>' + '<td> <button type="button" class="btn my-button" id="editItem"> <span id="editText">ערוך</span> <span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteItem"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                            })
+                    if (firstItem === true) {
+                        addOnClickFunctions();
+                        firstItem = false;
+                    }
+                }
+                meals = categoryEdit.meals;
+                sessionStorage.setItem("meals", JSON.stringify(meals));
 
-            <div class="form-group margin-bottom">
-                <label>פריטים בקטגוריה:</label>
-                <table class="table table-hover header-fixed" id="itemsTable">
-                    <thead>
-                        <tr>
-                            <th>שם</th>
-                            <th>מחיר</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                $("#saveCategory").text("עדכן");
+                $('#pageTitle').text("עריכת קטגוריה");
 
-                    </tbody>
-                </table>
-            </div>
+               
+                var temp = arrayBufferToBase64(categoryEdit.icon);
+                var imgSrc = "data:image/png;base64," + temp;
+                $('#theIcon').attr("src", imgSrc);
+                sessionStorage.setItem("categoryIcon", imgSrc);
+                sessionStorage.setItem("categoryId", categoryEdit.id);
 
-            <div class="form-group margin-bottom">
-                <label>ארוחות בקטגוריה:</label>
-                <div class="form-group">
-                    <button type="button" id="addMealBtn" class="btn my-button">הוסף ארוחה</button>
+            }
 
-                </div>
-            </div>
+            // to cover a case that we was in edit category,
+            // and then moved to meal details
+            if (sessionStorage.getItem("inEdit") !== null && sessionStorage.getItem("inEdit") !== undefined) {
+                $("#saveCategory").text("עדכן");
+                $('#pageTitle').text("עריכת קטגוריה");
+            }
+            
+           if (sessionStorage.getItem("categoryExist") !== null && sessionStorage.getItem("categoryExist") !== undefined){
+               $("#saveCategory").text("שלח");
+               $('#pageTitle').text("הוספת קטגוריה");
+           }
 
-            <div class="form-group">
-                <table class="table table-hover header-fixed" id="mealsTable">
-                    <thead>
-                        <tr>
-                            <th>שם הארוחה</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            if (meals !== null && meals.length > 0) {
+                initMealsTable();
+            }
 
-                    </tbody>
-                </table>
-            </div>
+            if (sessionStorage.getItem("saveDetails") !== null && sessionStorage.getItem("saveDetails") !== undefined) {
+                $("#categoryTitle").val(
+                    sessionStorage.getItem("categoryTitle"));
+                $("#categoryDescription").val(
+                    sessionStorage.getItem("categoryDescription"));
+                var icon = sessionStorage.getItem("categoryIcon");
+                $('#theIcon').attr("src", icon);
+                $("#saveCategory").text("שלח");
+                $('#pageTitle').text("הוספת קטגוריה");
+                var isItems = JSON.parse(sessionStorage.getItem("items"));
+                if (isItems !== null && isItems !== undefined && isItems.length > 0) {
+                	items = JSON.parse(sessionStorage.getItem("items"));
+                    $
+                        .each(
+                            items,
+                            function (index, element) {
+                                $('#itemsTable')
+                                    .append(
+                                        $('<tr id="' + element.title + '"><td>' + element.title + '</td>' + '<td>' + element.price + '</td>' + '<td> <button type="button" class="btn my-button" id="editItem"> <span id="editText">ערוך</span> <span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteItem"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+                            })
+                    if (firstItem === true) {
+                        addOnClickFunctions();
+                        firstItem = false;
+                    }
+                }
+                
+            }
+            sessionStorage.setItem("saveDetails", true);
 
-            <div class="form-group container row clearfix" id="edit-icon">
-                <h4>האייקון הנבחר 
-                    <img class="selected-icon" id="theIcon" src="" />
-                        </h4>
-            </div>
+            if (sessionStorage.getItem("exisitingCategory") !== null && sessionStorage.getItem("exisitingCategory") !== undefined){
+                $("#saveCategory").text("עדכן");
+                $('#pageTitle').text("עריכת קטגוריה");
+            }
+        });
 
-            <div class="form-group">
-                <select class="image-picker show-html">
-                </select>
+function initIcons() {
+    var editIndex;
+    icons = [];
+    $.each(localIcons, function (index, element) {
 
-            </div>
+        icons.push({
+            id: element.id,
+            icon: element.icon
+        });
+        $('.image-picker').append(
+            "<option data-img-src= " + element + " value=" + index + "> </option>");
 
-            <div class="form-group text-center">
-                <button id="saveCategory" type="submit" class="btn my-button">שלח</button>
-            </div>
+        if (sessionStorage.getItem("inEdit") === undefined) {
+            if (categoryEdit !== undefined) {
+                if (element.icon === categoryEdit.icon) {
+                    editIndex = index;
+                }
+            }
+        }
 
-        </form>
-    </div>
+    })
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="js/jquery.bootstrap-duallistbox.js"></script>
-    <script type="text/javascript" src="js/image-picker.min.js"></script>
-    <script type="text/javascript" src="js/js.js"></script>
-    <script type="text/javascript" src="js/category-details.js"></script>
+    $("select").imagepicker({
+        show_label: false,
+        selected: function () {
+            icon_index = this.val();
+            $('#theIcon').attr("src", localIcons[icon_index]);
+        }
+    });
 
+    if (sessionStorage.getItem("inEdit") === null) {
+        var firstIcon = localIcons[0];
+        $('#theIcon').attr("src", firstIcon);
 
+    } else {
+        $("select").val(-1);
+        $("select").data('picker').sync_picker_with_select();
+    }
 
-</body>
+}
 
-</html>
+function addItem(title, price) {
+    items.push({
+        id: 0,
+        title: title,
+        price: price
+    });
+
+    $('#itemsTable')
+        .append(
+            $('<tr id="' + title + '"><td>' + title + '</td>' + '<td>' + price + '</td>' + '<td> <button type="button" class="btn my-button" id="editItem"> <span id="editText">ערוך</span> <span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" id="deleteItem"' + '>הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+
+    if (firstItem === true) {
+        addOnClickFunctions();
+        firstItem = false;
+    }
+
+}
+
+function addOnClickFunctions() {
+    $(document).on("click", "#itemsTable #deleteItem", function (e) {
+        var row = $(this).closest('tr');
+        var index = row.index();
+        var tableRowId = "#" + items[index].title;
+        $(tableRowId).remove();
+        items.splice(index, 1);
+    });
+
+    $(document)
+        .on(
+            "click",
+            "#itemsTable #editItem",
+            function (e) {
+
+                var row = $(this).closest('tr');
+                var index = row.index();
+                var titleCell = $(this).closest('tr').find('td:first');
+                var priceCell = $(this).closest('tr').find('td:eq(1)');
+
+                if ($(this).closest('tr').find("#editText").text() === ("ערוך")) {
+                    titleCell.prop('contenteditable', true);
+                    priceCell.prop('contenteditable', true);
+                    titleCell.attr('contenteditable', true);
+                    titleCell.css("border", "0.5px solid blue");
+                    priceCell.css("border", "0.5px solid blue");
+                    $(this).closest('tr').find("#editText").text('עדכן');
+
+                } else if ($(this).closest('tr').find("#editText")
+                    .text() === ("עדכן")) {
+                    $(this).closest('tr').find("#editText").text("ערוך");
+                    titleCell.prop('contenteditable', false);
+                    priceCell.prop('contenteditable', false);
+                    titleCell.attr('contenteditable', false);
+                    titleCell.css("border", "none");
+                    priceCell.css("border", "none");
+                    editItem(index, titleCell, priceCell);
+                }
+
+            });
+}
+
+function editItem(index, titleCell, priceCell) {
+    items[index].title = titleCell.text();
+    items[index].price = priceCell.text();
+}
+
+function initMealsTable() {
+
+    $
+        .each(
+            meals,
+            function (index, element) {
+                $('#mealsTable')
+                    .append(
+                        $('<tr id="' + element.id + '"><td>' + element.title + '</td>' + '<td> <button type="button" class="btn my-button" id="editMeal">ערוך<span' + ' class="glyphicon glyphicon-pencil"></span></button></td> <td><button type="button" class="btn my-button" ' + 'id="deleteMeal">הסר<span class="glyphicon glyphicon-remove"></span></button></td></tr>'));
+            })
+
+    if (firstMeal === true) {
+        addMealOptions();
+        firstMeal = false;
+    }
+}
+
+function addMealOptions() {
+
+    $(document).on("click", "#mealsTable #deleteMeal", function (e) {
+        var row = $(this).closest('tr');
+        var index = row.index();
+        var tableRowId = "#" + meals[index].id;
+        $(tableRowId).remove();
+        mealsToDel.push(meals[index]);
+        meals.splice(index, 1);
+
+    });
+
+    $(document).on("click", "#mealsTable #editMeal", function (e) {
+        var row = $(this).closest('tr');
+        var index = row.index();
+        var mealEdit = meals[index];
+        sessionStorage.setItem("editMealIndex", index);
+        sessionStorage.setItem("editMeal", JSON.stringify(mealEdit));
+        var title = $("#categoryTitle").val();
+        sessionStorage.setItem("categoryTitle", title);
+        var desc = $("#categoryDescription").val();
+        sessionStorage.setItem("categoryDescription", desc);
+        window.location = "./meal-details.html";
+    });
+}
+
+function arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
+
+function base64ToArrayBuffer(base64) {
+    var binary_string = window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+function saveCategoryinDB() {
+    var urlAddress = server + "/rest/web/addCategory";
+
+    var categoryTitle = $("#categoryTitle").val();
+    var categoryDesc = $("#categoryDescription").val();
+    var icon = localIcons[icon_index];
+
+    $.post(urlAddress, {
+        id: 0,
+        title: categoryTitle,
+        description: categoryDesc,
+        items: JSON.stringify(items),
+        meals: JSON.stringify(meals),
+        icon: icon
+    }, function (data, status) {
+        // alert("Data: " + data + "\nStatus: " + status);
+        sessionStorage.removeItem("meal");
+        sessionStorage.removeItem("meals");
+        sessionStorage.removeItem("inEdit");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("items");
+        sessionStorage.removeItem("categoryExist");
+        sessionStorage.removeItem("exisitingCategory");
+        
+        window.location.href = "./categories.html";
+
+        if (data === null) {
+            alert("null");
+        } else {
+
+        }
+    });
+
+}
+
+function updateCategoryinDB() {
+    var urlAddress = server + "/rest/web/updateCategory";
+
+    var categoryTitle = $("#categoryTitle").val();
+    var categoryDesc = $("#categoryDescription").val();
+    var icon = localIcons[icon_index];
+    var id = sessionStorage.getItem("categoryId");
+
+    var category = {
+        id: id,
+        title: categoryTitle,
+        description: categoryDesc,
+        items: JSON.stringify(items),
+        meals: JSON.stringify(meals),
+        icon: icon
+    };
+
+    // alert("category id: " + category.id + "\n" +
+    // "category title: " + category.title + "\n" +
+    // "category description: " + category.description + "\n" +
+    // "category items: " + items + "\n" +
+    // "cateory meals: " + category.meals + "\n" +
+    // "cateory icon: " + icon + "\n"
+    //
+    // );
+
+    $.post(urlAddress, {
+        id: id,
+        title: categoryTitle,
+        description: categoryDesc,
+        items: JSON.stringify(items),
+        meals: JSON.stringify(meals),
+        icon: icon
+    }, function (data, status) {
+        // alert("Data: " + data + "\nStatus: " + status);
+        if (mealsToDel !== null) {
+            deleteMeals(mealsToDel);
+        }
+        
+        sessionStorage.removeItem("meal");
+        sessionStorage.removeItem("meals");
+        sessionStorage.removeItem("inEdit");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("saveDetails");
+        sessionStorage.removeItem("items");
+        sessionStorage.removeItem("categoryExist");
+        sessionStorage.removeItem("exisitingCategory");
+        
+        window.location = "./categories.html";
+        
+        if (data === null) {
+            alert("null");
+        } else {
+
+        }
+    });
+
+}
+
+function deleteMeals(mealsToDel) {
+    var urlAddress = server + "/rest/web/deleteMeals";
+
+    $.ajax({
+        type: "POST",
+        url: urlAddress,
+        data: JSON.stringify(mealsToDel),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+        },
+        failure: function (errMsg) {
+            alert(errMsg);
+        }
+    });
+
+}
+
+//function HandleBackFunctionality() {
+//    if (window.event) // IE
+//    {
+//        if (window.event.clientX < 40 && window.event.clientY < 0) {
+//            alert("Browser back button is clicked...");
+//        } else {
+//            alert("Browser refresh button is clicked...");
+//        }
+//    } else // Chrome
+//    {
+//        if (event.currentTarget.performance.navigation.type == 1) // firefox
+//        {
+//            alert("Browser refresh button is clicked...");
+//        }
+//        if (event.currentTarget.performance.navigation.type == 2) // firefox
+//        {
+//            alert("Browser back button is clicked...");
+//        }
+//    }
+//}

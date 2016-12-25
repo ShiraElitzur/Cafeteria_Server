@@ -3,6 +3,8 @@ package services;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -13,6 +15,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -24,6 +27,7 @@ import com.google.gson.Gson;
 
 import data.Cafeteria;
 import data.Customer;
+import data.Order;
 import db.JpaManager;
 
 @Path("email")
@@ -100,6 +104,24 @@ public class EmailServices {
 		Gson gson = new Gson();
 		Cafeteria c = gson.fromJson(json.toString(), Cafeteria.class);
 		return String.valueOf(sendEmail(c));
+	}
+	
+	
+	@POST
+	@Path("/getAdminPassword")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getAdminPassword(@FormParam("email") String email) {
+		System.out.println("In get admin password " + email);
+		Gson json = new Gson();
+		Cafeteria c = null;
+		c = jpa.getAdminPassword(email);
+		if (c == null){
+			return "-1";
+		}
+		else{
+			return String.valueOf(sendEmail(c));
+		}
+
 	}
 	
 	
