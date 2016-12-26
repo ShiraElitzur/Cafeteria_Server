@@ -80,7 +80,7 @@ function login(){
     var password = $('#password').val();
     var mainServer = "http://time2eat.eu-gb.mybluemix.net";
     var local ="http://localhost:8080/CafeteriaServer";
-    var urlAddress =local +"/rest/web/adminLogin";
+    var urlAddress = "/rest/web/adminLogin";
 
     $.post(urlAddress, {
         email: email,
@@ -133,6 +133,7 @@ function forgotPassword(){
         if (data === -1 || data === null || data == undefined) {
             alert("Wrong email!");
         } else {
+        	$('#passwordResult').empty();
             $('#passwordResult').append("דואר אלקטרוני נשלח עם הסיסמא.");
             $('#passwordResult').show();
 
